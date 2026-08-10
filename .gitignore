@@ -1,0 +1,28 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Large experiment artifacts
+results/**
+!results/.gitkeep
+reports/figures/**
+data/images/**
+data/masks/**
+!data/images/.gitkeep
+!data/masks/.gitkeep
+
+# Model checkpoints and downloaded repositories
+checkpoints/
+models/
+weights/
+*.ckpt
+*.safetensors
+*.pt
+*.pth
+
+# Local environment files
+.env
+.env.*
+*.log
