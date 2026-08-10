@@ -1,13 +1,14 @@
 # Third-Party Code
 
-This directory is reserved for external repositories.
+This directory contains external repositories used by the experiment pipeline.
 
-Planned dependency:
+## Follow-Your-Shape
 
-- Follow-Your-Shape: https://github.com/mayuelala/FollowYourShape
+Follow-Your-Shape is added as a git submodule:
 
-Preferred setup:
+- Local path: `core/third_party/FollowYourShape`
+- Fork URL: https://github.com/ptan853/FollowYourShape.git
+- Upstream URL: https://github.com/mayuelala/FollowYourShape
+- Initial pinned commit: `ba35feac8541065a1c5ee005bf369853ff3fbc63`
 
-1. Fork Follow-Your-Shape to Peifeng's GitHub account.
-2. Add the fork here as a submodule or checked-out dependency.
-3. Keep local modifications minimal and documented.
+Keep local modifications minimal and document any changes needed for saving TDM artifacts, masks, and evaluation outputs.
