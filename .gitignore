@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+.ipynb_checkpoints/
 
 # Large experiment artifacts
 core/results/**
@@ -10,6 +11,7 @@ core/results/**
 core/reports/figures/**
 core/data/images/**
 core/data/masks/**
+core/data/partedit_subset/cases_preview.csv
 
 # Model checkpoints and downloaded repositories
 checkpoints/

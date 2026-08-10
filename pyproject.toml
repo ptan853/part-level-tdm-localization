@@ -1,0 +1,22 @@
+[project]
+name = "part-level-tdm-localization"
+version = "0.1.0"
+description = "Diagnostic analysis utilities for part-level TDM localization in Follow-Your-Shape."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "datasets>=2.20.0",
+  "huggingface-hub>=0.24.0",
+  "ipykernel>=6.29.0",
+  "jupyter>=1.0.0",
+  "matplotlib>=3.8.0",
+  "numpy>=1.26.0",
+  "opencv-python>=4.9.0",
+  "pandas>=2.2.0",
+  "pillow>=10.0.0",
+  "scikit-image>=0.23.0",
+  "scikit-learn>=1.4.0",
+]
+
+[tool.uv]
+package = false

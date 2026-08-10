@@ -23,6 +23,18 @@ The next execution step follows Harry Yang's latest feedback:
 - `core/`: experiment code, configuration, data manifests, third-party code, results, and final reports.
 - `notes/`: background notes, prior email drafts, related-work summaries, and planning documents.
 
+## Local Analysis Environment
+
+Use `uv` for lightweight local analysis:
+
+```bash
+uv sync
+uv run python -m ipykernel install --user --name part-level-tdm-localization --display-name "part-level-tdm-localization"
+uv run jupyter lab
+```
+
+This environment is for notebooks, dataset inspection, subset selection, and evaluation utilities. GPU inference dependencies for Follow-Your-Shape should be installed separately on the rented GPU server.
+
 ## Core Workflow
 
 1. Add a Follow-Your-Shape fork or submodule under `core/third_party/`.
