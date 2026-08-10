@@ -16,4 +16,4 @@ uv run python -m ipykernel install --user --name part-level-tdm-localization --d
 uv run jupyter lab
 ```
 
-The notebook environment is intentionally lightweight. GPU inference dependencies for Follow-Your-Shape should be installed separately on the rented GPU server.
+The notebook environment is intentionally lightweight. GPU inference and evaluation dependencies for Follow-Your-Shape should be installed separately when needed.

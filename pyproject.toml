@@ -11,11 +11,8 @@ dependencies = [
   "jupyter>=1.0.0",
   "matplotlib>=3.8.0",
   "numpy>=1.26.0",
-  "opencv-python>=4.9.0",
   "pandas>=2.2.0",
   "pillow>=10.0.0",
-  "scikit-image>=0.23.0",
-  "scikit-learn>=1.4.0",
 ]
 
 [tool.uv]

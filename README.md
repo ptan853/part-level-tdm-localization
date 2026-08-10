@@ -33,7 +33,7 @@ uv run python -m ipykernel install --user --name part-level-tdm-localization --d
 uv run jupyter lab
 ```
 
-This environment is for notebooks, dataset inspection, subset selection, and evaluation utilities. GPU inference dependencies for Follow-Your-Shape should be installed separately on the rented GPU server.
+This environment is for notebooks, dataset inspection, and subset selection. GPU inference and evaluation dependencies for Follow-Your-Shape should be installed separately when needed.
 
 ## Core Workflow
 
