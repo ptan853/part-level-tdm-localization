@@ -5,13 +5,13 @@ __pycache__/
 venv/
 
 # Large experiment artifacts
-results/**
-!results/.gitkeep
-reports/figures/**
-data/images/**
-data/masks/**
-!data/images/.gitkeep
-!data/masks/.gitkeep
+core/results/**
+!core/results/.gitkeep
+core/reports/figures/**
+core/data/images/**
+core/data/masks/**
+!core/data/images/.gitkeep
+!core/data/masks/.gitkeep
 
 # Model checkpoints and downloaded repositories
 checkpoints/
