@@ -62,6 +62,61 @@ Raw FYS outputs:
 
 Large generated artifacts are ignored by Git and are expected to be produced or copied locally.
 
+## Result Preview
+
+The full 20-case review sheet combines the dataset inputs and generated outputs in one view: source image, GT part mask, FYS edited result, soft TDM overlay, binary TDM overlay, image-difference map, prompts, and key metrics. The sheet is split into four parts below so each row remains readable in Markdown.
+
+<div align="center">
+  <a href="core/results/figures/all_20_cases_review_sheet_part1.jpg">
+    <img src="core/results/figures/all_20_cases_review_sheet_part1.jpg" width="1000" alt="Full qualitative review sheet, cases 1-5">
+  </a>
+  <br>
+  <sub>Cases 1-5</sub>
+  <br><br>
+  <a href="core/results/figures/all_20_cases_review_sheet_part2.jpg">
+    <img src="core/results/figures/all_20_cases_review_sheet_part2.jpg" width="1000" alt="Full qualitative review sheet, cases 6-10">
+  </a>
+  <br>
+  <sub>Cases 6-10</sub>
+  <br><br>
+  <a href="core/results/figures/all_20_cases_review_sheet_part3.jpg">
+    <img src="core/results/figures/all_20_cases_review_sheet_part3.jpg" width="1000" alt="Full qualitative review sheet, cases 11-15">
+  </a>
+  <br>
+  <sub>Cases 11-15</sub>
+  <br><br>
+  <a href="core/results/figures/all_20_cases_review_sheet_part4.jpg">
+    <img src="core/results/figures/all_20_cases_review_sheet_part4.jpg" width="1000" alt="Full qualitative review sheet, cases 16-20">
+  </a>
+  <br>
+  <sub>Cases 16-20. Click any panel to open the full-resolution image.</sub>
+</div>
+
+<details>
+<summary>TDM dynamics examples</summary>
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="core/results/figures/tdm_dynamics_real_0006.gif" width="280" alt="TDM dynamics for real_0006">
+      <br>
+      <sub>`real_0006`: small head edit with severe over-localization.</sub>
+    </td>
+    <td align="center">
+      <img src="core/results/figures/tdm_dynamics_real_0009.gif" width="280" alt="TDM dynamics for real_0009">
+      <br>
+      <sub>`real_0009`: large car-body edit with better localization.</sub>
+    </td>
+    <td align="center">
+      <img src="core/results/figures/tdm_dynamics_synth_0026.gif" width="280" alt="TDM dynamics for synth_0026">
+      <br>
+      <sub>`synth_0026`: small hair edit with broad TDM response.</sub>
+    </td>
+  </tr>
+</table>
+
+</details>
+
 ## Project Layout
 
 - `core/data/partedit_subset/`: pilot manifest and local exported PartEdit-Bench cases.
@@ -206,10 +261,3 @@ a dog with bear head standing in a field with grass and water
 ```
 
 This is preferred over `prompt_changed` for the main experiment because many `prompt_changed` prompts imply full object replacement rather than part-level editing.
-
-## Limitations
-
-- Local semantic edit success is not yet manually annotated.
-- LPIPS/SSIM/DINO outside-mask preservation metrics are not included.
-- A FLUX attention localization baseline is not included.
-- The pilot has 20 cases, so the result is diagnostic rather than a full benchmark.
