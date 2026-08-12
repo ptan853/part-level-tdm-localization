@@ -1,0 +1,39 @@
+{
+  "experiment_name": "fys_part_level_controlled_revision",
+  "manifest": "core/data/partedit_subset/pilot_12_manifest.json",
+  "seeds": [0, 1, 2],
+  "follow_your_shape": {
+    "name": "flux-dev",
+    "guidance": 2.0,
+    "num_steps": 15,
+    "front": 2,
+    "inject": 4,
+    "controlnet_type": "none",
+    "offload": true,
+    "oracle_mask": false,
+    "submodule_base_revision": "47b574cee0aa72466576a834f4e24d5999816f26",
+    "local_patch": "src/edit.py adds --seed and seeds Python, NumPy, PyTorch, and CUDA RNGs. Commit this patch in the FollowYourShape fork before remote reproduction."
+  },
+  "outputs": {
+    "root": "core/results/follow_your_shape",
+    "seed_subdirs": true,
+    "run_matrix": "core/results/run_matrices/pilot_12_manifest_multi_seed.csv",
+    "per_run_config": "core/results/follow_your_shape/<case_uid>/seed_<seed>/run_config.json",
+    "per_run_log": "core/results/follow_your_shape/<case_uid>/seed_<seed>/run.log"
+  },
+  "evaluation": {
+    "localization": [
+      "binary_iou",
+      "soft_ap",
+      "pred_to_gt_area_ratio",
+      "soft_inside_gt_mass"
+    ],
+    "edit_and_preservation": [
+      "human_local_edit_success_0_2",
+      "outside_mask_ssim",
+      "outside_mask_lpips_or_l1_proxy",
+      "failure_category"
+    ],
+    "baseline": "simple_flux_attention_localization"
+  }
+}

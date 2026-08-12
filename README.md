@@ -26,6 +26,25 @@ Main finding:
 
 > Follow-Your-Shape's trajectory-guided TDM provides a useful edit-localization signal, but in this part-level setting it often over-localizes beyond the intended part mask, especially for small parts.
 
+## Controlled Revision Plan
+
+The next controlled revision follows Harry Yang's feedback and fixes the
+experimental protocol before rerunning:
+
+- Use `core/data/partedit_subset/pilot_12_manifest.json`, a fixed 12-case
+  subset balanced by part size: 4 small, 4 medium, and 4 large cases.
+- Run each case with fixed seeds `0, 1, 2`, producing 36 FYS runs.
+- Save each run under `core/results/follow_your_shape/<case_uid>/seed_XXX/`.
+- Save a `run_config.json` and `run.log` for every run.
+- Save the generated run matrix at
+  `core/results/run_matrices/pilot_12_manifest_multi_seed.csv`.
+- Add a simple FLUX-attention localization baseline for comparison.
+- Report localization metrics, local-edit success, and preservation outside
+  the target part.
+
+The fixed revision configuration is recorded in
+`core/configs/fys_controlled_revision.json`.
+
 ## Key Artifacts
 
 Final analysis notebook:
@@ -217,6 +236,23 @@ Preview the first command without running the model:
 
 ```bash
 python core/scripts/run_fys_pilot.py --limit 1
+```
+
+Preview the controlled revision command matrix:
+
+```bash
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0,1,2
+```
+
+Run the controlled revision:
+
+```bash
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0,1,2 \
+  --execute
 ```
 
 Run one case:

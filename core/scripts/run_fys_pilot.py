@@ -8,7 +8,9 @@ commands on a GPU machine.
 from __future__ import annotations
 
 import argparse
+import csv
 import json
+import os
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -19,9 +21,13 @@ from typing import Iterable
 @dataclass(frozen=True)
 class FysCommand:
     case_uid: str
+    run_uid: str
+    seed: int | None
     cwd: Path
     args: list[str]
     log_path: Path
+    config_path: Path
+    run_config: dict
 
 
 def find_repo_root(start: Path) -> Path:
@@ -56,11 +62,41 @@ def select_records(records: list[dict], case_uids: Iterable[str] | None, limit: 
     return selected
 
 
+def parse_seeds(value: str | None) -> list[int | None]:
+    if value is None or value.strip() == "":
+        return [None]
+    seeds = []
+    for raw_seed in value.split(","):
+        raw_seed = raw_seed.strip()
+        if not raw_seed:
+            continue
+        seeds.append(int(raw_seed))
+    if not seeds:
+        raise ValueError("--seeds must contain at least one integer seed")
+    return seeds
+
+
+def to_repo_relative(repo_root: Path, path: Path) -> str:
+    try:
+        return path.resolve().relative_to(repo_root.resolve()).as_posix()
+    except ValueError:
+        return str(path)
+
+
+def to_relative_from(base: Path, path: Path) -> str:
+    try:
+        return Path(os.path.relpath(path.resolve(), start=base.resolve())).as_posix()
+    except ValueError:
+        return str(path)
+
+
 def build_fys_command(
     record: dict,
     *,
     repo_root: Path,
     python_executable: str,
+    seed: int | None,
+    seed_subdirs: bool,
     use_oracle_mask: bool,
     name: str,
     guidance: float,
@@ -71,11 +107,14 @@ def build_fys_command(
     controlnet_type: str,
 ) -> FysCommand:
     case_uid = record["case_uid"]
+    run_uid = case_uid if seed is None else f"{case_uid}_seed_{seed:03d}"
     source_image = resolve_repo_path(repo_root, record["source_image"])
-    output_dir = resolve_repo_path(repo_root, record["follow_your_shape_output_dir"])
-    vis_path = resolve_repo_path(repo_root, record["follow_your_shape_vis_path"])
+    base_output_dir = resolve_repo_path(repo_root, record["follow_your_shape_output_dir"])
+    output_dir = base_output_dir / f"seed_{seed:03d}" if seed is not None and seed_subdirs else base_output_dir
+    vis_path = output_dir / "tdm"
     feature_path = output_dir / "features"
     log_path = output_dir / "run.log"
+    config_path = output_dir / "run_config.json"
 
     args = [
         python_executable,
@@ -105,16 +144,55 @@ def build_fys_command(
         "--feature_path",
         str(feature_path),
     ]
+    if seed is not None:
+        args.extend(["--seed", str(seed)])
     if offload:
         args.append("--offload")
     if use_oracle_mask:
         args.extend(["--mask_path", str(resolve_repo_path(repo_root, record["gt_mask"]))])
 
+    run_config = {
+        "run_uid": run_uid,
+        "case_uid": case_uid,
+        "seed": seed,
+        "dataset_id": record.get("dataset_id"),
+        "dataset_split": record.get("dataset_split"),
+        "dataset_index": record.get("dataset_index"),
+        "class_name": record.get("class_name"),
+        "subject": record.get("subject"),
+        "part": record.get("part"),
+        "normalized_part": record.get("normalized_part"),
+        "part_size": record.get("part_size"),
+        "mask_area_ratio": record.get("mask_area_ratio"),
+        "edit": record.get("edit"),
+        "source_prompt": record["source_prompt"],
+        "target_prompt": record["target_prompt"],
+        "source_image": to_repo_relative(repo_root, source_image),
+        "gt_mask": record.get("gt_mask"),
+        "partedit_reference": record.get("partedit_reference"),
+        "output_dir": to_repo_relative(repo_root, output_dir),
+        "vis_path": to_repo_relative(repo_root, vis_path),
+        "feature_path": to_repo_relative(repo_root, feature_path),
+        "log_path": to_repo_relative(repo_root, log_path),
+        "model_name": name,
+        "guidance": guidance,
+        "num_steps": num_steps,
+        "front": front,
+        "inject": inject,
+        "offload": offload,
+        "controlnet_type": controlnet_type,
+        "use_oracle_mask": use_oracle_mask,
+    }
+
     return FysCommand(
         case_uid=case_uid,
+        run_uid=run_uid,
+        seed=seed,
         cwd=repo_root / "core" / "third_party" / "FollowYourShape" / "src",
         args=args,
         log_path=log_path,
+        config_path=config_path,
+        run_config=run_config,
     )
 
 
@@ -126,8 +204,24 @@ def format_shell_command(command: FysCommand) -> str:
     )
 
 
+def format_repro_command(command: FysCommand, repo_root: Path) -> str:
+    import shlex
+
+    cwd = to_repo_relative(repo_root, command.cwd)
+    parts = ["python", *command.args[1:]]
+    relative_parts = []
+    for part in parts:
+        path = Path(str(part))
+        if path.is_absolute():
+            relative_parts.append(to_relative_from(command.cwd, path))
+        else:
+            relative_parts.append(str(part))
+    return f"cd {shlex.quote(cwd)} && " + " ".join(shlex.quote(part) for part in relative_parts)
+
+
 def run_command(command: FysCommand) -> int:
     command.log_path.parent.mkdir(parents=True, exist_ok=True)
+    command.config_path.write_text(json.dumps(command.run_config, indent=2) + "\n", encoding="utf-8")
     with command.log_path.open("w", encoding="utf-8") as log_file:
         log_file.write(format_shell_command(command) + "\n\n")
         log_file.flush()
@@ -141,6 +235,24 @@ def run_command(command: FysCommand) -> int:
     return process.returncode
 
 
+def write_run_matrix(path: Path, commands: list[FysCommand], repo_root: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for command in commands:
+        row = {
+            **command.run_config,
+            "cwd": to_repo_relative(repo_root, command.cwd),
+            "config_path": to_repo_relative(repo_root, command.config_path),
+            "repro_command": format_repro_command(command, repo_root),
+        }
+        rows.append(row)
+    fieldnames = list(rows[0].keys()) if rows else []
+    with path.open("w", encoding="utf-8", newline="") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     default_repo_root = find_repo_root(Path.cwd())
     parser = argparse.ArgumentParser(description="Run Follow-Your-Shape on pilot manifest cases.")
@@ -152,6 +264,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--case-uid", action="append", dest="case_uids", help="Run only this case UID. Repeatable.")
     parser.add_argument("--limit", type=int, default=None, help="Run only the first N selected cases.")
+    parser.add_argument("--seeds", default=None, help="Comma-separated fixed seeds, e.g. '0,1,2'.")
+    parser.add_argument(
+        "--flat-output",
+        action="store_true",
+        help="Do not append seed_XXX to output dirs when --seeds is provided.",
+    )
+    parser.add_argument(
+        "--run-matrix",
+        type=Path,
+        default=None,
+        help="Optional CSV path for the generated command/config matrix.",
+    )
     parser.add_argument("--execute", action="store_true", help="Actually run FYS. Default is dry-run only.")
     parser.add_argument("--oracle-mask", action="store_true", help="Pass gt_mask as --mask_path for oracle-mask runs.")
     parser.add_argument("--python", default=sys.executable, help="Python executable used inside FollowYourShape/src.")
@@ -173,31 +297,44 @@ def main(argv: list[str] | None = None) -> int:
         print("No cases selected.", file=sys.stderr)
         return 2
 
-    commands = [
-        build_fys_command(
-            record,
-            repo_root=repo_root,
-            python_executable=args.python,
-            use_oracle_mask=args.oracle_mask,
-            name=args.name,
-            guidance=args.guidance,
-            num_steps=args.num_steps,
-            front=args.front,
-            inject=args.inject,
-            offload=not args.no_offload,
-            controlnet_type=args.controlnet_type,
-        )
-        for record in records
-    ]
+    seeds = parse_seeds(args.seeds)
+    commands = []
+    for record in records:
+        for seed in seeds:
+            commands.append(
+                build_fys_command(
+                    record,
+                    repo_root=repo_root,
+                    python_executable=args.python,
+                    seed=seed,
+                    seed_subdirs=not args.flat_output,
+                    use_oracle_mask=args.oracle_mask,
+                    name=args.name,
+                    guidance=args.guidance,
+                    num_steps=args.num_steps,
+                    front=args.front,
+                    inject=args.inject,
+                    offload=not args.no_offload,
+                    controlnet_type=args.controlnet_type,
+                )
+            )
+
+    run_matrix_path = args.run_matrix
+    if run_matrix_path is None:
+        suffix = "single_seed" if args.seeds is None else "multi_seed"
+        run_matrix_path = repo_root / "core" / "results" / "run_matrices" / f"{args.manifest.stem}_{suffix}.csv"
+    write_run_matrix(run_matrix_path, commands, repo_root)
+    print(f"run matrix: {run_matrix_path}")
 
     for index, command in enumerate(commands, start=1):
-        print(f"[{index}/{len(commands)}] {command.case_uid}")
+        print(f"[{index}/{len(commands)}] {command.run_uid}")
         print(format_shell_command(command))
         print(f"log: {command.log_path}")
+        print(f"config: {command.config_path}")
         if args.execute:
             returncode = run_command(command)
             if returncode != 0:
-                print(f"FAILED: {command.case_uid} exited with {returncode}", file=sys.stderr)
+                print(f"FAILED: {command.run_uid} exited with {returncode}", file=sys.stderr)
                 return returncode
 
     if not args.execute:
