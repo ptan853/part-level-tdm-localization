@@ -12,11 +12,8 @@ settings.
 - Seeds: `0, 1, 2`.
 - FYS parameters: `flux-dev`, `guidance=2.0`, `num_steps=15`, `front=2`,
   `inject=4`, no ControlNet, no oracle mask.
-- Follow-Your-Shape submodule base revision:
-  `47b574cee0aa72466576a834f4e24d5999816f26`.
-- Local FYS patch: `src/edit.py` adds `--seed` support and seeds Python,
-  NumPy, PyTorch, and CUDA RNGs. Commit this patch in the FollowYourShape fork
-  before remote reproduction, then update the pinned revision.
+- Follow-Your-Shape submodule revision:
+  `a323456378b0e70f0368c713d4a343c5a41d5a21`.
 
 Use `core/scripts/run_fys_pilot.py` to execute this configuration. The JSON
 file is a reproducibility record rather than a separate executable format.
