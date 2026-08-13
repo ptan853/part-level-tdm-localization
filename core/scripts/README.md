@@ -16,12 +16,21 @@ Run the first case on a GPU machine:
 python core/scripts/run_fys_pilot.py --limit 1 --execute
 ```
 
-Preview the controlled-revision run matrix without launching the model:
+Preview the controlled-revision commands without launching the model or writing outputs:
 
 ```bash
 python core/scripts/run_fys_pilot.py \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
   --seeds 0,1,2
+```
+
+Regenerate the controlled-revision run matrix without launching the model:
+
+```bash
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0,1,2 \
+  --write-run-matrix
 ```
 
 Run the controlled revision:
@@ -50,9 +59,10 @@ writes model outputs under `core/results/follow_your_shape/`, and keeps a
 `run.log` per case. When `--seeds` is provided, each run is written to a
 separate `seed_XXX` directory and gets its own `run_config.json`.
 
-The runner also writes a command/config matrix to
-`core/results/run_matrices/<manifest>_multi_seed.csv`. This table is intended
-for reproducibility and should be the source for later evaluation tables.
+With `--execute`, the runner also writes a command/config matrix to
+`core/results/run_matrices/<manifest>_multi_seed.csv`. To write the matrix
+during dry-run, pass `--write-run-matrix`. This table is intended for
+reproducibility and should be the source for later evaluation tables.
 
 ## FLUX Target-Token Attention Baseline
 
@@ -70,7 +80,7 @@ For each case/seed, the worker:
    target part/edit text tokens in late single-stream blocks, restricted to
    the same middle denoising steps used by the FYS TDM construction.
 
-Dry-run one baseline command:
+Dry-run one baseline command without writing outputs:
 
 ```bash
 python core/scripts/run_flux_attention_baseline.py \
@@ -124,3 +134,6 @@ The run matrix is written to:
 ```text
 core/results/run_matrices/flux_attention_baseline_matrix.csv
 ```
+
+With `--execute`, the matrix is written automatically. To regenerate only the
+matrix during dry-run, add `--write-run-matrix`.

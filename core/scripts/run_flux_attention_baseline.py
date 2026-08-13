@@ -22,6 +22,8 @@ class BaselineCommand:
     case_uid: str
     seed: int
     args: list[str]
+    case_json_path: Path
+    case_record: dict
     log_path: Path
     config_path: Path
     row: dict
@@ -127,7 +129,7 @@ def write_run_matrix(path: Path, commands: list[BaselineCommand]) -> None:
     rows = [command.row for command in commands]
     fieldnames = list(rows[0].keys()) if rows else []
     with path.open("w", encoding="utf-8", newline="") as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -225,11 +227,12 @@ def build_command(
             offload=offload,
         ),
     }
-    return BaselineCommand(run_uid, case_uid, seed, args, log_path, config_path, row)
+    return BaselineCommand(run_uid, case_uid, seed, args, case_json_path, record, log_path, config_path, row)
 
 
 def run_command(command: BaselineCommand) -> int:
     command.log_path.parent.mkdir(parents=True, exist_ok=True)
+    command.case_json_path.write_text(json.dumps(command.case_record, indent=2) + "\n", encoding="utf-8")
     command.config_path.write_text(json.dumps(command.row, indent=2) + "\n", encoding="utf-8")
     with command.log_path.open("w", encoding="utf-8") as log_file:
         log_file.write(format_shell_command(command) + "\n\n")
@@ -265,6 +268,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=default_repo_root / "core" / "results" / "flux_attention_baseline",
     )
     parser.add_argument("--run-matrix", type=Path, default=None)
+    parser.add_argument(
+        "--write-run-matrix",
+        action="store_true",
+        help="Write the command/config matrix during dry-run. --execute always writes it.",
+    )
     return parser.parse_args(argv)
 
 
@@ -284,8 +292,6 @@ def main(argv: list[str] | None = None) -> int:
     for record in records:
         for seed in seeds:
             case_json_path = output_root / record["case_uid"] / f"seed_{seed:03d}" / "case_record.json"
-            case_json_path.parent.mkdir(parents=True, exist_ok=True)
-            case_json_path.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
             commands.append(
                 build_command(
                     record,
@@ -305,8 +311,12 @@ def main(argv: list[str] | None = None) -> int:
                 )
             )
 
-    write_run_matrix(run_matrix_path, commands)
-    print(f"run matrix: {run_matrix_path}")
+    should_write_matrix = args.execute or args.write_run_matrix or args.run_matrix is not None
+    if should_write_matrix:
+        write_run_matrix(run_matrix_path, commands)
+        print(f"run matrix: {run_matrix_path}")
+    else:
+        print(f"run matrix path: {run_matrix_path} (not written in dry-run)")
     for index, command in enumerate(commands, start=1):
         print(f"[{index}/{len(commands)}] {command.run_uid}")
         print(format_shell_command(command))

@@ -248,7 +248,7 @@ def write_run_matrix(path: Path, commands: list[FysCommand], repo_root: Path) ->
         rows.append(row)
     fieldnames = list(rows[0].keys()) if rows else []
     with path.open("w", encoding="utf-8", newline="") as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -275,6 +275,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         default=None,
         help="Optional CSV path for the generated command/config matrix.",
+    )
+    parser.add_argument(
+        "--write-run-matrix",
+        action="store_true",
+        help="Write the command/config matrix during dry-run. --execute always writes it.",
     )
     parser.add_argument("--execute", action="store_true", help="Actually run FYS. Default is dry-run only.")
     parser.add_argument("--oracle-mask", action="store_true", help="Pass gt_mask as --mask_path for oracle-mask runs.")
@@ -323,8 +328,12 @@ def main(argv: list[str] | None = None) -> int:
     if run_matrix_path is None:
         suffix = "single_seed" if args.seeds is None else "multi_seed"
         run_matrix_path = repo_root / "core" / "results" / "run_matrices" / f"{args.manifest.stem}_{suffix}.csv"
-    write_run_matrix(run_matrix_path, commands, repo_root)
-    print(f"run matrix: {run_matrix_path}")
+    should_write_matrix = args.execute or args.write_run_matrix or args.run_matrix is not None
+    if should_write_matrix:
+        write_run_matrix(run_matrix_path, commands, repo_root)
+        print(f"run matrix: {run_matrix_path}")
+    else:
+        print(f"run matrix path: {run_matrix_path} (not written in dry-run)")
 
     for index, command in enumerate(commands, start=1):
         print(f"[{index}/{len(commands)}] {command.run_uid}")
