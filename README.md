@@ -127,23 +127,31 @@ Recommended machine:
 Clone with the pinned submodule:
 
 ```bash
-cd /root/autodl-tmp
+export WORKDIR=/path/to/data-disk
+mkdir -p "$WORKDIR"
+cd "$WORKDIR"
 git clone --recurse-submodules https://github.com/ptan853/part-level-tdm-localization.git part-level-overediting
 cd part-level-overediting
 tar -xzf core/artifacts/partedit_pilot_12_cases_strict.tar.gz
 ```
 
-Set HuggingFace cache and mirror on AutoDL:
+Set cache directories to a data disk with enough space for FLUX downloads:
+
+```bash
+export HF_HOME="$WORKDIR/hf_cache"
+export HUGGINGFACE_HUB_CACHE="$HF_HOME/hub"
+export TRANSFORMERS_CACHE="$HF_HOME/transformers"
+export TORCH_HOME="$WORKDIR/torch_cache"
+export PIP_CACHE_DIR="$WORKDIR/pip_cache"
+export OMP_NUM_THREADS=8
+mkdir -p "$HF_HOME" "$HUGGINGFACE_HUB_CACHE" "$TRANSFORMERS_CACHE" "$TORCH_HOME" "$PIP_CACHE_DIR"
+```
+
+If the machine is in mainland China or has slow HuggingFace/PyPI access, optionally set a HuggingFace mirror and a nearby PyPI mirror:
 
 ```bash
 export HF_ENDPOINT=https://hf-mirror.com
-export HF_HOME=/root/autodl-tmp/hf_cache
-export HUGGINGFACE_HUB_CACHE=/root/autodl-tmp/hf_cache/hub
-export TRANSFORMERS_CACHE=/root/autodl-tmp/hf_cache/transformers
-export TORCH_HOME=/root/autodl-tmp/torch_cache
-export PIP_CACHE_DIR=/root/autodl-tmp/pip_cache
-export OMP_NUM_THREADS=8
-mkdir -p "$HF_HOME" "$HUGGINGFACE_HUB_CACHE" "$TRANSFORMERS_CACHE" "$TORCH_HOME" "$PIP_CACHE_DIR"
+export PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/
 ```
 
 Login to HuggingFace after accepting the FLUX.1-dev license:
@@ -155,14 +163,14 @@ hf auth login
 Install project and FYS dependencies. If the base image already has working PyTorch, do not reinstall Torch.
 
 ```bash
-pip install -e . -i https://mirrors.aliyun.com/pypi/simple/
+pip install -e .
 
 cd core/third_party/FollowYourShape
-pip install -e ".[all]" -i https://mirrors.aliyun.com/pypi/simple/
+pip install -e ".[all]"
 cd ../../..
 ```
 
-Pin the versions validated with AutoDL's PyTorch `2.1.2+cu118` image:
+Pin the versions validated in our run with PyTorch `2.1.2+cu118`:
 
 ```bash
 python -m pip install --force-reinstall \
@@ -173,8 +181,7 @@ python -m pip install --force-reinstall \
   "diffusers==0.32.2" \
   "huggingface-hub==0.25.2" \
   "seaborn==0.13.2" \
-  "scikit-image==0.24.0" \
-  -i https://mirrors.aliyun.com/pypi/simple/
+  "scikit-image==0.24.0"
 ```
 
 Check imports:
