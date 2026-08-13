@@ -8,6 +8,14 @@ venv/
 # Large experiment artifacts
 core/results/**
 !core/results/.gitkeep
+!core/results/run_matrices/
+!core/results/run_matrices/**
+!core/results/controlled_revision/
+!core/results/controlled_revision/**
+!core/results/flux_attention_baseline/
+!core/results/flux_attention_baseline/**
+!core/results/follow_your_shape/
+!core/results/follow_your_shape/**
 core/reports/figures/**
 core/data/images/**
 core/data/masks/**
@@ -27,3 +35,5 @@ weights/
 .env
 .env.*
 *.log
+!core/results/follow_your_shape/**/run.log
+!core/results/flux_attention_baseline/**/run.log

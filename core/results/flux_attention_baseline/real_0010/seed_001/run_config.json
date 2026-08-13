@@ -1,0 +1,51 @@
+{
+  "run_type": "plain_flux_target_token_attention",
+  "case_uid": "real_0010",
+  "seed": 1,
+  "model_name": "flux-dev",
+  "guidance": 2.0,
+  "num_steps": 15,
+  "front": 2,
+  "inject": 4,
+  "tail_pad": 1,
+  "record_start_step": 2,
+  "record_end_step": 8,
+  "recorded_step_indices": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "recorded_forwards": "first_order_and_midpoint",
+  "source_prompt": "a cow standing on a street",
+  "target_prompt": "a cow with dragon head standing on a street",
+  "part": "head",
+  "edit": "dragon",
+  "token_indices": [
+    4,
+    5
+  ],
+  "layer_ids": [
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37
+  ],
+  "map_shape": [
+    32,
+    32
+  ],
+  "threshold_method": "otsu",
+  "threshold": 0.22731536626815796,
+  "binary_mask_area_ratio_patch_grid": 0.18359375,
+  "note": "True softmax attention mass from image-token queries to selected target part/edit T5 tokens in late FLUX single-stream blocks; same inverted z as FYS, no KV injection, no oracle mask."
+}

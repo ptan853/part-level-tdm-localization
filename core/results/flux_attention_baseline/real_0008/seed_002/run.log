@@ -1,0 +1,65 @@
+/root/miniconda3/bin/python /root/autodl-tmp/part-level-tdm-localization/core/scripts/flux_attention_worker.py --case-json /root/autodl-tmp/part-level-tdm-localization/core/results/flux_attention_baseline/real_0008/seed_002/case_record.json --output-dir /root/autodl-tmp/part-level-tdm-localization/core/results/flux_attention_baseline/real_0008/seed_002 --seed 2 --name flux-dev --guidance 2.0 --num-steps 15 --layers 28,29,30,31,32,33,34,35,36,37 --front 2 --inject 4 --tail-pad 1 --offload
+
+/root/miniconda3/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+You are using the default legacy behaviour of the <class 'transformers.models.t5.tokenization_t5.T5Tokenizer'>. This is expected, and simply means that the `legacy` (previous) behavior will be used so nothing changes for you. If you want to use the new behaviour, set `legacy=False`. This should only be set if you understand what it means, and thoroughly read the reason why this was added as explained in https://github.com/huggingface/transformers/pull/24565
+/root/miniconda3/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+/root/miniconda3/lib/python3.10/site-packages/torch/_utils.py:831: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+Init model
+Loading checkpoint
+Init AE
+[False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+Inversion:   0%|          | 0/15 [00:00<?, ?it/s]Inversion:   7%|▋         | 1/15 [00:00<00:04,  3.35it/s]Inversion:  13%|█▎        | 2/15 [00:00<00:04,  3.13it/s]Inversion:  20%|██        | 3/15 [00:00<00:03,  3.07it/s]Inversion:  27%|██▋       | 4/15 [00:01<00:03,  3.02it/s]Inversion:  33%|███▎      | 5/15 [00:01<00:03,  3.00it/s]Inversion:  40%|████      | 6/15 [00:01<00:03,  3.00it/s]Inversion:  47%|████▋     | 7/15 [00:02<00:02,  2.99it/s]Inversion:  53%|█████▎    | 8/15 [00:02<00:02,  2.99it/s]Inversion:  60%|██████    | 9/15 [00:02<00:02,  2.98it/s]Inversion:  67%|██████▋   | 10/15 [00:03<00:01,  2.98it/s]Inversion:  73%|███████▎  | 11/15 [00:03<00:01,  2.98it/s]Inversion:  80%|████████  | 12/15 [00:03<00:01,  2.98it/s]Inversion:  87%|████████▋ | 13/15 [00:04<00:00,  2.98it/s]Inversion:  93%|█████████▎| 14/15 [00:04<00:00,  2.98it/s]Inversion: 100%|██████████| 15/15 [00:05<00:00,  2.98it/s]Inversion: 100%|██████████| 15/15 [00:05<00:00,  3.00it/s]
+{
+  "run_type": "plain_flux_target_token_attention",
+  "case_uid": "real_0008",
+  "seed": 2,
+  "model_name": "flux-dev",
+  "guidance": 2.0,
+  "num_steps": 15,
+  "front": 2,
+  "inject": 4,
+  "tail_pad": 1,
+  "record_start_step": 2,
+  "record_end_step": 8,
+  "recorded_step_indices": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "recorded_forwards": "first_order_and_midpoint",
+  "source_prompt": "a dog standing in a field with grass and water",
+  "target_prompt": "a dog with bear head standing in a field with grass and water",
+  "part": "head",
+  "edit": "bear",
+  "token_indices": [
+    4,
+    5
+  ],
+  "layer_ids": [
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37
+  ],
+  "map_shape": [
+    32,
+    32
+  ],
+  "threshold_method": "otsu",
+  "threshold": 0.259300172328949,
+  "binary_mask_area_ratio_patch_grid": 0.267578125,
+  "note": "True softmax attention mass from image-token queries to selected target part/edit T5 tokens in late FLUX single-stream blocks; same inverted z as FYS, no KV injection, no oracle mask."
+}

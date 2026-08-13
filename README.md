@@ -1,150 +1,86 @@
-# Part-Level TDM Localization in Shape-Aware Image Editing
+# Part-Level TDM Localization in Follow-Your-Shape
 
-This project is a small diagnostic study of whether Follow-Your-Shape's trajectory divergence map (TDM) localizes part-level image edits precisely.
+This repository contains a controlled diagnostic study for Harry Yang's feedback on controllable image editing. The question is narrow:
 
-## Research Question
+> When a prompt asks for a local part-level edit inside an object, does Follow-Your-Shape's trajectory divergence map (TDM) localize the intended part, or does it expand to a broader object/background region?
 
-When a prompt asks for a local component edit inside an object, does the TDM used by Follow-Your-Shape identify the intended part, or does it expand to a broader object/background region?
-
-The pilot uses PartEdit-Bench cases with ground-truth part masks and evaluates FYS TDM masks against those masks.
+The final controlled revision uses PartEdit-Bench cases with ground-truth part masks, runs Follow-Your-Shape (FYS) on a fixed balanced subset, and compares FYS-TDM against a simple FLUX target-token attention localization baseline.
 
 ## Current Result
 
-The pilot has been run on 20 PartEdit-Bench cases.
+The controlled revision uses a fixed 12-case subset:
 
-Summary:
-
-- 20/20 cases have saved TDM artifacts.
-- 19/20 cases have saved edited images.
-- `synth_0014` was blocked by the FYS NSFW filter after TDM generation.
-- Median binary IoU: `0.1006`.
-- Median soft AP: `0.1602`.
-- Median predicted/GT mask-area ratio: `6.67`.
-- Small parts are hardest: median IoU `0.0500`, median predicted/GT area ratio `14.10`.
+- 4 small-part cases.
+- 4 medium-part cases.
+- 4 large-part cases.
+- 3 fixed seeds per case: `0, 1, 2`.
+- 36 FYS runs and 36 FLUX-attention baseline runs.
 
 Main finding:
 
-> Follow-Your-Shape's trajectory-guided TDM provides a useful edit-localization signal, but in this part-level setting it often over-localizes beyond the intended part mask, especially for small parts.
+> FYS-TDM is a useful edit-localization signal, but for part-level edits it often over-localizes beyond the intended part, especially for small parts. A simple FLUX target-token attention signal is often more spatially concentrated, suggesting that trajectory-divergence localization is too coarse for fine part-level control.
 
-## Controlled Revision Plan
+Compact summary:
 
-The next controlled revision follows Harry Yang's feedback and fixes the
-experimental protocol before rerunning:
+| Method | Part size | Binary IoU | Soft AP | Predicted / GT area |
+|---|---:|---:|---:|---:|
+| FYS TDM | large | 0.308 ± 0.138 | 0.371 ± 0.186 | 3.19 ± 1.63 |
+| FYS TDM | medium | 0.161 ± 0.066 | 0.225 ± 0.133 | 5.40 ± 2.03 |
+| FYS TDM | small | 0.048 ± 0.014 | 0.124 ± 0.086 | 16.98 ± 10.69 |
+| FLUX target-token attention | large | 0.425 ± 0.174 | 0.609 ± 0.196 | 2.38 ± 1.26 |
+| FLUX target-token attention | medium | 0.267 ± 0.108 | 0.338 ± 0.146 | 3.43 ± 1.14 |
+| FLUX target-token attention | small | 0.240 ± 0.276 | 0.501 ± 0.415 | 13.09 ± 15.09 |
 
-- Use `core/data/partedit_subset/pilot_12_manifest.json`, a fixed 12-case
-  subset balanced by part size: 4 small, 4 medium, and 4 large cases.
-- Run each case with fixed seeds `0, 1, 2`, producing 36 FYS runs.
-- Save each run under `core/results/follow_your_shape/<case_uid>/seed_XXX/`.
-- Save a `run_config.json` and `run.log` for every run.
-- Save the generated run matrix at
-  `core/results/run_matrices/pilot_12_manifest_multi_seed.csv`.
-- Add a simple FLUX-attention localization baseline for comparison.
-- Report localization metrics, local-edit success, and preservation outside
-  the target part.
+The full machine-readable tables are in:
 
-The fixed revision configuration is recorded in
-`core/configs/fys_controlled_revision.json`.
+- `core/results/controlled_revision/compact_fys_summary_for_harry.csv`
+- `core/results/controlled_revision/localization_comparison_for_harry.csv`
+- `core/results/controlled_revision/fys_run_metrics.csv`
+- `core/results/controlled_revision/flux_attention_metrics.csv`
 
 ## Key Artifacts
 
-Final analysis notebook:
+- `core/data/partedit_subset/pilot_12_manifest.json`: fixed 12-case subset.
+- `core/artifacts/partedit_pilot_12_cases_strict.tar.gz`: portable copy of the selected source images, masks, reference images, and metadata.
+- `core/configs/fys_controlled_revision.json`: fixed experiment configuration and pinned FYS submodule revision.
+- `core/scripts/run_fys_pilot.py`: FYS batch runner.
+- `core/scripts/run_flux_attention_baseline.py`: FLUX target-token attention baseline runner.
+- `core/notebooks/03_evaluate_controlled_revision.ipynb`: final evaluation notebook.
+- `core/results/run_matrices/`: command/config matrices for FYS and attention runs.
+- `core/results/follow_your_shape/`: FYS outputs, logs, configs, and TDM artifacts.
+- `core/results/flux_attention_baseline/`: attention maps, logs, and configs.
+- `core/results/controlled_revision/`: final metric tables and qualitative review sheets.
+- `core/reports/final_note.md`: compact English note for Harry.
+- `core/reports/email_to_harry.md`: draft reply email.
 
-- `core/notebooks/02_evaluate_fys_tdm_localization.ipynb`
-
-Metrics and case table:
-
-- `core/results/fys_case_table.csv`
-- `core/results/fys_tdm_evaluation_metrics.csv`
-
-Qualitative result sheets and charts:
-
-- `core/results/figures/all_20_cases_review_sheet.jpg`
-- `core/results/figures/tdm_area_vs_gt_area.png`
-- `core/results/figures/over_localization_ratio_by_case.png`
-- `core/results/figures/area_ratio_vs_iou.png`
-- `core/results/figures/metrics_by_part_size.png`
-
-TDM dynamics GIFs:
-
-- `core/results/figures/tdm_dynamics_real_0006.gif`
-- `core/results/figures/tdm_dynamics_real_0009.gif`
-- `core/results/figures/tdm_dynamics_synth_0026.gif`
-
-Raw FYS outputs:
-
-- `core/results/follow_your_shape/<case_uid>/img_0.jpg`
-- `core/results/follow_your_shape/<case_uid>/tdm/delta/delta_map_*.npy`
-- `core/results/follow_your_shape/<case_uid>/tdm/aggregated_soft_tdm.npy`
-- `core/results/follow_your_shape/<case_uid>/tdm/smoothed_soft_tdm.npy`
-- `core/results/follow_your_shape/<case_uid>/tdm/binary_tdm_mask.npy`
-- `core/results/follow_your_shape/<case_uid>/tdm/tdm_metadata.json`
-
-Large generated artifacts are ignored by Git and are expected to be produced or copied locally.
-
-## Result Preview
-
-The full 20-case review sheet combines the dataset inputs and generated outputs in one view: source image, GT part mask, FYS edited result, soft TDM overlay, binary TDM overlay, image-difference map, prompts, and key metrics. The sheet is split into four parts below so each row remains readable in Markdown.
+Representative result sheet:
 
 <div align="center">
-  <a href="core/results/figures/all_20_cases_review_sheet_part1.jpg">
-    <img src="core/results/figures/all_20_cases_review_sheet_part1.jpg" width="1000" alt="Full qualitative review sheet, cases 1-5">
+  <a href="core/results/controlled_revision/figures/representative_case_candidates_sheet.jpg">
+    <img src="core/results/controlled_revision/figures/representative_case_candidates_sheet.jpg" width="1000" alt="Representative FYS TDM and FLUX attention comparison">
   </a>
   <br>
-  <sub>Cases 1-5</sub>
-  <br><br>
-  <a href="core/results/figures/all_20_cases_review_sheet_part2.jpg">
-    <img src="core/results/figures/all_20_cases_review_sheet_part2.jpg" width="1000" alt="Full qualitative review sheet, cases 6-10">
-  </a>
-  <br>
-  <sub>Cases 6-10</sub>
-  <br><br>
-  <a href="core/results/figures/all_20_cases_review_sheet_part3.jpg">
-    <img src="core/results/figures/all_20_cases_review_sheet_part3.jpg" width="1000" alt="Full qualitative review sheet, cases 11-15">
-  </a>
-  <br>
-  <sub>Cases 11-15</sub>
-  <br><br>
-  <a href="core/results/figures/all_20_cases_review_sheet_part4.jpg">
-    <img src="core/results/figures/all_20_cases_review_sheet_part4.jpg" width="1000" alt="Full qualitative review sheet, cases 16-20">
-  </a>
-  <br>
-  <sub>Cases 16-20. Click any panel to open the full-resolution image.</sub>
+  <sub>Four representative success/failure cases. Click to open full resolution.</sub>
 </div>
 
-<details>
-<summary>TDM dynamics examples</summary>
+Diagnostic sheets:
 
-<table>
-  <tr>
-    <td align="center">
-      <img src="core/results/figures/tdm_dynamics_real_0006.gif" width="280" alt="TDM dynamics for real_0006">
-      <br>
-      <sub>`real_0006`: small head edit with severe over-localization.</sub>
-    </td>
-    <td align="center">
-      <img src="core/results/figures/tdm_dynamics_real_0009.gif" width="280" alt="TDM dynamics for real_0009">
-      <br>
-      <sub>`real_0009`: large car-body edit with better localization.</sub>
-    </td>
-    <td align="center">
-      <img src="core/results/figures/tdm_dynamics_synth_0026.gif" width="280" alt="TDM dynamics for synth_0026">
-      <br>
-      <sub>`synth_0026`: small hair edit with broad TDM response.</sub>
-    </td>
-  </tr>
-</table>
-
-</details>
+- `core/results/controlled_revision/figures/manual_scoring_sheet_part1.jpg`
+- `core/results/controlled_revision/figures/manual_scoring_sheet_part2.jpg`
+- `core/results/controlled_revision/figures/manual_scoring_sheet_part3.jpg`
+- `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part1.jpg`
+- `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part2.jpg`
+- `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part3.jpg`
 
 ## Project Layout
 
-- `core/data/partedit_subset/`: pilot manifest and local exported PartEdit-Bench cases.
-- `core/notebooks/01_inspect_partedit_bench.ipynb`: dataset inspection and subset selection.
-- `core/notebooks/02_evaluate_fys_tdm_localization.ipynb`: final result analysis.
-- `core/scripts/run_fys_pilot.py`: batch runner for FYS over the pilot manifest.
-- `core/third_party/FollowYourShape/`: Follow-Your-Shape fork/submodule with TDM artifact logging.
-- `core/results/`: local generated outputs, metrics, and figures.
-- `notes/`: planning notes and related-work notes.
+- `core/data/`: dataset manifests and portable subset archive.
+- `core/configs/`: reproducibility configuration.
+- `core/notebooks/`: dataset inspection and final evaluation notebooks.
+- `core/scripts/`: FYS and FLUX-attention runners.
+- `core/third_party/FollowYourShape/`: pinned Follow-Your-Shape submodule.
+- `core/results/`: committed controlled-revision outputs and local runtime outputs.
+- `core/reports/`: compact note and email draft.
 
 ## Local Analysis Setup
 
@@ -159,28 +95,45 @@ uv run jupyter lab
 Run the final analysis notebook from the project root:
 
 ```bash
-uv run python -m jupyter nbconvert --execute --to notebook --inplace core/notebooks/02_evaluate_fys_tdm_localization.ipynb
+uv run python -m jupyter nbconvert --execute --to notebook --inplace core/notebooks/03_evaluate_controlled_revision.ipynb
 ```
 
-The notebook resizes raw patch-grid TDMs to image resolution only for evaluation and visualization. The raw TDM `.npy` files are not modified.
+The notebook resizes raw patch-grid TDM and attention maps to image resolution only for evaluation and visualization. The raw `.npy` files are not modified.
+
+## Data Preparation
+
+The manifest references `core/data/partedit_subset/cases/<case_uid>/...`. The selected case files are packaged in:
+
+```text
+core/artifacts/partedit_pilot_12_cases_strict.tar.gz
+```
+
+If the `cases/` directory is missing, unpack it from the project root:
+
+```bash
+tar -xzf core/artifacts/partedit_pilot_12_cases_strict.tar.gz
+```
+
+This creates the exact 12 selected cases used by the controlled revision.
 
 ## GPU Reproduction Guide
 
 Recommended machine:
 
 - One A800/A100/H800 80GB GPU.
-- At least 100GB data disk; 150GB+ is safer.
+- At least 100GB data disk; 150GB+ is safer for first-time FLUX downloads.
 - Python 3.10 with a working CUDA PyTorch environment.
 
-On AutoDL, use the data disk:
+Clone with the pinned submodule:
 
 ```bash
 cd /root/autodl-tmp
 git clone --recurse-submodules https://github.com/ptan853/part-level-tdm-localization.git part-level-overediting
 cd part-level-overediting
+tar -xzf core/artifacts/partedit_pilot_12_cases_strict.tar.gz
 ```
 
-Set HuggingFace cache and mirror:
+Set HuggingFace cache and mirror on AutoDL:
 
 ```bash
 export HF_ENDPOINT=https://hf-mirror.com
@@ -189,6 +142,7 @@ export HUGGINGFACE_HUB_CACHE=/root/autodl-tmp/hf_cache/hub
 export TRANSFORMERS_CACHE=/root/autodl-tmp/hf_cache/transformers
 export TORCH_HOME=/root/autodl-tmp/torch_cache
 export PIP_CACHE_DIR=/root/autodl-tmp/pip_cache
+export OMP_NUM_THREADS=8
 mkdir -p "$HF_HOME" "$HUGGINGFACE_HUB_CACHE" "$TRANSFORMERS_CACHE" "$TORCH_HOME" "$PIP_CACHE_DIR"
 ```
 
@@ -208,7 +162,7 @@ pip install -e ".[all]" -i https://mirrors.aliyun.com/pypi/simple/
 cd ../../..
 ```
 
-Pin the versions that were validated with AutoDL's PyTorch `2.1.2+cu118` image:
+Pin the versions validated with AutoDL's PyTorch `2.1.2+cu118` image:
 
 ```bash
 python -m pip install --force-reinstall \
@@ -232,68 +186,61 @@ python -c "import flux; from flux.sampling import denoise_with_TDM; print('fys i
 cd ../../..
 ```
 
-Preview the first command without running the model:
-
-```bash
-python core/scripts/run_fys_pilot.py --limit 1
-```
-
-Preview the controlled revision command matrix:
+Preview and run FYS:
 
 ```bash
 python core/scripts/run_fys_pilot.py \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
   --seeds 0,1,2
-```
 
-Run the controlled revision:
-
-```bash
 python core/scripts/run_fys_pilot.py \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
   --seeds 0,1,2 \
   --execute
 ```
 
-Run one case:
+Preview and run the FLUX attention baseline:
 
 ```bash
-python core/scripts/run_fys_pilot.py --limit 1 --execute
+python core/scripts/run_flux_attention_baseline.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0,1,2
+
+python core/scripts/run_flux_attention_baseline.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0,1,2 \
+  --execute
 ```
 
-Run the full pilot:
+Evaluate:
 
 ```bash
-python core/scripts/run_fys_pilot.py --execute
-```
-
-Monitor GPU and disk in a separate terminal:
-
-```bash
-watch -n 2 nvidia-smi
-watch -n 10 'df -h /root/autodl-tmp && du -sh /root/autodl-tmp/hf_cache'
+python -m jupyter nbconvert --execute --to notebook --inplace core/notebooks/03_evaluate_controlled_revision.ipynb
 ```
 
 ## Evaluation Metrics
 
-The final notebook computes:
+Localization metrics:
 
-- `gt_area`: PartEdit GT part mask area ratio.
-- `pred_tdm_area`: upsampled binary TDM mask area ratio.
-- `pred_to_gt_area_ratio`: predicted TDM area divided by GT area.
-- `binary_iou`: IoU between upsampled binary TDM and GT mask.
-- `soft_ap`: average precision using smoothed soft TDM as a pixel-level score.
-- `soft_inside_gt_mass`: fraction of soft TDM mass inside the GT mask.
-- `image_change_inside_gt`: fraction of source-to-edit pixel difference inside the GT mask.
+- `binary_iou`: IoU between the predicted binary localization mask and GT part mask.
+- `soft_ap`: average precision using the soft localization map as a pixel-level score.
+- `pred_to_gt_area_ratio`: predicted binary area divided by GT part area.
+- `soft_inside_gt_mass`: fraction of soft localization mass inside the GT part.
 
-The most important diagnostic metrics are binary IoU, soft AP, and predicted/GT area ratio.
+Editing and preservation metrics for FYS edited images:
+
+- `human_local_edit_success_0_2`: manual 0-2 rating for whether the requested local edit appears.
+- `human_outside_preservation_0_2`: manual 0-2 rating for preservation outside the target part.
+- `outside_mask_psnr`, `outside_mask_global_ssim`, `outside_mask_lpips`: preservation outside the GT part mask.
+
+The FLUX attention baseline is a localization-only diagnostic, so image-preservation metrics are `NA` for baseline rows.
 
 ## Prompt Choice
 
-The main run uses PartEdit's `p2p_prompt` as the target prompt. This prompt explicitly describes the part-level modification while preserving the source object context, for example:
+The controlled revision uses PartEdit's `p2p_prompt` as the target prompt. This prompt explicitly describes the part-level modification while preserving the source object context, for example:
 
 ```text
 a dog with bear head standing in a field with grass and water
 ```
 
-This is preferred over `prompt_changed` for the main experiment because many `prompt_changed` prompts imply full object replacement rather than part-level editing.
+This is preferred over `prompt_changed` because many `prompt_changed` prompts imply full object replacement rather than part-level editing.

@@ -1,10 +1,8 @@
 # Reports
 
-This directory will hold compact outputs for sharing with Harry:
+This directory contains compact text outputs for sharing with Harry:
 
-- quantitative tables,
-- representative success and failure cases,
-- final project summary,
-- follow-up email draft.
+- `final_note.md`: the concise research note summarizing the problem, setup, metrics, results, and conclusion.
+- `email_to_harry.md`: a short reply draft that links the reproducible repository and points to the main artifacts.
 
-Large generated images should remain in `results/` and be referenced from report files.
+Generated images, quantitative tables, and logs are stored under `core/results/`.

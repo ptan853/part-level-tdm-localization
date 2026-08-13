@@ -1,0 +1,28 @@
+{
+  "cut_step": 8,
+  "front_pad": 2,
+  "tail_pad": 1,
+  "inject_step": 4,
+  "recorded_delta_steps": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "num_recorded_delta_maps": 7,
+  "aggregation": "softmax_weighted_sum",
+  "softmax_scale": 5,
+  "smoothing": "gaussian_filter",
+  "smoothing_sigma": 0.7,
+  "threshold_method": "otsu",
+  "threshold": 0.1778060495853424,
+  "tdm_shape": [
+    32,
+    32
+  ],
+  "binary_mask_area_ratio_patch_grid": 0.359375,
+  "num_edit_tokens": 368
+}
