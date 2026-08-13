@@ -1,5 +1,7 @@
 # Controlled Revision Note: Part-Level Localization in Follow-Your-Shape
 
+Code and artifacts: `https://github.com/ptan853/part-level-tdm-localization`
+
 ## Problem
 
 This mini-project tests a narrow controllable image-editing question: when the requested edit targets a local object part, does Follow-Your-Shape's trajectory divergence map (TDM) localize the intended part, or does it expand to a broader object/background region?
@@ -22,6 +24,8 @@ Localization is evaluated against the PartEdit ground-truth part mask using bina
 
 ## Results
 
+Main quantitative comparison:
+
 | Method | Part size | Binary IoU | Soft AP | Predicted / GT area |
 |---|---:|---:|---:|---:|
 | FYS TDM | large | 0.308 ± 0.138 | 0.371 ± 0.186 | 3.19 ± 1.63 |
@@ -31,13 +35,22 @@ Localization is evaluated against the PartEdit ground-truth part mask using bina
 | FLUX target-token attention | medium | 0.267 ± 0.108 | 0.338 ± 0.146 | 3.43 ± 1.14 |
 | FLUX target-token attention | small | 0.240 ± 0.276 | 0.501 ± 0.415 | 13.09 ± 15.09 |
 
+Full tables:
+
+- `core/results/controlled_revision/localization_comparison_for_harry.csv`
+- `core/results/controlled_revision/fys_run_metrics.csv`
+- `core/results/controlled_revision/flux_attention_metrics.csv`
+- `core/results/controlled_revision/compact_fys_summary_for_harry.csv`
+
 The main trend is consistent with the initial diagnosis: FYS-TDM over-localizes most strongly for small parts. The small-part FYS IoU is low, and the predicted region is much larger than the GT part mask. The simple FLUX target-token attention signal is often more spatially concentrated, suggesting that part-token attention can provide a sharper localization cue than trajectory divergence alone.
 
 The outside-mask preservation scores are not the main failure signal. FYS outside-mask SSIM remains around `0.90-0.93` across part sizes, and outside-mask LPIPS is around `0.18-0.20`. The more diagnostic issue is localization granularity: the TDM can expand from the target part to the whole object or adjacent background.
 
 ## Representative Cases
 
-The repository includes four representative cases in `core/results/controlled_revision/figures/representative_case_candidates_sheet.jpg`:
+The repository includes four representative cases in `core/results/controlled_revision/figures/representative_case_candidates_sheet.jpg`.
+
+![Representative FYS TDM and FLUX attention comparison](../results/controlled_revision/figures/representative_case_candidates_sheet.jpg)
 
 - `real_0009_seed_002`: best FYS localization, a large car-body edit.
 - `real_0006_seed_000`: worst FYS over-localization, a small head edit.
