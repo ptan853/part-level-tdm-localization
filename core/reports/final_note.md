@@ -48,22 +48,16 @@ The outside-mask preservation scores are not the main failure signal. FYS outsid
 
 ## Representative Cases
 
-The repository includes four representative cases in `core/results/controlled_revision/figures/representative_case_candidates_sheet.jpg`.
+The repository includes four representative cases in `core/results/controlled_revision/figures/representative_case_candidates_sheet.jpg`:
 
 ![Representative FYS TDM and FLUX attention comparison](../results/controlled_revision/figures/representative_case_candidates_sheet.jpg)
-
-The diagnostic sheets below show the source image, GT part mask, FYS edited result, image-difference map, soft TDM, binary TDM, and FLUX target-token attention map for all 36 runs:
-
-- `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part1.jpg`
-- `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part2.jpg`
-- `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part3.jpg`
-
-![TDM and FLUX attention diagnostic sheet 1](../results/controlled_revision/figures/tdm_diagnostic_sheet_part1.jpg)
 
 - `real_0009_seed_002`: best FYS localization, a large car-body edit.
 - `real_0006_seed_000`: worst FYS over-localization, a small head edit.
 - `real_0003_seed_000`: weak FYS localization, where FLUX target-token attention is much sharper.
 - `real_0004_seed_000`: possible preservation drift, selected by lowest outside-mask SSIM.
+
+For full mask diagnostics, the repository also includes three supporting sheets at `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part*.jpg`. These show the source image, GT part mask, FYS edit, image-difference map, soft TDM, binary TDM, and FLUX target-token attention map for all 36 runs.
 
 ## Conclusion
 
