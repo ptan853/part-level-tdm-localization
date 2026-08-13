@@ -82,6 +82,21 @@ cd part-level-overediting
 tar -xzf core/artifacts/partedit_pilot_12_cases_strict.tar.gz
 ```
 
+If `core/third_party/FollowYourShape/` is empty after cloning, initialize the submodule from the repository root:
+
+```bash
+git submodule update --init --recursive
+```
+
+Check that the submodule is present:
+
+```bash
+test -f core/third_party/FollowYourShape/src/edit.py && echo "FollowYourShape ready"
+git submodule status --recursive
+```
+
+Do not use GitHub's "Download ZIP" for full reproduction, because ZIP downloads do not include submodule contents.
+
 Set caches:
 
 ```bash
