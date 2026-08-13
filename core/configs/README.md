@@ -4,7 +4,7 @@ This directory holds experiment configuration files, including case lists,
 fixed seeds, Follow-Your-Shape parameters, output paths, and evaluation
 settings.
 
-## Controlled Revision
+## Experiment Config
 
 `fys_controlled_revision.json` records the setup:
 
