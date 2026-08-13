@@ -10,14 +10,14 @@ The experiment uses a fixed PartEdit-Bench subset with ground-truth part masks, 
 
 FYS-TDM is useful as an edit-localization signal, but it often over-localizes for part-level edits, especially small parts. A simple FLUX target-token attention signal is often more spatially concentrated.
 
-| Method | Part size | Binary IoU | Soft AP | Predicted / GT area |
-|---|---:|---:|---:|---:|
-| FYS TDM | large | 0.308 +/- 0.138 | 0.371 +/- 0.186 | 3.19 +/- 1.63 |
-| FYS TDM | medium | 0.161 +/- 0.066 | 0.225 +/- 0.133 | 5.40 +/- 2.03 |
-| FYS TDM | small | 0.048 +/- 0.014 | 0.124 +/- 0.086 | 16.98 +/- 10.69 |
-| FLUX target-token attention | large | 0.425 +/- 0.174 | 0.609 +/- 0.196 | 2.38 +/- 1.26 |
-| FLUX target-token attention | medium | 0.267 +/- 0.108 | 0.338 +/- 0.146 | 3.43 +/- 1.14 |
-| FLUX target-token attention | small | 0.240 +/- 0.276 | 0.501 +/- 0.415 | 13.09 +/- 15.09 |
+| Method                      | Part size |      Binary IoU |         Soft AP | Predicted / GT area |
+| --------------------------- | --------: | --------------: | --------------: | ------------------: |
+| FYS TDM                     |     large | 0.308 +/- 0.138 | 0.371 +/- 0.186 |       3.19 +/- 1.63 |
+| FYS TDM                     |    medium | 0.161 +/- 0.066 | 0.225 +/- 0.133 |       5.40 +/- 2.03 |
+| FYS TDM                     |     small | 0.048 +/- 0.014 | 0.124 +/- 0.086 |     16.98 +/- 10.69 |
+| FLUX target-token attention |     large | 0.425 +/- 0.174 | 0.609 +/- 0.196 |       2.38 +/- 1.26 |
+| FLUX target-token attention |    medium | 0.267 +/- 0.108 | 0.338 +/- 0.146 |       3.43 +/- 1.14 |
+| FLUX target-token attention |     small | 0.240 +/- 0.276 | 0.501 +/- 0.415 |     13.09 +/- 15.09 |
 
 ## Visual Examples
 
