@@ -6,6 +6,8 @@ This repository is a small diagnostic study of part-level controllable image edi
 
 The experiment uses a fixed PartEdit-Bench subset with ground-truth part masks, runs Follow-Your-Shape (FYS), and compares FYS-TDM with a simple FLUX target-token attention localization baseline.
 
+Start with the compact research note: [`core/reports/final_note.md`](core/reports/final_note.md).
+
 ## Key Result
 
 FYS-TDM is useful as an edit-localization signal, but it often over-localizes for part-level edits, especially small parts. A simple FLUX target-token attention signal is often more spatially concentrated.
@@ -65,7 +67,7 @@ FYS is run with `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `in
 
 ### FLUX Target-Token Attention
 
-The baseline encodes the source image, performs source-prompt inversion, then runs plain target-prompt FLUX denoising without KV injection. It records softmax attention mass from image-token queries to selected target part/edit T5 tokens in late single-stream blocks. This is a localization-only diagnostic baseline, not an editing method.
+The baseline runs plain target-prompt FLUX denoising from the same inverted latent, without FYS KV injection or oracle masks. It records softmax attention mass from image-token queries to selected target part/edit T5 tokens in late single-stream blocks `28-37`, over step indices `2-8` of the 15-step schedule. The maps are averaged over tokens, heads, layers, and steps, reshaped to the `32 x 32` image-token grid, smoothed, and binarized with Otsu thresholding. This is a localization-only diagnostic baseline, not an editing method.
 
 ## Reproduce
 

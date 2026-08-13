@@ -10,7 +10,7 @@ The motivating gap is that Follow-Your-Shape is effective for shape-aware object
 
 ## Experimental Setup
 
-I used a fixed PartEdit-Bench subset of 12 cases, balanced by target part size: 4 small, 4 medium, and 4 large cases. Each case was run with three fixed seeds, `0, 1, 2`, for 36 Follow-Your-Shape runs. The target prompt uses PartEdit's part-aware `p2p_prompt`, such as 
+I used a fixed PartEdit-Bench subset of 12 cases, balanced by target part size: 4 small, 4 medium, and 4 large cases. Each case was run with three fixed seeds, `0, 1, 2`, for 36 Follow-Your-Shape runs. The target prompt uses PartEdit's part-aware `p2p_prompt`, such as
 
 ```
 "a dog with bear head standing in a field with grass and water"
@@ -22,7 +22,7 @@ The FYS configuration is fixed as `flux-dev`, guidance `2.0`, `15` denoising ste
 
 ## Baseline
 
-I added a simple FLUX target-token attention localization baseline. For each case and seed, the baseline encodes the source image, runs source-prompt inversion to obtain the same kind of starting latent used by FYS, then runs plain target-prompt FLUX denoising without KV injection. It records true softmax attention mass from image-token queries to selected target part/edit T5 tokens in late single-stream blocks, restricted to the same middle denoising steps used by the FYS TDM construction. This is a diagnostic localization baseline, not a competing editing method.
+I added a simple FLUX target-token attention localization baseline. For each case and seed, the baseline encodes the source image, performs source-prompt inversion, and then runs plain target-prompt FLUX denoising from the same inverted latent, without FYS KV injection or oracle masks. For localization, it records the softmax attention mass from image-token queries to the selected target part/edit T5 tokens. I use late FLUX single-stream blocks `28-37` and the same middle denoising window as FYS-TDM, i.e. step indices `2-8` under the 15-step schedule. The maps are averaged over selected tokens, heads, layers, and recorded steps, reshaped to the `32 x 32` image-token grid, smoothed, and binarized with Otsu thresholding. This baseline is localization-only; it does not edit the image.
 
 ## Metrics
 
