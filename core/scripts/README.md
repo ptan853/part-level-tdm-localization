@@ -16,7 +16,7 @@ Run the first case on a GPU machine:
 python core/scripts/run_fys_pilot.py --limit 1 --execute
 ```
 
-Preview Harry Yang's controlled-revision run matrix without launching the model:
+Preview the controlled-revision run matrix without launching the model:
 
 ```bash
 python core/scripts/run_fys_pilot.py \

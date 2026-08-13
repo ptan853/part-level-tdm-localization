@@ -43,10 +43,10 @@ Main quantitative comparison:
 
 Full tables:
 
-- `core/results/controlled_revision/localization_comparison_for_harry.csv`
+- `core/results/controlled_revision/localization_comparison.csv`
 - `core/results/controlled_revision/fys_run_metrics.csv`
 - `core/results/controlled_revision/flux_attention_metrics.csv`
-- `core/results/controlled_revision/compact_fys_summary_for_harry.csv`
+- `core/results/controlled_revision/compact_fys_summary.csv`
 
 The main trend is consistent with the initial diagnosis: FYS-TDM over-localizes most strongly for small parts. The small-part FYS IoU is low, and the predicted region is much larger than the GT part mask. The simple FLUX target-token attention signal is often more spatially concentrated, suggesting that part-token attention can provide a sharper localization cue than trajectory divergence alone.
 
