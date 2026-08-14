@@ -12,6 +12,9 @@ core/results/**
 !core/results/run_matrices/**
 !core/results/controlled_revision/
 !core/results/controlled_revision/**
+!core/results/attention_gated_tdm/
+!core/results/attention_gated_tdm/**
+core/results/attention_gated_tdm/hybrid_masks/**
 !core/results/flux_attention_baseline/
 !core/results/flux_attention_baseline/**
 !core/results/follow_your_shape/

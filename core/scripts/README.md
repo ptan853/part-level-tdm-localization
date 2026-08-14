@@ -77,8 +77,14 @@ For each case/seed, the worker:
    `z` used by FYS,
 3. runs plain target-prompt FLUX denoising from that `z`,
 4. records true softmax attention mass from image-token queries to selected
-   target part/edit text tokens in late single-stream blocks, restricted to
+   target text tokens in late single-stream blocks, restricted to
    the same middle denoising steps used by the FYS TDM construction.
+
+Use `--token-mode part` for the current attention-gated TDM experiment. This
+uses the target part token as a where-only localization signal while the full
+target prompt still supplies the edit semantics during denoising. The older
+`--token-mode part_edit` setting is retained for comparison with the previous
+baseline.
 
 Dry-run one baseline command without writing outputs:
 
@@ -86,7 +92,8 @@ Dry-run one baseline command without writing outputs:
 python core/scripts/run_flux_attention_baseline.py \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
   --seeds 0 \
-  --limit 1
+  --limit 1 \
+  --token-mode part
 ```
 
 Run one smoke test on a GPU machine:
@@ -96,6 +103,7 @@ python core/scripts/run_flux_attention_baseline.py \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
   --seeds 0 \
   --limit 1 \
+  --token-mode part \
   --execute
 ```
 
@@ -105,6 +113,7 @@ Run the full 12-case x 3-seed baseline:
 python core/scripts/run_flux_attention_baseline.py \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
   --seeds 0,1,2 \
+  --token-mode part \
   --execute
 ```
 
@@ -112,6 +121,12 @@ Outputs are written under:
 
 ```text
 core/results/flux_attention_baseline/<case_uid>/seed_<seed>/
+```
+
+For `--token-mode part`, the default output directory is:
+
+```text
+core/results/flux_part_attention_baseline/<case_uid>/seed_<seed>/
 ```
 
 Each run saves:
@@ -133,6 +148,12 @@ The run matrix is written to:
 
 ```text
 core/results/run_matrices/flux_attention_baseline_matrix.csv
+```
+
+For `--token-mode part`, the default matrix is:
+
+```text
+core/results/run_matrices/flux_part_attention_baseline_matrix.csv
 ```
 
 With `--execute`, the matrix is written automatically. To regenerate only the

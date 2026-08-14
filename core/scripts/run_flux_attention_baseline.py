@@ -54,6 +54,47 @@ def select_records(records: list[dict], case_uids: Iterable[str] | None, limit: 
     return selected
 
 
+def normalize_prompt_text(value: object) -> str:
+    return " ".join(str(value or "").lower().replace("_", " ").replace("-", " ").split())
+
+
+def prompt_contains_term(prompt: object, term: object) -> bool:
+    normalized_prompt = normalize_prompt_text(prompt)
+    normalized_term = normalize_prompt_text(term)
+    if not normalized_term:
+        return False
+    compact_prompt = normalized_prompt.replace(" ", "")
+    compact_term = normalized_term.replace(" ", "")
+    return normalized_term in normalized_prompt or compact_term in compact_prompt
+
+
+def validate_prompt_terms(records: list[dict], token_mode: str) -> None:
+    if token_mode not in {"part", "edit", "part_edit"}:
+        raise ValueError(f"Unknown token_mode: {token_mode}")
+
+    fields_by_mode = {
+        "part": ["part"],
+        "edit": ["edit"],
+        "part_edit": ["part", "edit"],
+    }
+    missing: list[str] = []
+    for record in records:
+        target_prompt = record.get("target_prompt", "")
+        for field in fields_by_mode[token_mode]:
+            if not prompt_contains_term(target_prompt, record.get(field, "")):
+                missing.append(
+                    f"{record.get('case_uid', '<unknown>')}: {field}={record.get(field)!r} "
+                    f"not found in target_prompt={target_prompt!r}"
+                )
+
+    if missing:
+        details = "\n".join(f"- {item}" for item in missing)
+        raise ValueError(
+            f"Selected records are incompatible with token_mode={token_mode}; "
+            f"each target prompt must explicitly contain the requested term(s).\n{details}"
+        )
+
+
 def parse_seeds(value: str) -> list[int]:
     seeds = []
     for raw in value.split(","):
@@ -91,6 +132,7 @@ def format_repro_command(
     front: int,
     inject: int,
     tail_pad: int,
+    token_mode: str,
     offload: bool,
 ) -> str:
     import shlex
@@ -118,6 +160,8 @@ def format_repro_command(
         str(inject),
         "--tail-pad",
         str(tail_pad),
+        "--token-mode",
+        token_mode,
     ]
     if offload:
         parts.append("--offload")
@@ -147,6 +191,7 @@ def build_command(
     front: int,
     inject: int,
     tail_pad: int,
+    token_mode: str,
     offload: bool,
     output_root: Path,
     case_json_path: Path,
@@ -181,6 +226,8 @@ def build_command(
         str(inject),
         "--tail-pad",
         str(tail_pad),
+        "--token-mode",
+        token_mode,
     ]
     if offload:
         args.append("--offload")
@@ -211,6 +258,7 @@ def build_command(
         "front": front,
         "inject": inject,
         "tail_pad": tail_pad,
+        "token_mode": token_mode,
         "offload": offload,
         "repro_command": format_repro_command(
             repo_root=repo_root,
@@ -224,6 +272,7 @@ def build_command(
             front=front,
             inject=inject,
             tail_pad=tail_pad,
+            token_mode=token_mode,
             offload=offload,
         ),
     }
@@ -261,11 +310,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--front", type=int, default=2)
     parser.add_argument("--inject", type=int, default=4)
     parser.add_argument("--tail-pad", type=int, default=1)
+    parser.add_argument(
+        "--token-mode",
+        default="part_edit",
+        choices=["part", "edit", "part_edit"],
+        help="Which target prompt tokens to localize. Use 'part' for where-only localization.",
+    )
     parser.add_argument("--no-offload", action="store_true")
     parser.add_argument(
         "--output-root",
         type=Path,
-        default=default_repo_root / "core" / "results" / "flux_attention_baseline",
+        default=None,
     )
     parser.add_argument("--run-matrix", type=Path, default=None)
     parser.add_argument(
@@ -283,10 +338,24 @@ def main(argv: list[str] | None = None) -> int:
     if not records:
         print("No cases selected.", file=sys.stderr)
         return 2
+    validate_prompt_terms(records, args.token_mode)
 
     seeds = parse_seeds(args.seeds)
-    output_root = args.output_root if args.output_root.is_absolute() else repo_root / args.output_root
-    run_matrix_path = args.run_matrix or repo_root / "core" / "results" / "run_matrices" / "flux_attention_baseline_matrix.csv"
+    if args.output_root is None:
+        output_dir_name = {
+            "part_edit": "flux_attention_baseline",
+            "part": "flux_part_attention_baseline",
+            "edit": "flux_edit_attention_baseline",
+        }[args.token_mode]
+        output_root = repo_root / "core" / "results" / output_dir_name
+    else:
+        output_root = args.output_root if args.output_root.is_absolute() else repo_root / args.output_root
+    run_matrix_name = {
+        "part_edit": "flux_attention_baseline_matrix.csv",
+        "part": "flux_part_attention_baseline_matrix.csv",
+        "edit": "flux_edit_attention_baseline_matrix.csv",
+    }[args.token_mode]
+    run_matrix_path = args.run_matrix or repo_root / "core" / "results" / "run_matrices" / run_matrix_name
 
     commands: list[BaselineCommand] = []
     for record in records:
@@ -305,6 +374,7 @@ def main(argv: list[str] | None = None) -> int:
                     front=args.front,
                     inject=args.inject,
                     tail_pad=args.tail_pad,
+                    token_mode=args.token_mode,
                     offload=not args.no_offload,
                     output_root=output_root,
                     case_json_path=case_json_path,

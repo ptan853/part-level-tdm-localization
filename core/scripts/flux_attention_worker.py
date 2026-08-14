@@ -4,7 +4,7 @@
 This is a diagnostic baseline, not an editing method. It reuses the same
 source-image inversion setup as the FYS pilot, then runs plain target-prompt
 denoising without KV injection and records true softmax attention mass from
-image-token queries to target part/edit text-token keys.
+image-token queries to selected target text-token keys.
 """
 
 from __future__ import annotations
@@ -34,12 +34,20 @@ def find_repo_root(start: Path) -> Path:
 
 REPO_ROOT = find_repo_root(Path(__file__))
 FYS_SRC = REPO_ROOT / "core" / "third_party" / "FollowYourShape" / "src"
-if str(FYS_SRC) not in sys.path:
-    sys.path.insert(0, str(FYS_SRC))
+fys_src_str = str(FYS_SRC)
+sys.path = [path for path in sys.path if path != fys_src_str]
+sys.path.insert(0, fys_src_str)
 
-from flux.math import apply_rope  # noqa: E402
-from flux.sampling import denoise, get_schedule, prepare  # noqa: E402
-from flux.util import configs, load_ae, load_clip, load_flow_model, load_t5  # noqa: E402
+try:
+    from flux.math import apply_rope  # noqa: E402
+    from flux.sampling import denoise, get_schedule, prepare  # noqa: E402
+    from flux.util import configs, load_ae, load_clip, load_flow_model, load_t5  # noqa: E402
+except ModuleNotFoundError as exc:
+    raise ModuleNotFoundError(
+        f"Could not import FollowYourShape's local flux package from {FYS_SRC}. "
+        "Check that the FollowYourShape submodule is initialized and that "
+        "core/third_party/FollowYourShape/src/flux/math.py exists."
+    ) from exc
 
 
 def resolve_repo_path(path_value: str) -> Path:
@@ -86,7 +94,14 @@ def find_subsequence_positions(sequence: list[int], subsequence: list[int]) -> l
     return out
 
 
-def select_target_token_indices(tokenizer, target_prompt: str, part: str, edit: str, max_length: int) -> list[int]:
+def select_target_token_indices(
+    tokenizer,
+    target_prompt: str,
+    part: str,
+    edit: str,
+    max_length: int,
+    token_mode: str,
+) -> list[int]:
     encoding = tokenizer(
         [target_prompt],
         truncation=True,
@@ -98,24 +113,37 @@ def select_target_token_indices(tokenizer, target_prompt: str, part: str, edit: 
     prompt_ids = [int(x) for x in encoding["input_ids"][0].tolist()]
     nonpad = [idx for idx, token_id in enumerate(prompt_ids) if token_id != pad_id]
 
+    phrase_by_mode = {
+        "part": [part],
+        "edit": [edit],
+        "part_edit": [part, edit, f"{edit} {part}"],
+    }
+    if token_mode not in phrase_by_mode:
+        raise ValueError(f"Unknown token_mode: {token_mode}")
+
     selected: list[int] = []
-    for phrase in [edit, part, f"{edit} {part}"]:
+    for phrase in phrase_by_mode[token_mode]:
         selected.extend(find_subsequence_positions(prompt_ids, wordpiece_ids(tokenizer, phrase)))
 
     # SentencePiece sometimes splits differently in context; fall back to token
     # string containment for simple part/edit words.
     if not selected:
         tokens = tokenizer.convert_ids_to_tokens(prompt_ids)
-        needles = [part.lower().replace("_", ""), edit.lower().replace("_", "")]
+        needles = []
+        if token_mode in {"part", "part_edit"}:
+            needles.append(part.lower().replace("_", ""))
+        if token_mode in {"edit", "part_edit"}:
+            needles.append(edit.lower().replace("_", ""))
         for idx in nonpad:
             token = str(tokens[idx]).lower().replace("▁", "").replace("_", "")
             if any(needle and needle in token for needle in needles):
                 selected.append(idx)
 
-    # Final fallback keeps the baseline runnable but records the fallback in
-    # metadata. It uses all non-padding prompt tokens rather than failing.
     if not selected:
-        selected = nonpad
+        raise ValueError(
+            f"No target tokens found for token_mode={token_mode}. "
+            f"part={part!r}, edit={edit!r}, target_prompt={target_prompt!r}"
+        )
 
     return sorted(set(idx for idx in selected if 0 <= idx < max_length))
 
@@ -256,6 +284,12 @@ def main() -> int:
     parser.add_argument("--front", type=int, default=2)
     parser.add_argument("--inject", type=int, default=4)
     parser.add_argument("--tail-pad", type=int, default=1)
+    parser.add_argument(
+        "--token-mode",
+        default="part_edit",
+        choices=["part", "edit", "part_edit"],
+        help="Which target prompt tokens to localize. Use 'part' for where-only localization.",
+    )
     parser.add_argument("--offload", action="store_true")
     args = parser.parse_args()
 
@@ -316,6 +350,7 @@ def main() -> int:
         part=record.get("part", ""),
         edit=record.get("edit", ""),
         max_length=t5.max_length,
+        token_mode=args.token_mode,
     )
     layer_ids = [int(x) for x in args.layers.split(",") if x.strip()]
     num_denoising_steps = len(timesteps) - 1
@@ -366,13 +401,14 @@ def main() -> int:
         "target_prompt": record["target_prompt"],
         "part": record.get("part"),
         "edit": record.get("edit"),
+        "token_mode": args.token_mode,
         "token_indices": token_indices,
         "layer_ids": layer_ids,
         "map_shape": list(attention_map.shape),
         "threshold_method": "otsu",
         "threshold": threshold,
         "binary_mask_area_ratio_patch_grid": float(binary.mean()),
-        "note": "True softmax attention mass from image-token queries to selected target part/edit T5 tokens in late FLUX single-stream blocks; same inverted z as FYS, no KV injection, no oracle mask.",
+        "note": "True softmax attention mass from image-token queries to selected target T5 tokens in late FLUX single-stream blocks; same inverted z as FYS, no KV injection, no oracle mask.",
     }
     (args.output_dir / "run_config.json").write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(metadata, indent=2))
