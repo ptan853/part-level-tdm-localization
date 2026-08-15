@@ -74,7 +74,11 @@ The focused qualitative comparison below shows `real_0010` (`head -> dragon`). T
 - The body becoming partially transparent/restored under gated masks is evidence that the mask has real effect.
 - The remaining global drift is evidence that the target trajectory has already shaped the latent before late-stage masking.
 
-For full mask diagnostics, the repository also includes supporting sheets at `core/results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg`, `core/results/attention_gated_fys_eval/figures/mask_metric_boxplots.png`, and `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part*.jpg`.
+The full qualitative overview below shows all 12 cases at seed 0, including the source, GT part mask, original FYS result, attention-gated outputs, and mask visualizations.
+
+![Full 12-case attention-gated FYS qualitative overview](../results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg)
+
+For additional mask diagnostics, the repository also includes `core/results/attention_gated_fys_eval/figures/mask_metric_boxplots.png` and `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part*.jpg`.
 
 ## Conclusion
 
