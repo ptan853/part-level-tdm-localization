@@ -12,6 +12,8 @@ core/results/**
 !core/results/run_matrices/**
 !core/results/controlled_revision/
 !core/results/controlled_revision/**
+!core/results/attention_gated_fys_eval/
+!core/results/attention_gated_fys_eval/**
 !core/results/attention_gated_tdm/
 !core/results/attention_gated_tdm/**
 core/results/attention_gated_tdm/hybrid_masks/**

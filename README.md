@@ -4,37 +4,48 @@ This repository is a small diagnostic study of part-level controllable image edi
 
 > When an edit targets a local object part, does Follow-Your-Shape's trajectory divergence map (TDM) localize the intended part, or does it expand to a broader object/background region?
 
-The experiment uses a fixed PartEdit-Bench subset with ground-truth part masks, runs Follow-Your-Shape (FYS), and compares FYS-TDM with a simple FLUX target-token attention localization baseline.
+The experiment uses a fixed PartEdit-Bench subset with ground-truth part masks, runs Follow-Your-Shape (FYS), and compares the original FYS-TDM mask with attention-gated TDM variants.
 
 Start with the compact research note: [`core/reports/final_note.md`](core/reports/final_note.md).
 
 ## Key Result
 
-FYS-TDM is useful as an edit-localization signal, but it often over-localizes for part-level edits, especially small parts. A simple FLUX target-token attention signal is often more spatially concentrated.
+FYS-TDM is useful as an edit-localization signal, but it often over-localizes for part-level edits. Attention-gated TDM substantially improves mask localization, but the final edited image is still limited by the FYS control mechanism: target-prompt trajectory changes can accumulate before the late masked KV-injection stage.
 
-| Method                      | Part size |      Binary IoU |         Soft AP | Predicted / GT area |
-| --------------------------- | --------: | --------------: | --------------: | ------------------: |
-| FYS TDM                     |     large | 0.308 +/- 0.138 | 0.371 +/- 0.186 |       3.19 +/- 1.63 |
-| FYS TDM                     |    medium | 0.161 +/- 0.066 | 0.225 +/- 0.133 |       5.40 +/- 2.03 |
-| FYS TDM                     |     small | 0.048 +/- 0.014 | 0.124 +/- 0.086 |     16.98 +/- 10.69 |
-| FLUX target-token attention |     large | 0.425 +/- 0.174 | 0.609 +/- 0.196 |       2.38 +/- 1.26 |
-| FLUX target-token attention |    medium | 0.267 +/- 0.108 | 0.338 +/- 0.146 |       3.43 +/- 1.14 |
-| FLUX target-token attention |     small | 0.240 +/- 0.276 | 0.501 +/- 0.415 |     13.09 +/- 15.09 |
+Mask localization against GT part masks:
+
+| Method | Runs | Binary IoU ↑ | Soft AP ↑ | Predicted / GT area ↓ |
+| --- | ---: | ---: | ---: | ---: |
+| Original FYS-TDM | 36 | 0.174 | 0.247 | 8.04 |
+| Attention-gated FYS, part+edit tokens | 36 | 0.327 | 0.591 | 2.81 |
+| Attention-gated FYS, part-only tokens | 36 | 0.323 | 0.619 | 2.51 |
+
+Edited-image preservation outside the GT part mask:
+
+| Method | Outside L1 ↓ | Outside PSNR ↑ | Outside SSIM ↑ | Outside LPIPS ↓ |
+| --- | ---: | ---: | ---: | ---: |
+| Original FYS-TDM | 0.056 | 20.36 | 0.919 | 0.191 |
+| Attention-gated FYS, part+edit tokens | 0.047 | 21.79 | 0.938 | 0.146 |
+| Attention-gated FYS, part-only tokens | 0.046 | 22.10 | 0.941 | 0.142 |
+
+The three requested seeds are deterministic for this inversion-based pipeline: the 36 command runs correspond to 12 unique case outputs for each method.
 
 ## Visual Examples
 
-Each row shows one representative case: source image, ground-truth part mask, FYS edited image, soft TDM, binary TDM, and FLUX target-token attention.
+The main diagnostic example is `real_0010` (`head -> dragon`): the original TDM expands over the cow body and road, while attention-gated masks focus closer to the head. The edited image still changes more than the head, showing that better masks help but do not strictly constrain FYS's late KV-injection edit.
 
 <div align="center">
-  <a href="core/results/controlled_revision/figures/final_note_mask_quality_comparison.jpg">
-    <img src="core/results/controlled_revision/figures/final_note_mask_quality_comparison.jpg" width="1000" alt="Focused comparison of FYS edits, TDM masks, and FLUX attention masks">
+  <a href="core/results/attention_gated_fys_eval/figures/cow_road_case_analysis.jpg">
+    <img src="core/results/attention_gated_fys_eval/figures/cow_road_case_analysis.jpg" width="1000" alt="Representative cow road attention-gated FYS case analysis">
   </a>
   <br>
   <sub>Click to open full resolution.</sub>
 </div>
 
-Supporting diagnostic sheets for all 36 runs are in:
+Supporting diagnostic sheets are in:
 
+- `core/results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg`
+- `core/results/attention_gated_fys_eval/figures/mask_metric_boxplots.png`
 - `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part1.jpg`
 - `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part2.jpg`
 - `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part3.jpg`
@@ -47,9 +58,11 @@ Supporting diagnostic sheets for all 36 runs are in:
 - `core/scripts/run_fys_pilot.py`: FYS batch runner.
 - `core/scripts/run_flux_attention_baseline.py`: FLUX attention baseline runner.
 - `core/notebooks/03_evaluate_controlled_revision.ipynb`: final evaluation notebook.
+- `core/notebooks/05_evaluate_attention_gated_fys.ipynb`: attention-gated FYS evaluation notebook.
 - `core/results/follow_your_shape/`: FYS edited images, logs, configs, and TDM artifacts.
 - `core/results/flux_attention_baseline/`: attention maps, logs, and configs.
 - `core/results/controlled_revision/`: final metric tables and qualitative figures.
+- `core/results/attention_gated_fys_eval/`: attention-gated FYS metric tables and figures.
 - `core/reports/final_note.md`: compact project note.
 
 Main result tables:
@@ -58,6 +71,9 @@ Main result tables:
 - `core/results/controlled_revision/fys_run_metrics.csv`
 - `core/results/controlled_revision/flux_attention_metrics.csv`
 - `core/results/controlled_revision/compact_fys_summary.csv`
+- `core/results/attention_gated_fys_eval/attention_gated_fys_summary.csv`
+- `core/results/attention_gated_fys_eval/mask_localization_metrics.csv`
+- `core/results/attention_gated_fys_eval/image_preservation_metrics.csv`
 
 ## Methods
 
@@ -68,6 +84,10 @@ FYS is run with `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `in
 ### FLUX Target-Token Attention
 
 The baseline runs plain target-prompt FLUX denoising from the same inverted latent, without FYS KV injection or oracle masks. It records softmax attention mass from image-token queries to selected target part/edit T5 tokens in late single-stream blocks `28-37`, over step indices `2-8` of the 15-step schedule. The maps are averaged over tokens, heads, layers, and steps, reshaped to the `32 x 32` image-token grid, smoothed, and binarized with Otsu thresholding. This is a localization-only diagnostic baseline, not an editing method.
+
+### Attention-Gated FYS
+
+Attention-gated FYS keeps the same inversion, target denoising, and late KV-injection schedule as FYS, but replaces the final binary TDM mask with a TDM-attention hybrid mask. The hybrid is formed by normalizing the smoothed TDM and the target-token attention map, multiplying them as a soft gate, smoothing the product, and binarizing with Otsu thresholding. I evaluate both `part+edit` token attention and `part`-only token attention. The current repo excludes the attempted oracle-mask run because the original code path gives priority to the internally computed `edit_map`; it is not a clean GT-mask oracle.
 
 ## Reproduce
 
@@ -156,12 +176,29 @@ python core/scripts/run_flux_attention_baseline.py \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
   --seeds 0,1,2 \
   --execute
+
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0,1,2 \
+  --tdm-mask-mode attention_gated \
+  --attention-token-mode part_edit \
+  --execute
+
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0,1,2 \
+  --tdm-mask-mode attention_gated \
+  --attention-token-mode part \
+  --output-root core/results/fys_mask_ablation/attention_gated_tdm_part \
+  --run-matrix core/results/run_matrices/attention_gated_part_pilot_12_manifest_multi_seed.csv \
+  --execute
 ```
 
 Run evaluation:
 
 ```bash
 python -m jupyter nbconvert --execute --to notebook --inplace core/notebooks/03_evaluate_controlled_revision.ipynb
+python -m jupyter nbconvert --execute --to notebook --inplace core/notebooks/05_evaluate_attention_gated_fys.ipynb
 ```
 
 ## Metrics

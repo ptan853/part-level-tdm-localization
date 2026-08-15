@@ -105,11 +105,18 @@ def build_fys_command(
     inject: int,
     offload: bool,
     controlnet_type: str,
+    tdm_mask_mode: str = "original",
+    attention_token_mode: str = "part_edit",
+    attention_layers: str = "28,29,30,31,32,33,34,35,36,37",
+    output_root: Path | None = None,
 ) -> FysCommand:
     case_uid = record["case_uid"]
     run_uid = case_uid if seed is None else f"{case_uid}_seed_{seed:03d}"
     source_image = resolve_repo_path(repo_root, record["source_image"])
-    base_output_dir = resolve_repo_path(repo_root, record["follow_your_shape_output_dir"])
+    if output_root is None:
+        base_output_dir = resolve_repo_path(repo_root, record["follow_your_shape_output_dir"])
+    else:
+        base_output_dir = output_root / case_uid
     output_dir = base_output_dir / f"seed_{seed:03d}" if seed is not None and seed_subdirs else base_output_dir
     vis_path = output_dir / "tdm"
     feature_path = output_dir / "features"
@@ -150,6 +157,21 @@ def build_fys_command(
         args.append("--offload")
     if use_oracle_mask:
         args.extend(["--mask_path", str(resolve_repo_path(repo_root, record["gt_mask"]))])
+    if tdm_mask_mode != "original":
+        args.extend(
+            [
+                "--tdm_mask_mode",
+                tdm_mask_mode,
+                "--attention_token_mode",
+                attention_token_mode,
+                "--attention_part",
+                str(record.get("part", "")),
+                "--attention_edit",
+                str(record.get("edit", "")),
+                "--attention_layers",
+                attention_layers,
+            ]
+        )
 
     run_config = {
         "run_uid": run_uid,
@@ -182,6 +204,11 @@ def build_fys_command(
         "offload": offload,
         "controlnet_type": controlnet_type,
         "use_oracle_mask": use_oracle_mask,
+        "tdm_mask_mode": tdm_mask_mode,
+        "attention_token_mode": attention_token_mode if tdm_mask_mode != "original" else None,
+        "attention_part": record.get("part") if tdm_mask_mode != "original" else None,
+        "attention_edit": record.get("edit") if tdm_mask_mode != "original" else None,
+        "attention_layers": attention_layers if tdm_mask_mode != "original" else None,
     }
 
     return FysCommand(
@@ -291,6 +318,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--inject", type=int, default=4)
     parser.add_argument("--no-offload", action="store_true", help="Do not pass --offload.")
     parser.add_argument("--controlnet-type", default="none", choices=["none", "single", "multi"])
+    parser.add_argument("--tdm-mask-mode", default="original", choices=["original", "attention_gated"])
+    parser.add_argument("--attention-token-mode", default="part_edit", choices=["part", "edit", "part_edit"])
+    parser.add_argument("--attention-layers", default="28,29,30,31,32,33,34,35,36,37")
+    parser.add_argument(
+        "--output-root",
+        type=Path,
+        default=None,
+        help="Optional output root. Defaults to manifest output for original mode and an ablation root for attention-gated mode.",
+    )
     return parser.parse_args(argv)
 
 
@@ -303,6 +339,9 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     seeds = parse_seeds(args.seeds)
+    output_root = args.output_root
+    if output_root is None and args.tdm_mask_mode != "original":
+        output_root = repo_root / "core" / "results" / "fys_mask_ablation" / "attention_gated_tdm"
     commands = []
     for record in records:
         for seed in seeds:
@@ -321,13 +360,18 @@ def main(argv: list[str] | None = None) -> int:
                     inject=args.inject,
                     offload=not args.no_offload,
                     controlnet_type=args.controlnet_type,
+                    tdm_mask_mode=args.tdm_mask_mode,
+                    attention_token_mode=args.attention_token_mode,
+                    attention_layers=args.attention_layers,
+                    output_root=output_root,
                 )
             )
 
     run_matrix_path = args.run_matrix
     if run_matrix_path is None:
         suffix = "single_seed" if args.seeds is None else "multi_seed"
-        run_matrix_path = repo_root / "core" / "results" / "run_matrices" / f"{args.manifest.stem}_{suffix}.csv"
+        mode_prefix = "" if args.tdm_mask_mode == "original" else f"{args.tdm_mask_mode}_{args.attention_token_mode}_"
+        run_matrix_path = repo_root / "core" / "results" / "run_matrices" / f"{mode_prefix}{args.manifest.stem}_{suffix}.csv"
     should_write_matrix = args.execute or args.write_run_matrix or args.run_matrix is not None
     if should_write_matrix:
         write_run_matrix(run_matrix_path, commands, repo_root)

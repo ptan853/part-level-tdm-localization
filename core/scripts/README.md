@@ -48,16 +48,52 @@ Run a specific case:
 python core/scripts/run_fys_pilot.py --case-uid real_0008 --execute
 ```
 
-Run the oracle-mask variant:
+Run the original `--mask_path` path for debugging only:
 
 ```bash
 python core/scripts/run_fys_pilot.py --case-uid real_0008 --oracle-mask --execute
+```
+
+This is not reported as a clean GT-mask oracle in the final note because the
+original FYS code path still prioritizes the internally computed `edit_map` for
+the injected layers.
+
+Preview the attention-gated TDM variant without launching the model:
+
+```bash
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0 \
+  --limit 1 \
+  --tdm-mask-mode attention_gated \
+  --attention-token-mode part_edit
+```
+
+Run one attention-gated TDM smoke test on a GPU machine:
+
+```bash
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0 \
+  --limit 1 \
+  --tdm-mask-mode attention_gated \
+  --attention-token-mode part_edit \
+  --execute
 ```
 
 The runner reads `core/data/partedit_subset/pilot_manifest.json` by default,
 writes model outputs under `core/results/follow_your_shape/`, and keeps a
 `run.log` per case. When `--seeds` is provided, each run is written to a
 separate `seed_XXX` directory and gets its own `run_config.json`.
+
+The default `--tdm-mask-mode original` keeps the original Follow-Your-Shape
+behavior. `--tdm-mask-mode attention_gated` computes the original TDM and a
+target-token attention map on the same middle denoising steps, uses
+`normalize(TDM) * normalize(attention)` as the localization score, binarizes it
+with Otsu thresholding, and uses that selected mask for Stage 3 KV injection.
+Attention-gated outputs are written to
+`core/results/fys_mask_ablation/attention_gated_tdm/` by default, so original
+FYS outputs are not overwritten.
 
 With `--execute`, the runner also writes a command/config matrix to
 `core/results/run_matrices/<manifest>_multi_seed.csv`. To write the matrix

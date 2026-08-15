@@ -9,6 +9,7 @@ Follow-Your-Shape is added as a git submodule:
 - Local path: `core/third_party/FollowYourShape`
 - Fork URL: https://github.com/ptan853/FollowYourShape.git
 - Upstream URL: https://github.com/mayuelala/FollowYourShape
-- Pinned commit: `a323456378b0e70f0368c713d4a343c5a41d5a21`
+- Pinned commit: `1d01f0d3a5fde5c11e8630808d1d59243894625d`
 
-The submodule contains the FYS edits needed for fixed seeds and TDM artifact export.
+The submodule contains the FYS edits needed for fixed seeds, TDM artifact export,
+and attention-gated TDM mask injection.
