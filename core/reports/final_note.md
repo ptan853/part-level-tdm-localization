@@ -78,11 +78,23 @@ The focused qualitative comparison below shows `real_0010` (`head -> dragon`). T
 - The body becoming partially transparent/restored under gated masks is evidence that the mask has real effect.
 - The remaining global drift is evidence that the target trajectory has already shaped the latent before late-stage masking.
 
-The full qualitative overview below shows all 12 cases at seed 0, including the source, GT part mask, original FYS result, attention-gated outputs, and mask visualizations.
+The full qualitative overview is split into three panels below so that the generated images and masks remain readable. Together they show all 12 cases at seed 0, including the source, GT part mask, original FYS result, attention-gated outputs, and mask visualizations.
 
 <p align="center">
-  <a href="../results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg">
-    <img src="../results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg" width="100%" alt="Full 12-case attention-gated FYS qualitative overview">
+  <a href="../results/attention_gated_fys_eval/figures/attention_gated_fys_overview_part1.jpg">
+    <img src="../results/attention_gated_fys_eval/figures/attention_gated_fys_overview_part1.jpg" width="100%" alt="Attention-gated FYS qualitative overview part 1">
+  </a>
+</p>
+
+<p align="center">
+  <a href="../results/attention_gated_fys_eval/figures/attention_gated_fys_overview_part2.jpg">
+    <img src="../results/attention_gated_fys_eval/figures/attention_gated_fys_overview_part2.jpg" width="100%" alt="Attention-gated FYS qualitative overview part 2">
+  </a>
+</p>
+
+<p align="center">
+  <a href="../results/attention_gated_fys_eval/figures/attention_gated_fys_overview_part3.jpg">
+    <img src="../results/attention_gated_fys_eval/figures/attention_gated_fys_overview_part3.jpg" width="100%" alt="Attention-gated FYS qualitative overview part 3">
   </a>
 </p>
 
