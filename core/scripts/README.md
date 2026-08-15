@@ -48,11 +48,15 @@ Run a specific case:
 python core/scripts/run_fys_pilot.py --case-uid real_0008 --execute
 ```
 
-Run the oracle-mask variant:
+Run the original `--mask_path` path for debugging only:
 
 ```bash
 python core/scripts/run_fys_pilot.py --case-uid real_0008 --oracle-mask --execute
 ```
+
+This is not reported as a clean GT-mask oracle in the final note because the
+original FYS code path still prioritizes the internally computed `edit_map` for
+the injected layers.
 
 Preview the attention-gated TDM variant without launching the model:
 

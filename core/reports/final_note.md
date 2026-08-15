@@ -18,7 +18,7 @@ I used a fixed PartEdit-Bench subset of 12 cases, balanced by target part size: 
 
 because the original changed prompt can imply whole-object replacement.
 
-The FYS configuration is fixed as `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `inject=4`, no ControlNet, no oracle mask, and offload enabled. The pinned Follow-Your-Shape submodule revision is `a323456378b0e70f0368c713d4a343c5a41d5a21`. The three seed commands are retained for reproducibility, but the inversion-based FYS path is deterministic in this setup: each method gives 12 unique case outputs from 36 command runs.
+The FYS configuration is fixed as `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `inject=4`, no ControlNet, no oracle mask, and offload enabled. The pinned Follow-Your-Shape submodule revision is `1d01f0d3a5fde5c11e8630808d1d59243894625d`. The three seed commands are retained for reproducibility, but the inversion-based FYS path is deterministic in this setup: each method gives 12 unique case outputs from 36 command runs.
 
 ## Baseline And Variant
 

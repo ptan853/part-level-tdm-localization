@@ -11,7 +11,7 @@
     "controlnet_type": "none",
     "offload": true,
     "oracle_mask": false,
-    "submodule_revision": "a323456378b0e70f0368c713d4a343c5a41d5a21"
+    "submodule_revision": "1d01f0d3a5fde5c11e8630808d1d59243894625d"
   },
   "outputs": {
     "root": "core/results/follow_your_shape",
@@ -28,11 +28,16 @@
       "soft_inside_gt_mass"
     ],
     "edit_and_preservation": [
-      "human_local_edit_success_0_2",
-      "outside_mask_ssim",
-      "outside_mask_lpips_or_l1_proxy",
-      "failure_category"
+      "outside_mask_l1",
+      "outside_mask_psnr",
+      "outside_mask_global_ssim",
+      "outside_mask_lpips"
     ],
-    "baseline": "simple_flux_attention_localization"
+    "baseline": "flux_target_token_attention_localization",
+    "variants": [
+      "original_fys_tdm",
+      "attention_gated_tdm_part_edit",
+      "attention_gated_tdm_part"
+    ]
   }
 }
