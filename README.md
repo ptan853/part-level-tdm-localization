@@ -32,18 +32,20 @@ The three requested seeds are deterministic for this inversion-based pipeline: t
 
 ## Visual Examples
 
-Each row shows one representative case: source image, ground-truth part mask, original FYS output, attention-gated outputs, and the masks used for comparison.
+The main diagnostic example is `real_0010` (`head -> dragon`): the original TDM expands over the cow body and road, while attention-gated masks focus closer to the head. The edited image still changes more than the head, showing that better masks help but do not strictly constrain FYS's late KV-injection edit.
 
 <div align="center">
-  <a href="core/results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg">
-    <img src="core/results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg" width="1000" alt="Attention-gated FYS qualitative comparison">
+  <a href="core/results/attention_gated_fys_eval/figures/cow_road_case_analysis.jpg">
+    <img src="core/results/attention_gated_fys_eval/figures/cow_road_case_analysis.jpg" width="1000" alt="Representative cow road attention-gated FYS case analysis">
   </a>
   <br>
   <sub>Click to open full resolution.</sub>
 </div>
 
-Supporting diagnostic sheets for all 36 runs are in:
+Supporting diagnostic sheets are in:
 
+- `core/results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg`
+- `core/results/attention_gated_fys_eval/figures/mask_metric_boxplots.png`
 - `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part1.jpg`
 - `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part2.jpg`
 - `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part3.jpg`

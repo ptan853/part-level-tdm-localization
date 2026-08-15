@@ -66,16 +66,15 @@ However, better masks do not fully solve the editing problem. In difficult cases
 
 ## Representative Cases
 
-The focused qualitative comparison below shows representative cases. Each row includes the source image, GT part mask, original FYS output, attention-gated outputs, and the masks used for comparison. This view is intended to make both image quality and localization-mask differences visible.
+The focused qualitative comparison below shows `real_0010` (`head -> dragon`). The original TDM expands over the cow body and road, while attention-gated masks focus closer to the head. The gated output partially restores non-target cow/street appearance, but the final edit remains globally affected. This supports the main interpretation: better masks help localization, but FYS's late masked KV injection is not a hard local-edit constraint.
 
-![Attention-gated FYS qualitative comparison](../results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg)
+![Representative cow road attention-gated FYS case analysis](../results/attention_gated_fys_eval/figures/cow_road_case_analysis.jpg)
 
-- `real_0009_seed_002`: best FYS localization, a large car-body edit.
-- `real_0006_seed_000`: worst FYS over-localization, a small head edit.
-- `real_0003_seed_000`: weak FYS localization, where FLUX target-token attention is much sharper.
-- `real_0004_seed_000`: possible preservation drift, selected by lowest outside-mask SSIM.
+- `real_0010_seed_000`: original FYS IoU `0.10`; gated part+edit IoU `0.40`; gated part-only IoU `0.41`.
+- The body becoming partially transparent/restored under gated masks is evidence that the mask has real effect.
+- The remaining global drift is evidence that the target trajectory has already shaped the latent before late-stage masking.
 
-For full mask diagnostics, the repository also includes supporting sheets at `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part*.jpg` and `core/results/attention_gated_fys_eval/figures/`.
+For full mask diagnostics, the repository also includes supporting sheets at `core/results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg`, `core/results/attention_gated_fys_eval/figures/mask_metric_boxplots.png`, and `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part*.jpg`.
 
 ## Conclusion
 
