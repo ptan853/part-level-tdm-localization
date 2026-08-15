@@ -68,7 +68,11 @@ However, better masks do not fully solve the editing problem. In difficult cases
 
 The focused qualitative comparison below shows `real_0010` (`head -> dragon`). The original TDM expands over the cow body and road, while attention-gated masks focus closer to the head. The gated output partially restores non-target cow/street appearance, but the final edit remains globally affected. This supports the main interpretation: better masks help localization, but FYS's late masked KV injection is not a hard local-edit constraint.
 
-![Representative cow road attention-gated FYS case analysis](../results/attention_gated_fys_eval/figures/cow_road_case_analysis.jpg)
+<p align="center">
+  <a href="../results/attention_gated_fys_eval/figures/cow_road_case_analysis.jpg">
+    <img src="../results/attention_gated_fys_eval/figures/cow_road_case_analysis.jpg" width="100%" alt="Representative cow road attention-gated FYS case analysis">
+  </a>
+</p>
 
 - `real_0010_seed_000`: original FYS IoU `0.10`; gated part+edit IoU `0.40`; gated part-only IoU `0.41`.
 - The body becoming partially transparent/restored under gated masks is evidence that the mask has real effect.
@@ -76,7 +80,11 @@ The focused qualitative comparison below shows `real_0010` (`head -> dragon`). T
 
 The full qualitative overview below shows all 12 cases at seed 0, including the source, GT part mask, original FYS result, attention-gated outputs, and mask visualizations.
 
-![Full 12-case attention-gated FYS qualitative overview](../results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg)
+<p align="center">
+  <a href="../results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg">
+    <img src="../results/attention_gated_fys_eval/figures/attention_gated_fys_case_sheet_seed0.jpg" width="100%" alt="Full 12-case attention-gated FYS qualitative overview">
+  </a>
+</p>
 
 For additional mask diagnostics, the repository also includes `core/results/attention_gated_fys_eval/figures/mask_metric_boxplots.png` and `core/results/controlled_revision/figures/tdm_diagnostic_sheet_part*.jpg`.
 
