@@ -28,17 +28,27 @@ The main tested variant is attention-gated FYS. It keeps the original FYS invers
 
 ## Metrics
 
-Localization is evaluated against the PartEdit ground-truth part mask using *binary IoU, soft AP, predicted/GT area ratio*, and *soft inside-GT mass.* Editing and preservation are evaluated for generated images using *outside-mask L1, PSNR, SSIM,* and optional *LPIPS*. The FLUX attention baseline is localization-only, so image-preservation metrics are not applicable to that baseline.
+Localization is evaluated against the PartEdit ground-truth part mask using *binary IoU, soft AP, predicted/GT area ratio*, and *soft inside-GT mass.* Editing and preservation are evaluated for generated images using *outside-mask L1, PSNR, SSIM,* and *LPIPS*. The FLUX attention baseline is localization-only, so image-preservation metrics are not applicable to that baseline.
 
 ## Results
 
-Main quantitative comparison for the editing methods:
+Main quantitative comparison for the editing methods.
 
-| Method | Runs | Binary IoU | Soft AP | Predicted / GT area | Outside SSIM |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Original FYS-TDM | 36 | 0.174 | 0.247 | 8.04 | 0.919 |
-| Attention-gated FYS, part+edit tokens | 36 | 0.327 | 0.591 | 2.81 | 0.938 |
-| Attention-gated FYS, part-only tokens | 36 | 0.323 | 0.619 | 2.51 | 0.941 |
+Mask localization against GT part masks:
+
+| Method | Runs | Binary IoU ↑ | Soft AP ↑ | Predicted / GT area ↓ |
+| --- | ---: | ---: | ---: | ---: |
+| Original FYS-TDM | 36 | 0.174 | 0.247 | 8.04 |
+| Attention-gated FYS, part+edit tokens | 36 | 0.327 | 0.591 | 2.81 |
+| Attention-gated FYS, part-only tokens | 36 | 0.323 | 0.619 | 2.51 |
+
+Edited-image preservation outside the GT part mask:
+
+| Method | Outside L1 ↓ | Outside PSNR ↑ | Outside SSIM ↑ | Outside LPIPS ↓ |
+| --- | ---: | ---: | ---: | ---: |
+| Original FYS-TDM | 0.056 | 20.36 | 0.919 | 0.191 |
+| Attention-gated FYS, part+edit tokens | 0.047 | 21.79 | 0.938 | 0.146 |
+| Attention-gated FYS, part-only tokens | 0.046 | 22.10 | 0.941 | 0.142 |
 
 Full tables:
 

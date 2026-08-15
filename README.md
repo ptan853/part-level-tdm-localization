@@ -12,11 +12,21 @@ Start with the compact research note: [`core/reports/final_note.md`](core/report
 
 FYS-TDM is useful as an edit-localization signal, but it often over-localizes for part-level edits. Attention-gated TDM substantially improves mask localization, but the final edited image is still limited by the FYS control mechanism: target-prompt trajectory changes can accumulate before the late masked KV-injection stage.
 
-| Method | Runs | Binary IoU | Soft AP | Predicted / GT area | Outside SSIM |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Original FYS-TDM | 36 | 0.174 | 0.247 | 8.04 | 0.919 |
-| Attention-gated FYS, part+edit tokens | 36 | 0.327 | 0.591 | 2.81 | 0.938 |
-| Attention-gated FYS, part-only tokens | 36 | 0.323 | 0.619 | 2.51 | 0.941 |
+Mask localization against GT part masks:
+
+| Method | Runs | Binary IoU ↑ | Soft AP ↑ | Predicted / GT area ↓ |
+| --- | ---: | ---: | ---: | ---: |
+| Original FYS-TDM | 36 | 0.174 | 0.247 | 8.04 |
+| Attention-gated FYS, part+edit tokens | 36 | 0.327 | 0.591 | 2.81 |
+| Attention-gated FYS, part-only tokens | 36 | 0.323 | 0.619 | 2.51 |
+
+Edited-image preservation outside the GT part mask:
+
+| Method | Outside L1 ↓ | Outside PSNR ↑ | Outside SSIM ↑ | Outside LPIPS ↓ |
+| --- | ---: | ---: | ---: | ---: |
+| Original FYS-TDM | 0.056 | 20.36 | 0.919 | 0.191 |
+| Attention-gated FYS, part+edit tokens | 0.047 | 21.79 | 0.938 | 0.146 |
+| Attention-gated FYS, part-only tokens | 0.046 | 22.10 | 0.941 | 0.142 |
 
 The three requested seeds are deterministic for this inversion-based pipeline: the 36 command runs correspond to 12 unique case outputs for each method.
 
