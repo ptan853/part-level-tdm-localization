@@ -36,19 +36,19 @@ Main quantitative comparison for the editing methods.
 
 Mask localization against GT part masks:
 
-| Method | Runs | Binary IoU ↑ | Soft AP ↑ | Predicted / GT area ↓ |
-| --- | ---: | ---: | ---: | ---: |
-| Original FYS-TDM | 36 | 0.174 | 0.247 | 8.04 |
-| Attention-gated FYS, part+edit tokens | 36 | 0.327 | 0.591 | 2.81 |
-| Attention-gated FYS, part-only tokens | 36 | 0.323 | 0.619 | 2.51 |
+| Method                                | Runs | Binary IoU ↑ | Soft AP ↑ | Predicted / GT area ↓ |
+| ------------------------------------- | ---: | ------------: | ---------: | ---------------------: |
+| Original FYS-TDM                      |   36 |         0.174 |      0.247 |                   8.04 |
+| Attention-gated FYS, part+edit tokens |   36 |         0.327 |      0.591 |                   2.81 |
+| Attention-gated FYS, part-only tokens |   36 |         0.323 |      0.619 |                   2.51 |
 
 Edited-image preservation outside the GT part mask:
 
-| Method | Outside L1 ↓ | Outside PSNR ↑ | Outside SSIM ↑ | Outside LPIPS ↓ |
-| --- | ---: | ---: | ---: | ---: |
-| Original FYS-TDM | 0.056 | 20.36 | 0.919 | 0.191 |
-| Attention-gated FYS, part+edit tokens | 0.047 | 21.79 | 0.938 | 0.146 |
-| Attention-gated FYS, part-only tokens | 0.046 | 22.10 | 0.941 | 0.142 |
+| Method                                | Outside L1 ↓ | Outside PSNR ↑ | Outside SSIM ↑ | Outside LPIPS ↓ |
+| ------------------------------------- | ------------: | --------------: | --------------: | ---------------: |
+| Original FYS-TDM                      |         0.056 |           20.36 |           0.919 |            0.191 |
+| Attention-gated FYS, part+edit tokens |         0.047 |           21.79 |           0.938 |            0.146 |
+| Attention-gated FYS, part-only tokens |         0.046 |           22.10 |           0.941 |            0.142 |
 
 Full tables:
 
@@ -102,4 +102,4 @@ For additional mask diagnostics, the repository also includes `core/results/atte
 
 ## Conclusion
 
-The controlled revision supports a concrete technical gap: trajectory-guided mask-free editing remains useful for object-level control, but its TDM can be too coarse for part-level edits. Token-aware attention can sharpen the mask, but sharper masks alone do not guarantee local preservation under the current FYS injection schedule. A useful next direction is therefore not simply "better mask extraction"; it is earlier or stronger trajectory control using a token-aware, interpretable localization signal.
+The controlled revision supports a concrete technical gap: trajectory-guided mask-free editing remains useful for object-level control, but its TDM can be too coarse for part-level edits. Token-aware attention can sharpen the mask, but sharper masks alone do not guarantee local preservation under the current FYS injection schedule.
