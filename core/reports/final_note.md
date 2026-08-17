@@ -71,6 +71,28 @@ However, better masks do not fully solve the editing problem. In difficult cases
 
 Compact per-case local-edit assessment:
 
+| Method | Unique outputs | Mean local edit success ↑ | Mean non-target preservation ↑ | Full local-edit cases | Full preservation cases |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Original FYS-TDM | 12 | 1.00 | 0.92 | 5 / 12 | 2 / 12 |
+| Attention-gated FYS, part+edit tokens | 12 | 1.08 | 1.50 | 5 / 12 | 6 / 12 |
+| Attention-gated FYS, part-only tokens | 12 | 1.00 | 1.50 | 5 / 12 | 6 / 12 |
+
+This human assessment separates two effects that are partially conflated in automatic image metrics. Attention-gated masks improve non-target preservation substantially, but they do not reliably improve the semantic success of the requested part edit. The part+edit variant gives only a small average gain in local edit success (`1.08` vs. `1.00`), while part-only matches the original FYS local-edit score. This suggests that the main benefit of attention gating is spatial preservation, not stronger semantic editing.
+
+By target part size:
+
+| Part size | Method | Mean local edit success ↑ | Mean non-target preservation ↑ |
+| --- | --- | ---: | ---: |
+| Small | Original FYS-TDM | 0.75 | 1.25 |
+| Small | Attention-gated FYS, part+edit tokens | 0.75 | 1.50 |
+| Small | Attention-gated FYS, part-only tokens | 0.75 | 1.50 |
+| Medium | Original FYS-TDM | 1.00 | 1.00 |
+| Medium | Attention-gated FYS, part+edit tokens | 1.00 | 1.50 |
+| Medium | Attention-gated FYS, part-only tokens | 1.00 | 1.50 |
+| Large | Original FYS-TDM | 1.25 | 0.50 |
+| Large | Attention-gated FYS, part+edit tokens | 1.50 | 1.50 |
+| Large | Attention-gated FYS, part-only tokens | 1.25 | 1.50 |
+
 | Case | Part edit | Original FYS local / preserve | Gated part+edit local / preserve | Gated part-only local / preserve | Note |
 | --- | --- | ---: | ---: | ---: | --- |
 | `real_0006` | `head -> alien` | `1 / 1` | `1 / 1` | `1 / 1` | Gating preserves the person and background better, but the alien-head edit is mostly suppressed. |
@@ -86,7 +108,7 @@ Compact per-case local-edit assessment:
 | `real_0005` | `head -> dog` | `1 / 0` | `1 / 2` | `1 / 2` | Bear body/background are preserved, but dog-head semantics remain partial. |
 | `real_0009` | `carbody -> rusted` | `0 / 1` | `1 / 2` | `0 / 2` | The car body is preserved better under gating, but the rusted-body edit is weak. |
 
-The full CSV version is saved at `core/results/attention_gated_fys_eval/local_edit_success_per_case.csv`.
+The full CSV version is saved at `core/results/attention_gated_fys_eval/local_edit_success_per_case.csv`, and the compact summary is saved at `core/results/attention_gated_fys_eval/local_edit_success_summary.csv`.
 
 ## Representative Cases
 
@@ -126,4 +148,4 @@ For additional mask diagnostics, the repository also includes `core/results/atte
 
 ## Conclusion
 
-The controlled revision supports a concrete technical gap: trajectory-guided mask-free editing remains useful for object-level control, but its TDM can be too coarse for part-level edits. Token-aware attention can sharpen the mask, but sharper masks alone do not guarantee local preservation under the current FYS injection schedule.
+The controlled revision supports a concrete technical gap: trajectory-guided mask-free editing remains useful for object-level control, but its TDM can be too coarse for part-level edits. Token-aware attention can sharpen the mask and improve non-target preservation, but sharper masks alone do not guarantee stronger semantic part editing under the current FYS injection schedule.

@@ -1,0 +1,4 @@
+method,unique_outputs,mean_local_edit_success_0_2,mean_non_target_preservation_0_2,full_local_edit_cases_2_2,full_preservation_cases_2_2
+Original FYS-TDM,12,1.00,0.92,5,2
+Attention-gated FYS part+edit,12,1.08,1.50,5,6
+Attention-gated FYS part-only,12,1.00,1.50,5,6

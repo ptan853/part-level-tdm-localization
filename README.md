@@ -74,6 +74,8 @@ Main result tables:
 - `core/results/attention_gated_fys_eval/attention_gated_fys_summary.csv`
 - `core/results/attention_gated_fys_eval/mask_localization_metrics.csv`
 - `core/results/attention_gated_fys_eval/image_preservation_metrics.csv`
+- `core/results/attention_gated_fys_eval/local_edit_success_summary.csv`
+- `core/results/attention_gated_fys_eval/local_edit_success_per_case.csv`
 
 ## Methods
 
