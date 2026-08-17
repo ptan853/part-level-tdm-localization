@@ -14,11 +14,11 @@ FYS-TDM is useful as an edit-localization signal, but it often over-localizes fo
 
 Mask localization against GT part masks:
 
-| Method | Runs | Binary IoU ↑ | Soft AP ↑ | Predicted / GT area ↓ |
-| --- | ---: | ---: | ---: | ---: |
-| Original FYS-TDM | 36 | 0.174 | 0.247 | 8.04 |
-| Attention-gated FYS, part+edit tokens | 36 | 0.327 | 0.591 | 2.81 |
-| Attention-gated FYS, part-only tokens | 36 | 0.323 | 0.619 | 2.51 |
+| Method | Command runs | Unique outputs | Binary IoU ↑ | Soft AP ↑ | Predicted / GT area ↓ |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Original FYS-TDM | 36 | 12 | 0.174 | 0.247 | 8.04 |
+| Attention-gated FYS, part+edit tokens | 36 | 12 | 0.327 | 0.591 | 2.81 |
+| Attention-gated FYS, part-only tokens | 36 | 12 | 0.323 | 0.619 | 2.51 |
 
 Edited-image preservation outside the GT part mask:
 
@@ -28,7 +28,7 @@ Edited-image preservation outside the GT part mask:
 | Attention-gated FYS, part+edit tokens | 0.047 | 21.79 | 0.938 | 0.146 |
 | Attention-gated FYS, part-only tokens | 0.046 | 22.10 | 0.941 | 0.142 |
 
-The three requested seeds are deterministic for this inversion-based pipeline: the 36 command runs correspond to 12 unique case outputs for each method.
+The three requested seeds are deterministic for this inversion-based pipeline: the 36 command runs correspond to 12 unique case outputs for each method, so repeated seed rows are not treated as independent samples.
 
 ## Visual Examples
 
@@ -79,7 +79,7 @@ Main result tables:
 
 ### Follow-Your-Shape TDM
 
-FYS is run with `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `inject=4`, no ControlNet, no oracle mask, and offload enabled. Each case is run with seeds `0, 1, 2`.
+FYS is run with `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `inject=4`, no ControlNet, no oracle mask, and offload enabled. Each case is executed with seeds `0, 1, 2`; in this inversion-based path, the outputs are deterministic, so metrics are reported as 12 unique case outputs per method.
 
 ### FLUX Target-Token Attention
 

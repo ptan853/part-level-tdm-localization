@@ -10,7 +10,7 @@ The motivating gap is that Follow-Your-Shape is effective for shape-aware object
 
 ## Experimental Setup
 
-I used a fixed PartEdit-Bench subset of 12 cases, balanced by target part size: 4 small, 4 medium, and 4 large cases. Each case was run with three fixed seeds, `0, 1, 2`, for 36 Follow-Your-Shape runs. The target prompt uses PartEdit's part-aware `p2p_prompt`, such as
+I used a fixed PartEdit-Bench subset of 12 cases, balanced by target part size: 4 small, 4 medium, and 4 large cases. Each case was executed with three fixed seeds, `0, 1, 2`, giving 36 command runs per method. In this inversion-based FYS path, the outputs are deterministic, so I report the results as 12 unique case outputs per method rather than treating repeated seed rows as independent samples. The target prompt uses PartEdit's part-aware `p2p_prompt`, such as
 
 ```
 "a dog with bear head standing in a field with grass and water"
@@ -18,7 +18,7 @@ I used a fixed PartEdit-Bench subset of 12 cases, balanced by target part size: 
 
 because the original changed prompt can imply whole-object replacement.
 
-The FYS configuration is fixed as `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `inject=4`, no ControlNet, no oracle mask, and offload enabled. The pinned Follow-Your-Shape submodule revision is `1d01f0d3a5fde5c11e8630808d1d59243894625d`. The three seed commands are retained for reproducibility, but the inversion-based FYS path is deterministic in this setup: each method gives 12 unique case outputs from 36 command runs.
+The FYS configuration is fixed as `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `inject=4`, no ControlNet, no oracle mask, and offload enabled. The pinned Follow-Your-Shape submodule revision is `1d01f0d3a5fde5c11e8630808d1d59243894625d`.
 
 ## Baseline And Variant
 
@@ -41,11 +41,11 @@ Main quantitative comparison for the editing methods.
 
 Mask localization against GT part masks:
 
-| Method                                | Runs | Binary IoU ↑ | Soft AP ↑ | Predicted / GT area ↓ |
-| ------------------------------------- | ---: | ------------: | ---------: | ---------------------: |
-| Original FYS-TDM                      |   36 |         0.174 |      0.247 |                   8.04 |
-| Attention-gated FYS, part+edit tokens |   36 |         0.327 |      0.591 |                   2.81 |
-| Attention-gated FYS, part-only tokens |   36 |         0.323 |      0.619 |                   2.51 |
+| Method                                | Command runs | Unique outputs | Binary IoU ↑ | Soft AP ↑ | Predicted / GT area ↓ |
+| ------------------------------------- | -----------: | -------------: | ------------: | ---------: | ---------------------: |
+| Original FYS-TDM                      |           36 |             12 |         0.174 |      0.247 |                   8.04 |
+| Attention-gated FYS, part+edit tokens |           36 |             12 |         0.327 |      0.591 |                   2.81 |
+| Attention-gated FYS, part-only tokens |           36 |             12 |         0.323 |      0.619 |                   2.51 |
 
 Edited-image preservation outside the GT part mask:
 
@@ -74,7 +74,7 @@ Compact per-case local-edit assessment:
 | Case | Part edit | Original FYS local / preserve | Gated part+edit local / preserve | Gated part-only local / preserve | Note |
 | --- | --- | ---: | ---: | ---: | --- |
 | `real_0006` | `head -> alien` | `1 / 1` | `1 / 1` | `1 / 1` | Gating preserves the person and background better, but the alien-head edit is mostly suppressed. |
-| `real_0008` | `head -> bear` | `0 / 1` | `0 / 2` | `0 / 2` | Head localization improves, but the head does not clearly become bear-like. |
+| `real_0008` | `head -> bear` | `0 / 2` | `0 / 2` | `0 / 2` | Head localization improves, but the head does not clearly become bear-like. |
 | `real_0003` | `head -> cheetah` | `0 / 1` | `0 / 1` | `0 / 1` | Original FYS changes the animal more visibly; gated versions keep the horse but weaken the cheetah-head edit. |
 | `real_0002` | `seat -> mesh` | `2 / 1` | `2 / 2` | `2 / 2` | Gating localizes and preserves the chair/background, but the mesh-seat semantic change is weak. |
 | `real_0010` | `head -> dragon` | `0 / 0` | `0 / 1` | `0 / 1` | Attention-gated masks focus near the head and restore some body/road content, but the global cow trajectory remains affected. |
