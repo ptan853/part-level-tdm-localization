@@ -20,7 +20,27 @@ because the original changed prompt can imply whole-object replacement.
 
 The FYS configuration is fixed as `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `inject=4`, no ControlNet, no oracle mask, and offload enabled. The pinned Follow-Your-Shape submodule revision is `1d01f0d3a5fde5c11e8630808d1d59243894625d`.
 
-One exact command for reproducing the main attention-gated FYS run is:
+The exact commands for reproducing the four main experiment runs are listed below. The repository README provides the full environment setup, dataset extraction, dependency installation, and notebook evaluation commands.
+
+Original FYS-TDM:
+
+```bash
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0,1,2 \
+  --execute
+```
+
+FLUX target-token attention localization baseline:
+
+```bash
+python core/scripts/run_flux_attention_baseline.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0,1,2 \
+  --execute
+```
+
+Attention-gated FYS with part+edit tokens:
 
 ```bash
 python core/scripts/run_fys_pilot.py \
@@ -31,7 +51,18 @@ python core/scripts/run_fys_pilot.py \
   --execute
 ```
 
-The repository README provides the full environment setup, dataset extraction, baseline commands, and notebook evaluation commands.
+Attention-gated FYS with part-only tokens:
+
+```bash
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0,1,2 \
+  --tdm-mask-mode attention_gated \
+  --attention-token-mode part \
+  --output-root core/results/fys_mask_ablation/attention_gated_tdm_part \
+  --run-matrix core/results/run_matrices/attention_gated_part_pilot_12_manifest_multi_seed.csv \
+  --execute
+```
 
 ## Baseline And Variant
 
@@ -84,42 +115,42 @@ However, better masks do not fully solve the editing problem. In difficult cases
 
 Compact per-case local-edit assessment:
 
-| Method | Unique outputs | Mean local edit success ↑ | Mean non-target preservation ↑ | Full local-edit cases | Full preservation cases |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Original FYS-TDM | 12 | 1.00 | 0.92 | 5 / 12 | 2 / 12 |
-| Attention-gated FYS, part+edit tokens | 12 | 1.08 | 1.50 | 5 / 12 | 6 / 12 |
-| Attention-gated FYS, part-only tokens | 12 | 1.00 | 1.50 | 5 / 12 | 6 / 12 |
+| Method                                | Unique outputs | Mean local edit success ↑ | Mean non-target preservation ↑ | Full local-edit cases | Full preservation cases |
+| ------------------------------------- | -------------: | -------------------------: | ------------------------------: | --------------------: | ----------------------: |
+| Original FYS-TDM                      |             12 |                       1.00 |                            0.92 |                5 / 12 |                  2 / 12 |
+| Attention-gated FYS, part+edit tokens |             12 |                       1.08 |                            1.50 |                5 / 12 |                  6 / 12 |
+| Attention-gated FYS, part-only tokens |             12 |                       1.00 |                            1.50 |                5 / 12 |                  6 / 12 |
 
 This human assessment separates two effects that are partially conflated in automatic image metrics. Attention-gated masks improve non-target preservation substantially, but they do not reliably improve the semantic success of the requested part edit. The part+edit variant gives only a small average gain in local edit success (`1.08` vs. `1.00`), while part-only matches the original FYS local-edit score. This suggests that the main benefit of attention gating is spatial preservation, not stronger semantic editing.
 
 By target part size:
 
-| Part size | Method | Mean local edit success ↑ | Mean non-target preservation ↑ |
-| --- | --- | ---: | ---: |
-| Small | Original FYS-TDM | 0.75 | 1.25 |
-| Small | Attention-gated FYS, part+edit tokens | 0.75 | 1.50 |
-| Small | Attention-gated FYS, part-only tokens | 0.75 | 1.50 |
-| Medium | Original FYS-TDM | 1.00 | 1.00 |
-| Medium | Attention-gated FYS, part+edit tokens | 1.00 | 1.50 |
-| Medium | Attention-gated FYS, part-only tokens | 1.00 | 1.50 |
-| Large | Original FYS-TDM | 1.25 | 0.50 |
-| Large | Attention-gated FYS, part+edit tokens | 1.50 | 1.50 |
-| Large | Attention-gated FYS, part-only tokens | 1.25 | 1.50 |
+| Part size | Method                                | Mean local edit success ↑ | Mean non-target preservation ↑ |
+| --------- | ------------------------------------- | -------------------------: | ------------------------------: |
+| Small     | Original FYS-TDM                      |                       0.75 |                            1.25 |
+| Small     | Attention-gated FYS, part+edit tokens |                       0.75 |                            1.50 |
+| Small     | Attention-gated FYS, part-only tokens |                       0.75 |                            1.50 |
+| Medium    | Original FYS-TDM                      |                       1.00 |                            1.00 |
+| Medium    | Attention-gated FYS, part+edit tokens |                       1.00 |                            1.50 |
+| Medium    | Attention-gated FYS, part-only tokens |                       1.00 |                            1.50 |
+| Large     | Original FYS-TDM                      |                       1.25 |                            0.50 |
+| Large     | Attention-gated FYS, part+edit tokens |                       1.50 |                            1.50 |
+| Large     | Attention-gated FYS, part-only tokens |                       1.25 |                            1.50 |
 
-| Case | Part edit | Original FYS local / preserve | Gated part+edit local / preserve | Gated part-only local / preserve | Note |
-| --- | --- | ---: | ---: | ---: | --- |
-| `real_0006` | `head -> alien` | `1 / 1` | `1 / 1` | `1 / 1` | Gating preserves the person and background better, but the alien-head edit is mostly suppressed. |
-| `real_0008` | `head -> bear` | `0 / 2` | `0 / 2` | `0 / 2` | Head localization improves, but the head does not clearly become bear-like. |
-| `real_0003` | `head -> cheetah` | `0 / 1` | `0 / 1` | `0 / 1` | Original FYS changes the animal more visibly; gated versions keep the horse but weaken the cheetah-head edit. |
-| `real_0002` | `seat -> mesh` | `2 / 1` | `2 / 2` | `2 / 2` | Gating localizes and preserves the chair/background, but the mesh-seat semantic change is weak. |
-| `real_0010` | `head -> dragon` | `0 / 0` | `0 / 1` | `0 / 1` | Attention-gated masks focus near the head and restore some body/road content, but the global cow trajectory remains affected. |
-| `real_0004` | `carhood -> rusted` | `0 / 1` | `0 / 2` | `0 / 2` | The car is preserved better, but rust on the hood is not clear. |
-| `real_0007` | `seat -> leather` | `2 / 2` | `2 / 2` | `2 / 2` | All methods show the seat-material edit; gated versions better preserve the chair frame/background. |
-| `real_0001` | `head -> cat` | `2 / 1` | `2 / 1` | `2 / 1` | The cat-head edit is visible, and attention gating improves non-target preservation. |
-| `real_0000` | `torso -> armored` | `2 / 1` | `2 / 1` | `2 / 1` | The torso region is affected, but the armor semantics are partial; gating reduces non-target drift. |
-| `real_0011` | `hair -> curly_hair` | `2 / 0` | `2 / 1` | `2 / 1` | Hair localization improves, but face identity still changes. |
-| `real_0005` | `head -> dog` | `1 / 0` | `1 / 2` | `1 / 2` | Bear body/background are preserved, but dog-head semantics remain partial. |
-| `real_0009` | `carbody -> rusted` | `0 / 1` | `1 / 2` | `0 / 2` | The car body is preserved better under gating, but the rusted-body edit is weak. |
+| Case          | Part edit              | Original FYS local / preserve | Gated part+edit local / preserve | Gated part-only local / preserve | Note                                                                                                                          |
+| ------------- | ---------------------- | ----------------------------: | -------------------------------: | -------------------------------: | ----------------------------------------------------------------------------------------------------------------------------- |
+| `real_0006` | `head -> alien`      |                     `1 / 1` |                        `1 / 1` |                        `1 / 1` | Gating preserves the person and background better, but the alien-head edit is mostly suppressed.                              |
+| `real_0008` | `head -> bear`       |                     `0 / 2` |                        `0 / 2` |                        `0 / 2` | Head localization improves, but the head does not clearly become bear-like.                                                   |
+| `real_0003` | `head -> cheetah`    |                     `0 / 1` |                        `0 / 1` |                        `0 / 1` | Original FYS changes the animal more visibly; gated versions keep the horse but weaken the cheetah-head edit.                 |
+| `real_0002` | `seat -> mesh`       |                     `2 / 1` |                        `2 / 2` |                        `2 / 2` | Gating localizes and preserves the chair/background, but the mesh-seat semantic change is weak.                               |
+| `real_0010` | `head -> dragon`     |                     `0 / 0` |                        `0 / 1` |                        `0 / 1` | Attention-gated masks focus near the head and restore some body/road content, but the global cow trajectory remains affected. |
+| `real_0004` | `carhood -> rusted`  |                     `0 / 1` |                        `0 / 2` |                        `0 / 2` | The car is preserved better, but rust on the hood is not clear.                                                               |
+| `real_0007` | `seat -> leather`    |                     `2 / 2` |                        `2 / 2` |                        `2 / 2` | All methods show the seat-material edit; gated versions better preserve the chair frame/background.                           |
+| `real_0001` | `head -> cat`        |                     `2 / 1` |                        `2 / 1` |                        `2 / 1` | The cat-head edit is visible, and attention gating improves non-target preservation.                                          |
+| `real_0000` | `torso -> armored`   |                     `2 / 1` |                        `2 / 1` |                        `2 / 1` | The torso region is affected, but the armor semantics are partial; gating reduces non-target drift.                           |
+| `real_0011` | `hair -> curly_hair` |                     `2 / 0` |                        `2 / 1` |                        `2 / 1` | Hair localization improves, but face identity still changes.                                                                  |
+| `real_0005` | `head -> dog`        |                     `1 / 0` |                        `1 / 2` |                        `1 / 2` | Bear body/background are preserved, but dog-head semantics remain partial.                                                    |
+| `real_0009` | `carbody -> rusted`  |                     `0 / 1` |                        `1 / 2` |                        `0 / 2` | The car body is preserved better under gating, but the rusted-body edit is weak.                                              |
 
 The full CSV version is saved at `core/results/attention_gated_fys_eval/local_edit_success_per_case.csv`, and the compact summary is saved at `core/results/attention_gated_fys_eval/local_edit_success_summary.csv`.
 
