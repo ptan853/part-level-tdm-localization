@@ -1,0 +1,13 @@
+case_uid,part,edit,part_size,original_local_edit_0_2,original_preservation_0_2,gated_part_edit_local_edit_0_2,gated_part_edit_preservation_0_2,gated_part_local_edit_0_2,gated_part_preservation_0_2,short_note
+real_0006,head,alien,small,1,1,1,1,1,1,"Gating preserves the person and background better, but the alien-head edit is mostly suppressed."
+real_0008,head,bear,small,0,2,0,2,0,2,"The head mask improves, but the generated head does not clearly become a bear head."
+real_0003,head,cheetah,small,0,1,0,1,0,1,"Original FYS changes the animal more visibly; gated versions keep the horse but weaken the cheetah-head edit."
+real_0002,seat,mesh,small,2,1,2,2,2,2,"Gating localizes and preserves the chair/background, but the mesh-seat semantic change is weak."
+real_0010,head,dragon,medium,0,0,0,1,0,1,"Attention-gated masks focus near the head and restore some body/road content, but the global cow trajectory remains affected."
+real_0004,carhood,rusted,medium,0,1,0,2,0,2,"Gated outputs preserve the car better, but rust on the hood is not clearly realized."
+real_0007,seat,leather,medium,2,2,2,2,2,2,"All methods show the seat-material edit; gated versions better preserve the chair frame/background."
+real_0001,head,cat,medium,2,1,2,1,2,1,"The cat-head edit is visible, and attention gating improves non-target preservation."
+real_0000,torso,armored,large,2,1,2,1,2,1,"The torso region is affected, but the armor semantics are partial; gating reduces non-target drift."
+real_0011,hair,curly_hair,large,2,0,2,1,2,1,"Hair localization improves strongly, but face identity still changes, showing the limit of late masked KV injection."
+real_0005,head,dog,large,1,0,1,2,1,2,"Gating preserves the bear body/background, but the dog-head semantic change remains partial."
+real_0009,carbody,rusted,large,0,1,1,2,0,2,"The car body is preserved better under gating, but the rusted-body edit is weak."

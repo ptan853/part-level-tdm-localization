@@ -30,6 +30,11 @@ The main tested variant is attention-gated FYS. It keeps the original FYS invers
 
 Localization is evaluated against the PartEdit ground-truth part mask using *binary IoU, soft AP, predicted/GT area ratio*, and *soft inside-GT mass.* Editing and preservation are evaluated for generated images using *outside-mask L1, PSNR, SSIM,* and *LPIPS*. The FLUX attention baseline is localization-only, so image-preservation metrics are not applicable to that baseline.
 
+I also add a compact qualitative local-edit assessment on the 12 unique seed-0 outputs. This is intentionally separated from mask localization:
+
+- **Local edit success:** `0` = requested part edit absent; `1` = partial, weak, or wrong extent; `2` = requested part edit clearly present.
+- **Non-target preservation:** `0` = major object/background drift; `1` = moderate drift; `2` = mostly preserved outside the target part.
+
 ## Results
 
 Main quantitative comparison for the editing methods.
@@ -63,6 +68,25 @@ Full tables:
 The main trend is consistent with the initial diagnosis: original FYS-TDM over-localizes for part-level edits. Attention-gated TDM improves localization substantially, reducing the mean predicted/GT area ratio from `8.04` to `2.51-2.81` and improving mean binary IoU from `0.174` to about `0.32`. Part-only attention gives the sharpest area ratio and highest soft AP, while part+edit attention gives a similar IoU.
 
 However, better masks do not fully solve the editing problem. In difficult cases such as `hair -> curly_hair`, the mask becomes much closer to the hair region, but the face can still change. This suggests that FYS's mask is a late, soft KV-routing constraint rather than a hard spatial edit constraint. Target-prompt trajectory changes can accumulate during unconstrained middle steps and through non-attention pathways, so the bottleneck shifts from mask quality to when and how strongly the trajectory is controlled.
+
+Compact per-case local-edit assessment:
+
+| Case | Part edit | Original FYS local / preserve | Gated part+edit local / preserve | Gated part-only local / preserve | Note |
+| --- | --- | ---: | ---: | ---: | --- |
+| `real_0006` | `head -> alien` | `1 / 1` | `1 / 1` | `1 / 1` | Gating preserves the person and background better, but the alien-head edit is mostly suppressed. |
+| `real_0008` | `head -> bear` | `0 / 1` | `0 / 2` | `0 / 2` | Head localization improves, but the head does not clearly become bear-like. |
+| `real_0003` | `head -> cheetah` | `0 / 1` | `0 / 1` | `0 / 1` | Original FYS changes the animal more visibly; gated versions keep the horse but weaken the cheetah-head edit. |
+| `real_0002` | `seat -> mesh` | `2 / 1` | `2 / 2` | `2 / 2` | Gating localizes and preserves the chair/background, but the mesh-seat semantic change is weak. |
+| `real_0010` | `head -> dragon` | `0 / 0` | `0 / 1` | `0 / 1` | Attention-gated masks focus near the head and restore some body/road content, but the global cow trajectory remains affected. |
+| `real_0004` | `carhood -> rusted` | `0 / 1` | `0 / 2` | `0 / 2` | The car is preserved better, but rust on the hood is not clear. |
+| `real_0007` | `seat -> leather` | `2 / 2` | `2 / 2` | `2 / 2` | All methods show the seat-material edit; gated versions better preserve the chair frame/background. |
+| `real_0001` | `head -> cat` | `2 / 1` | `2 / 1` | `2 / 1` | The cat-head edit is visible, and attention gating improves non-target preservation. |
+| `real_0000` | `torso -> armored` | `2 / 1` | `2 / 1` | `2 / 1` | The torso region is affected, but the armor semantics are partial; gating reduces non-target drift. |
+| `real_0011` | `hair -> curly_hair` | `2 / 0` | `2 / 1` | `2 / 1` | Hair localization improves, but face identity still changes. |
+| `real_0005` | `head -> dog` | `1 / 0` | `1 / 2` | `1 / 2` | Bear body/background are preserved, but dog-head semantics remain partial. |
+| `real_0009` | `carbody -> rusted` | `0 / 1` | `1 / 2` | `0 / 2` | The car body is preserved better under gating, but the rusted-body edit is weak. |
+
+The full CSV version is saved at `core/results/attention_gated_fys_eval/local_edit_success_per_case.csv`.
 
 ## Representative Cases
 
