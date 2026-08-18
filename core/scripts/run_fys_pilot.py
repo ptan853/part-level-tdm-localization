@@ -339,7 +339,9 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     seeds = parse_seeds(args.seeds)
-    output_root = args.output_root
+    output_root = None
+    if args.output_root is not None:
+        output_root = args.output_root if args.output_root.is_absolute() else repo_root / args.output_root
     if output_root is None and args.tdm_mask_mode != "original":
         output_root = repo_root / "core" / "results" / "fys_mask_ablation" / "attention_gated_tdm"
     commands = []
@@ -372,6 +374,8 @@ def main(argv: list[str] | None = None) -> int:
         suffix = "single_seed" if args.seeds is None else "multi_seed"
         mode_prefix = "" if args.tdm_mask_mode == "original" else f"{args.tdm_mask_mode}_{args.attention_token_mode}_"
         run_matrix_path = repo_root / "core" / "results" / "run_matrices" / f"{mode_prefix}{args.manifest.stem}_{suffix}.csv"
+    elif not run_matrix_path.is_absolute():
+        run_matrix_path = repo_root / run_matrix_path
     should_write_matrix = args.execute or args.write_run_matrix or args.run_matrix is not None
     if should_write_matrix:
         write_run_matrix(run_matrix_path, commands, repo_root)
