@@ -1,3 +1,4 @@
+import importlib
 import importlib.util
 from importlib.machinery import ModuleSpec
 import types
@@ -10,6 +11,7 @@ import torch
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SAMPLING_PATH = REPO_ROOT / "core" / "third_party" / "FollowYourShape" / "src" / "flux" / "sampling.py"
+PROBE_PATH = REPO_ROOT / "core" / "third_party" / "FollowYourShape" / "src" / "flux" / "same_state_probe.py"
 FYS_SRC = REPO_ROOT / "core" / "third_party" / "FollowYourShape" / "src"
 
 
@@ -21,6 +23,40 @@ def load_sampling_module():
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
+
+def load_probe_module():
+    sys.path.insert(0, str(FYS_SRC))
+    spec = importlib.util.spec_from_file_location("flux.same_state_probe", PROBE_PATH)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_flux_model_module():
+    sys.path.insert(0, str(FYS_SRC))
+    return importlib.import_module("flux.model")
+
+
+def build_tiny_flux():
+    flux_model = load_flux_model_module()
+    params = flux_model.FluxParams(
+        in_channels=2,
+        vec_in_dim=4,
+        context_in_dim=3,
+        hidden_size=4,
+        mlp_ratio=1.0,
+        num_heads=1,
+        depth=0,
+        depth_single_blocks=1,
+        axes_dim=[2, 2],
+        theta=10000,
+        qkv_bias=False,
+        guidance_embed=False,
+    )
+    return flux_model.Flux(params)
 
 
 def install_optional_dependency_stubs():
@@ -172,6 +208,47 @@ class InversionStepObserverTest(unittest.TestCase):
         torch.testing.assert_close(observed[1]["img"], fake_model_probe.calls[2]["img"])
         torch.testing.assert_close(observed[1]["timestep"], fake_model_probe.calls[2]["timestep"])
         torch.testing.assert_close(observed[1]["source_pred"], fake_model_probe.calls[2]["pred"])
+
+    def test_same_state_probe_integrates_with_denoise_actual_flux_path(self):
+        install_optional_dependency_stubs()
+        sampling = load_sampling_module()
+        probe = load_probe_module()
+        model = build_tiny_flux()
+
+        img = torch.tensor([[[0.1, -0.2], [0.3, 0.4]]], dtype=torch.float32)
+        img_ids = torch.zeros(1, 2, 2, dtype=torch.float32)
+        txt = torch.tensor([[[0.0, 0.1, 0.2], [0.3, 0.4, 0.5]]], dtype=torch.float32)
+        txt_ids = torch.zeros(1, 2, 2, dtype=torch.float32)
+        vec = torch.tensor([[0.2, -0.1, 0.4, 0.0]], dtype=torch.float32)
+        observer = probe.SameStateInversionProbe(
+            model=model,
+            target_txt=txt,
+            target_txt_ids=txt_ids,
+            target_vec=vec,
+        )
+
+        z, info = sampling.denoise(
+            model,
+            img=img,
+            img_ids=img_ids,
+            txt=txt,
+            txt_ids=txt_ids,
+            vec=vec,
+            timesteps=[1.0, 0.5, 0.0],
+            guidance=1.5,
+            inverse=True,
+            info={},
+            inject_list=[False, False],
+            step_observer=observer,
+        )
+
+        self.assertEqual(z.shape, img.shape)
+        self.assertIn("inv_noise", info)
+        self.assertEqual(observer.step_indices, [0, 1])
+        self.assertEqual(len(observer.velocity_step_maps), 2)
+        for velocity_map in observer.velocity_step_maps:
+            self.assertEqual(velocity_map.shape, (img.shape[1],))
+            torch.testing.assert_close(torch.from_numpy(velocity_map), torch.zeros(img.shape[1]))
 
 
 if __name__ == "__main__":

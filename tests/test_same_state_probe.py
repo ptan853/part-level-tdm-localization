@@ -1,4 +1,5 @@
 import importlib.util
+import importlib
 from pathlib import Path
 import sys
 import unittest
@@ -29,6 +30,42 @@ def load_probe_module():
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
+
+def load_flux_model_module():
+    sys.path.insert(0, str(FYS_SRC))
+    return importlib.import_module("flux.model")
+
+
+def build_tiny_flux():
+    flux_model = load_flux_model_module()
+    params = flux_model.FluxParams(
+        in_channels=2,
+        vec_in_dim=4,
+        context_in_dim=3,
+        hidden_size=4,
+        mlp_ratio=1.0,
+        num_heads=1,
+        depth=0,
+        depth_single_blocks=1,
+        axes_dim=[2, 2],
+        theta=10000,
+        qkv_bias=False,
+        guidance_embed=False,
+    )
+    return flux_model.Flux(params)
+
+
+def build_tiny_flux_inputs():
+    return {
+        "img": torch.tensor([[[0.1, -0.2], [0.3, 0.4]]], dtype=torch.float32),
+        "img_ids": torch.zeros(1, 2, 2, dtype=torch.float32),
+        "txt": torch.tensor([[[0.0, 0.1, 0.2], [0.3, 0.4, 0.5]]], dtype=torch.float32),
+        "txt_ids": torch.zeros(1, 2, 2, dtype=torch.float32),
+        "y": torch.tensor([[0.2, -0.1, 0.4, 0.0]], dtype=torch.float32),
+        "timesteps": torch.tensor([0.75], dtype=torch.float32),
+        "guidance": torch.tensor([1.5], dtype=torch.float32),
+    }
 
 
 class ZeroModulation(nn.Module):
@@ -102,6 +139,42 @@ class RecordingModel:
             }
         )
         return self.target_pred, info
+
+
+class RecordingFluxWrapper:
+    def __init__(self, flux_model):
+        self.flux_model = flux_model
+        self.calls = []
+
+    def __call__(
+        self,
+        *,
+        img,
+        img_ids,
+        txt,
+        txt_ids,
+        y,
+        timesteps,
+        guidance,
+        info,
+        controlnet_block_samples=None,
+        controlnet_single_block_samples=None,
+    ):
+        self.calls.append({"info_before": dict(info) if info is not None else None})
+        pred, returned_info = self.flux_model(
+            img=img,
+            img_ids=img_ids,
+            txt=txt,
+            txt_ids=txt_ids,
+            y=y,
+            timesteps=timesteps,
+            guidance=guidance,
+            info=info,
+            controlnet_block_samples=controlnet_block_samples,
+            controlnet_single_block_samples=controlnet_single_block_samples,
+        )
+        self.calls[-1]["info_after"] = dict(returned_info) if returned_info is not None else None
+        return pred, returned_info
 
 
 class DummyAttentionProbe:
@@ -212,6 +285,13 @@ class SameStateProbeTest(unittest.TestCase):
         finally:
             attention_probe.close()
 
+    def test_actual_flux_single_block_requires_noninjecting_contract_keys(self):
+        model = build_tiny_flux()
+        inputs = build_tiny_flux_inputs()
+
+        with self.assertRaisesRegex(KeyError, "inject"):
+            model(info={"record_attention": False}, **inputs)
+
     def test_same_state_inversion_probe_uses_same_state_and_guidance(self):
         probe = load_probe_module()
         target_pred = torch.tensor([[[3.0, 4.0], [1.0, 1.0]]])
@@ -255,6 +335,58 @@ class SameStateProbeTest(unittest.TestCase):
         self.assertIs(model_call["timesteps"], timestep)
         self.assertIs(model_call["guidance"], guidance_vec)
         self.assertTrue(model_call["info"]["record_attention"])
+
+    def test_same_state_inversion_probe_supplies_full_noninjecting_flux_payload(self):
+        probe = load_probe_module()
+        model = RecordingFluxWrapper(build_tiny_flux())
+        inputs = build_tiny_flux_inputs()
+        observer = probe.SameStateInversionProbe(
+            model=model,
+            target_txt=inputs["txt"],
+            target_txt_ids=inputs["txt_ids"],
+            target_vec=inputs["y"],
+        )
+        source_pred = torch.zeros_like(inputs["img"])
+
+        observer(
+            step_index=2,
+            img=inputs["img"],
+            img_ids=inputs["img_ids"],
+            timestep=inputs["timesteps"],
+            source_pred=source_pred,
+            guidance_vec=inputs["guidance"],
+        )
+
+        self.assertEqual(observer.step_indices, [2])
+        self.assertEqual(len(observer.velocity_step_maps), 1)
+        self.assertEqual(observer.velocity_step_maps[0].shape, (inputs["img"].shape[1],))
+        self.assertTrue(np.isfinite(observer.velocity_step_maps[0]).all())
+
+        self.assertEqual(len(model.calls), 1)
+        info_before = model.calls[0]["info_before"]
+        self.assertEqual(
+            info_before,
+            {
+                "feature": {},
+                "map": {},
+                "edit_map": None,
+                "inject": False,
+                "inverse": False,
+                "second_order": False,
+                "record_attention": False,
+                "t": float(inputs["timesteps"][0].item()),
+            },
+        )
+
+        info_after = model.calls[0]["info_after"]
+        self.assertFalse(info_after["inject"])
+        self.assertFalse(info_after["inverse"])
+        self.assertFalse(info_after["second_order"])
+        self.assertEqual(info_after["feature"], {})
+        self.assertEqual(info_after["map"], {})
+        self.assertIsNone(info_after["edit_map"])
+        self.assertEqual(info_after["type"], "single")
+        self.assertEqual(info_after["id"], 0)
 
 
 if __name__ == "__main__":
