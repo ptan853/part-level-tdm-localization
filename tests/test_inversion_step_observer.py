@@ -85,6 +85,7 @@ def install_optional_dependency_stubs():
 
     matplotlib = make_stub("matplotlib")
     pyplot = make_stub("matplotlib.pyplot")
+    matplotlib.use = lambda *args, **kwargs: None
     matplotlib.pyplot = pyplot
     seaborn = make_stub("seaborn")
 
