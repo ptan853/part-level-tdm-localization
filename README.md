@@ -20,6 +20,8 @@ Mask localization against GT part masks:
 | Attention-gated FYS, part+edit tokens | 36 | 12 | 0.327 | 0.591 | 2.81 |
 | Attention-gated FYS, part-only tokens | 36 | 12 | 0.323 | 0.619 | 2.51 |
 
+Oracle localization is excluded from this table because its projected GT-mask agreement is fixed by construction.
+
 Edited-image preservation outside the GT part mask:
 
 | Method | Outside L1 ↓ | Outside PSNR ↑ | Outside SSIM ↑ | Outside LPIPS ↓ |
@@ -27,20 +29,34 @@ Edited-image preservation outside the GT part mask:
 | Original FYS-TDM | 0.056 | 20.36 | 0.919 | 0.191 |
 | Attention-gated FYS, part+edit tokens | 0.047 | 21.79 | 0.938 | 0.146 |
 | Attention-gated FYS, part-only tokens | 0.046 | 22.10 | 0.941 | 0.142 |
+| Oracle GT-mask FYS | 0.043 | 22.95 | 0.953 | 0.126 |
+
+Manual review separates semantic edit success from non-target preservation:
+
+| Method | Unique outputs | Local edit success ↑ | Non-target preservation ↑ | Full edits | Full preservation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Original FYS-TDM | 12 | 1.00 | 0.92 | 5 / 12 | 2 / 12 |
+| Attention-gated FYS, part+edit tokens | 12 | 1.08 | 1.50 | 5 / 12 | 6 / 12 |
+| Attention-gated FYS, part-only tokens | 12 | 1.00 | 1.50 | 5 / 12 | 6 / 12 |
+| Oracle GT-mask FYS | 12 | 0.92 | 1.42 | 4 / 12 | 5 / 12 |
+
+The Oracle ablation gives the best automatic preservation but does not improve semantic local-edit success. Localization quality is therefore not the only bottleneck: the timing and scope of FYS's late KV injection also limit part-level control.
 
 The three requested seeds are deterministic for this inversion-based pipeline: the 36 command runs correspond to 12 unique case outputs for each method, so repeated seed rows are not treated as independent samples.
 
 ## Visual Examples
 
-The main diagnostic example is `real_0010` (`head -> dragon`): the original TDM expands over the cow body and road, while attention-gated masks focus closer to the head. The edited image still changes more than the head, showing that better masks help but do not strictly constrain FYS's late KV-injection edit.
+The aligned example below shows how original TDM, part+edit gating, part-only gating, and the projected Oracle mask alter both the injection support and generated output. Tighter localization generally makes the result more source-like, but does not monotonically improve the requested semantic edit.
 
 <div align="center">
-  <a href="core/results/attention_gated_fys_eval/figures/cow_road_case_analysis.jpg">
-    <img src="core/results/attention_gated_fys_eval/figures/cow_road_case_analysis.jpg" width="1000" alt="Representative cow road attention-gated FYS case analysis">
+  <a href="core/results/oracle_mask_eval/figures/mask_output_method_comparison.jpg">
+    <img src="core/results/oracle_mask_eval/figures/mask_output_method_comparison.jpg" width="100%" alt="Aligned comparison of injection masks and generated outputs">
   </a>
   <br>
   <sub>Click to open full resolution.</sub>
 </div>
+
+The [final note](core/reports/final_note.md#representative-failure-case) separately analyzes the `head -> dragon` cow-road failure, where attention gating and the Oracle mask improve localization but do not recover the requested semantics.
 
 Supporting diagnostic sheets are in:
 
@@ -59,10 +75,12 @@ Supporting diagnostic sheets are in:
 - `core/scripts/run_flux_attention_baseline.py`: FLUX attention baseline runner.
 - `core/notebooks/03_evaluate_controlled_revision.ipynb`: final evaluation notebook.
 - `core/notebooks/05_evaluate_attention_gated_fys.ipynb`: attention-gated FYS evaluation notebook.
+- `core/notebooks/06_evaluate_oracle_mask_ablation.ipynb`: Oracle GT-mask control evaluation notebook.
 - `core/results/follow_your_shape/`: FYS edited images, logs, configs, and TDM artifacts.
 - `core/results/flux_attention_baseline/`: attention maps, logs, and configs.
 - `core/results/controlled_revision/`: final metric tables and qualitative figures.
 - `core/results/attention_gated_fys_eval/`: attention-gated FYS metric tables and figures.
+- `core/results/oracle_mask_eval/`: Oracle validation, preservation metrics, and comparison figures.
 - `core/reports/final_note.md`: compact project note.
 
 Main result tables:
@@ -76,12 +94,18 @@ Main result tables:
 - `core/results/attention_gated_fys_eval/image_preservation_metrics.csv`
 - `core/results/attention_gated_fys_eval/local_edit_success_summary.csv`
 - `core/results/attention_gated_fys_eval/local_edit_success_per_case.csv`
+- `core/results/oracle_mask_eval/oracle_comparison_summary.csv`
+- `core/results/oracle_mask_eval/oracle_image_preservation_metrics.csv`
+- `core/results/oracle_mask_eval/oracle_mask_validation.csv`
+- `core/results/oracle_mask_eval/oracle_local_edit_review.csv`
+- `core/results/oracle_mask_eval/oracle_local_edit_review_summary.csv`
+- `core/results/oracle_mask_eval/oracle_local_edit_review.html`
 
 ## Methods
 
 ### Follow-Your-Shape TDM
 
-FYS is run with `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `inject=4`, no ControlNet, no oracle mask, and offload enabled. Each case is executed with seeds `0, 1, 2`; in this inversion-based path, the outputs are deterministic, so metrics are reported as 12 unique case outputs per method.
+FYS is run with `flux-dev`, guidance `2.0`, `15` denoising steps, `front=2`, `inject=4`, no ControlNet, and offload enabled. Original and attention-gated runs do not use an oracle mask. Each case is executed with seeds `0, 1, 2`; in this inversion-based path, the outputs are deterministic, so metrics are reported as 12 unique case outputs per method.
 
 ### FLUX Target-Token Attention
 
@@ -211,6 +235,13 @@ Run evaluation:
 ```bash
 python -m jupyter nbconvert --execute --to notebook --inplace core/notebooks/03_evaluate_controlled_revision.ipynb
 python -m jupyter nbconvert --execute --to notebook --inplace core/notebooks/05_evaluate_attention_gated_fys.ipynb
+python -m jupyter nbconvert --execute --to notebook --inplace core/notebooks/06_evaluate_oracle_mask_ablation.ipynb
+```
+
+For Oracle manual review, generate and open the standalone local page, complete both `0-2` ratings for all 12 cases, download `oracle_local_edit_review.csv`, place it under `core/results/oracle_mask_eval/`, and rerun notebook 06:
+
+```bash
+python core/scripts/build_oracle_review.py
 ```
 
 ## Metrics

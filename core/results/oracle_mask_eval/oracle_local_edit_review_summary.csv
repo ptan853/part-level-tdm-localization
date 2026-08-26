@@ -1,0 +1,5 @@
+scope,cases,mean_local_edit_success,mean_non_target_preservation,full_local_edit_cases,full_preservation_cases
+overall,12,0.9166666666666666,1.4166666666666667,4,5
+part_size=large,4,1.0,1.5,,
+part_size=medium,4,0.75,1.0,,
+part_size=small,4,1.0,1.75,,

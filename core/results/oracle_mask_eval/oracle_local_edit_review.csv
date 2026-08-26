@@ -1,0 +1,13 @@
+case_uid,part,edit,part_size,target_prompt,oracle_local_edit_0_2,oracle_preservation_0_2,short_note
+real_0006,head,alien,small,a man with alien head standing in a park wearing a green shirt,2,1,
+real_0008,head,bear,small,a dog with bear head standing in a field with grass and water,0,2,
+real_0003,head,cheetah,small,a horse with cheetah head running in a field,0,2,
+real_0002,seat,mesh,small,a chair with mesh seat and table in front of a glass door,2,2,
+real_0010,head,dragon,medium,a cow with dragon head standing on a street,0,1,
+real_0004,carhood,rusted,medium,a white toyota with rusted carhood avanza parked in front of a house,0,1,
+real_0007,seat,leather,medium,a mahogany armchair with leather seat,1,1,
+real_0001,head,cat,medium,a dog with cat head running in the grass,2,1,
+real_0000,torso,armored,large,a robot with armored torso standing in a warehouse with boxes,1,2,
+real_0011,hair,curly_hair,large,a man with curly_hair hair with a smile on his face,2,1,
+real_0005,head,dog,large,a brown bear with dog head standing on a rock,0,2,
+real_0009,carbody,rusted,large,ferrari with rusted carbody 812 superfast by kimberly kim,1,1,

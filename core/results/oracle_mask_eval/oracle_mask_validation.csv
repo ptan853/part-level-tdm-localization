@@ -1,0 +1,13 @@
+case_uid,part_size,part,edit,foreground_patches,patch_area_ratio,selected_equals_projected_gt,saved_oracle_equals_projected_gt
+real_0006,small,head,alien,11,0.0107421875,True,True
+real_0008,small,head,bear,33,0.0322265625,True,True
+real_0003,small,head,cheetah,39,0.0380859375,True,True
+real_0002,small,seat,mesh,40,0.0390625,True,True
+real_0010,medium,head,dragon,66,0.064453125,True,True
+real_0004,medium,carhood,rusted,65,0.0634765625,True,True
+real_0007,medium,seat,leather,68,0.06640625,True,True
+real_0001,medium,head,cat,67,0.0654296875,True,True
+real_0000,large,torso,armored,105,0.1025390625,True,True
+real_0011,large,hair,curly_hair,122,0.119140625,True,True
+real_0005,large,head,dog,117,0.1142578125,True,True
+real_0009,large,carbody,rusted,388,0.37890625,True,True
