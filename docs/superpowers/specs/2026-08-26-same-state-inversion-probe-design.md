@@ -74,7 +74,7 @@ For each case:
 core/results/same_state_inversion_probe/<case_uid>/seed_000/
   run_config.json
   run.log
-  generated.png
+  img_0.jpg
   steps/
     step_00_velocity_delta.npy
     step_00_velocity_delta.png
@@ -112,7 +112,7 @@ The `.npy` values are the authoritative analytical outputs; PNG files are visual
 
 ## Generated Image
 
-After inversion, run the existing original FYS target-denoising path. The diagnostic maps are not passed as `edit_map` and do not alter injection. The generated image provides qualitative context for each localization sequence.
+After inversion, run the existing original FYS target-denoising path. The diagnostic maps are not passed as `edit_map` and do not alter injection. The standard `img_0.jpg` output provides qualitative context for each localization sequence.
 
 Because the current pipeline is deterministic for a fixed source and configuration, the probe-enabled generated image must match the corresponding original FYS output within the repository's numerical tolerance.
 
@@ -134,4 +134,3 @@ Automated tests must establish:
 - Do not tune thresholds, layers, timesteps, or prompts per case.
 - Do not change the original FYS-TDM definition or overwrite prior results.
 - Do not treat binary masks as segmentation ground truth; evaluate them against GT masks before considering a control experiment.
-
