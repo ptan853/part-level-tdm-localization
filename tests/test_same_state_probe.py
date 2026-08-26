@@ -464,6 +464,7 @@ class SameStateProbeTest(unittest.TestCase):
                 "aggregate/edit_attention_raw.png",
                 "aggregate/edit_attention_smoothed.png",
                 "aggregate/edit_attention_binary.png",
+                "step_overview.png",
                 "probe_metadata.json",
             ]
             for relative_path in expected_paths:

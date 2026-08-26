@@ -208,3 +208,24 @@ core/results/run_matrices/flux_part_attention_baseline_matrix.csv
 
 With `--execute`, the matrix is written automatically. To regenerate only the
 matrix during dry-run, add `--write-run-matrix`.
+
+## Same-State Inversion Probe
+
+This diagnostic compares the source and target prompts at the same source-
+inversion latent and timestep. It records per-step velocity differences plus
+separate target part-token and edit-token attention maps. These maps do not
+control generation; `img_0.jpg` is produced by the unchanged original FYS path.
+
+Preview the locked two-case experiment without writing outputs:
+
+```bash
+python core/scripts/run_same_state_inversion_probe.py \
+  --case-uid real_0006 \
+  --case-uid real_0010 \
+  --seed 0
+```
+
+Run it on a GPU machine by adding `--execute`. Results are isolated under
+`core/results/same_state_inversion_probe/<case_uid>/seed_000/` and include
+authoritative `.npy` maps, PNG previews, `step_overview.png`, `img_0.jpg`,
+`probe_metadata.json`, `run_config.json`, and `run.log`.
