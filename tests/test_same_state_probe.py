@@ -39,6 +39,11 @@ def load_flux_model_module():
     return importlib.import_module("flux.model")
 
 
+def load_attention_utils_module():
+    sys.path.insert(0, str(FYS_SRC))
+    return importlib.import_module("flux.attention_mask_utils")
+
+
 def build_tiny_flux():
     flux_model = load_flux_model_module()
     params = flux_model.FluxParams(
@@ -188,6 +193,9 @@ class DummyAttentionProbe:
 
 
 class SameStateProbeTest(unittest.TestCase):
+    def assert_no_artifacts_written(self, output_dir: Path) -> None:
+        self.assertFalse(output_dir.exists(), f"{output_dir} should not exist after failed finalize")
+
     def test_compute_velocity_delta_and_aggregate_step_maps(self):
         probe = load_probe_module()
         source = torch.tensor([[[0.0, 0.0], [1.0, 1.0]]])
@@ -392,17 +400,18 @@ class SameStateProbeTest(unittest.TestCase):
 
     def test_same_state_inversion_probe_serializes_step_and_aggregate_artifacts(self):
         probe = load_probe_module()
+        attention_utils = load_attention_utils_module()
         attention_probe = DummyAttentionProbe()
         attention_probe.token_groups = {"part": [0], "edit": [1]}
         attention_probe.layer_ids = [0]
         attention_probe.step_records = {
             "part": [
-                torch.tensor([0.20, 0.80], dtype=torch.float32),
-                torch.tensor([0.60, 0.40], dtype=torch.float32),
+                torch.tensor([[0.20, 0.80], [0.50, 0.10]], dtype=torch.float32),
+                torch.tensor([[0.60, 0.40], [0.90, 0.30]], dtype=torch.float32),
             ],
             "edit": [
-                torch.tensor([0.55, 0.45], dtype=torch.float32),
-                torch.tensor([0.15, 0.85], dtype=torch.float32),
+                torch.tensor([[0.55, 0.45], [0.05, 0.95]], dtype=torch.float32),
+                torch.tensor([[0.15, 0.85], [0.25, 0.75]], dtype=torch.float32),
             ],
         }
         observer = probe.SameStateInversionProbe(
@@ -414,14 +423,15 @@ class SameStateProbeTest(unittest.TestCase):
         )
         observer.step_indices = [0, 1]
         observer.step_timesteps = [0.75, 0.50]
+        observer.step_grid_shapes = [(2, 2), (2, 2)]
         observer.velocity_step_maps = [
-            np.array([1.0, 2.0], dtype=np.float32),
-            np.array([3.0, 4.0], dtype=np.float32),
+            np.array([[1.0, 2.0], [0.0, 4.0]], dtype=np.float32),
+            np.array([[3.0, 4.0], [2.0, 1.0]], dtype=np.float32),
         ]
 
         with tempfile.TemporaryDirectory() as tmpdir:
             output_dir = Path(tmpdir)
-            observer.finalize(output_dir, {"case_uid": "case_test"})
+            metadata = observer.finalize(output_dir, {"case_uid": "case_test"})
 
             expected_paths = [
                 "steps/step_00_velocity_delta.npy",
@@ -459,11 +469,145 @@ class SameStateProbeTest(unittest.TestCase):
             for relative_path in expected_paths:
                 self.assertTrue((output_dir / relative_path).exists(), relative_path)
 
-            metadata = json.loads((output_dir / "probe_metadata.json").read_text())
+            step0_velocity = np.load(output_dir / "steps/step_00_velocity_delta.npy")
+            step1_velocity = np.load(output_dir / "steps/step_01_velocity_delta.npy")
+            step0_part = np.load(output_dir / "steps/step_00_part_attention.npy")
+            step1_edit = np.load(output_dir / "steps/step_01_edit_attention.npy")
+            self.assertEqual(step0_velocity.dtype, np.float32)
+            self.assertEqual(step1_velocity.dtype, np.float32)
+            self.assertEqual(step0_part.dtype, np.float32)
+            self.assertEqual(step1_edit.dtype, np.float32)
+            self.assertTrue(np.isfinite(step0_velocity).all())
+            self.assertTrue(np.isfinite(step0_part).all())
+            np.testing.assert_allclose(step0_velocity, observer.velocity_step_maps[0])
+            np.testing.assert_allclose(step1_velocity, observer.velocity_step_maps[1])
+            np.testing.assert_allclose(step0_part, attention_probe.step_records["part"][0].numpy())
+            np.testing.assert_allclose(step1_edit, attention_probe.step_records["edit"][1].numpy())
+
+            def normalize_each_step(step_arrays):
+                return [attention_utils.normalize01(np.asarray(arr, dtype=np.float32)) for arr in step_arrays]
+
+            velocity_expected_steps = normalize_each_step(observer.velocity_step_maps)
+            part_expected_steps = normalize_each_step([record.numpy() for record in attention_probe.step_records["part"]])
+            edit_expected_steps = normalize_each_step([record.numpy() for record in attention_probe.step_records["edit"]])
+
+            velocity_expected_raw = np.mean(np.stack(velocity_expected_steps, axis=0), axis=0).astype(np.float32)
+            part_expected_raw = np.mean(np.stack(part_expected_steps, axis=0), axis=0).astype(np.float32)
+            edit_expected_raw = np.mean(np.stack(edit_expected_steps, axis=0), axis=0).astype(np.float32)
+
+            velocity_expected_smoothed = attention_utils.smooth_map(velocity_expected_raw, sigma=0.7).astype(np.float32)
+            part_expected_smoothed = attention_utils.smooth_map(part_expected_raw, sigma=0.7).astype(np.float32)
+            edit_expected_smoothed = attention_utils.smooth_map(edit_expected_raw, sigma=0.7).astype(np.float32)
+
+            velocity_expected_threshold = float(attention_utils.otsu_threshold(velocity_expected_smoothed))
+            part_expected_threshold = float(attention_utils.otsu_threshold(part_expected_smoothed))
+            edit_expected_threshold = float(attention_utils.otsu_threshold(edit_expected_smoothed))
+
+            velocity_expected_binary = (velocity_expected_smoothed > velocity_expected_threshold).astype(np.uint8)
+            part_expected_binary = (part_expected_smoothed > part_expected_threshold).astype(np.uint8)
+            edit_expected_binary = (edit_expected_smoothed > edit_expected_threshold).astype(np.uint8)
+
+            velocity_raw = np.load(output_dir / "aggregate/velocity_delta_raw.npy")
+            velocity_smoothed = np.load(output_dir / "aggregate/velocity_delta_smoothed.npy")
+            velocity_binary = np.load(output_dir / "aggregate/velocity_delta_binary.npy")
+            part_raw = np.load(output_dir / "aggregate/part_attention_raw.npy")
+            part_smoothed = np.load(output_dir / "aggregate/part_attention_smoothed.npy")
+            part_binary = np.load(output_dir / "aggregate/part_attention_binary.npy")
+            edit_raw = np.load(output_dir / "aggregate/edit_attention_raw.npy")
+            edit_smoothed = np.load(output_dir / "aggregate/edit_attention_smoothed.npy")
+            edit_binary = np.load(output_dir / "aggregate/edit_attention_binary.npy")
+
+            self.assertEqual(velocity_raw.dtype, np.float32)
+            self.assertEqual(velocity_smoothed.dtype, np.float32)
+            self.assertEqual(velocity_binary.dtype, np.uint8)
+            self.assertEqual(part_raw.dtype, np.float32)
+            self.assertEqual(part_binary.dtype, np.uint8)
+            self.assertEqual(edit_smoothed.dtype, np.float32)
+            self.assertTrue(np.isfinite(velocity_raw).all())
+            self.assertTrue(np.isfinite(velocity_smoothed).all())
+            self.assertTrue(np.isfinite(part_raw).all())
+            self.assertTrue(np.isfinite(edit_smoothed).all())
+
+            np.testing.assert_allclose(velocity_raw, velocity_expected_raw)
+            np.testing.assert_allclose(velocity_smoothed, velocity_expected_smoothed)
+            np.testing.assert_array_equal(velocity_binary, velocity_expected_binary)
+            np.testing.assert_allclose(part_raw, part_expected_raw)
+            np.testing.assert_allclose(part_smoothed, part_expected_smoothed)
+            np.testing.assert_array_equal(part_binary, part_expected_binary)
+            np.testing.assert_allclose(edit_raw, edit_expected_raw)
+            np.testing.assert_allclose(edit_smoothed, edit_expected_smoothed)
+            np.testing.assert_array_equal(edit_binary, edit_expected_binary)
+
             self.assertEqual(metadata["recorded_step_indices"], [0, 1])
+            self.assertEqual(metadata["recorded_step_timesteps"], [0.75, 0.5])
             self.assertEqual(metadata["case_uid"], "case_test")
             self.assertEqual(metadata["part_token_indices"], [0])
             self.assertEqual(metadata["edit_token_indices"], [1])
+            self.assertEqual(metadata["layer_ids"], [0])
+            self.assertEqual(metadata["normalization"], "per_step_minmax_0_1")
+            self.assertEqual(metadata["smoothing_sigma"], 0.7)
+            self.assertEqual(metadata["threshold_method"], "otsu")
+            self.assertEqual(metadata["map_shape"], [2, 2])
+            self.assertEqual(metadata["thresholds"]["velocity_delta"], velocity_expected_threshold)
+            self.assertEqual(metadata["thresholds"]["part_attention"], part_expected_threshold)
+            self.assertEqual(metadata["thresholds"]["edit_attention"], edit_expected_threshold)
+
+            metadata_disk = json.loads((output_dir / "probe_metadata.json").read_text())
+            self.assertEqual(metadata_disk, metadata)
+
+    def test_same_state_inversion_probe_rejects_nonfinite_maps_before_writing(self):
+        probe = load_probe_module()
+        attention_probe = DummyAttentionProbe()
+        attention_probe.token_groups = {"part": [0], "edit": [1]}
+        attention_probe.layer_ids = [0]
+        attention_probe.step_records = {
+            "part": [torch.tensor([[np.nan, 0.8], [0.5, 0.1]], dtype=torch.float32)],
+            "edit": [torch.tensor([[0.2, 0.8], [0.4, 0.6]], dtype=torch.float32)],
+        }
+        observer = probe.SameStateInversionProbe(
+            model=RecordingModel(target_pred=torch.zeros(1, 2, 2)),
+            target_txt=torch.ones(1, 2, 4),
+            target_txt_ids=torch.ones(1, 2, 3),
+            target_vec=torch.ones(1, 4),
+            attention_probe=attention_probe,
+        )
+        observer.step_indices = [0]
+        observer.step_timesteps = [0.75]
+        observer.step_grid_shapes = [(2, 2)]
+        observer.velocity_step_maps = [np.array([[1.0, 2.0], [0.0, 4.0]], dtype=np.float32)]
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir) / "probe"
+            with self.assertRaisesRegex(ValueError, "part_attention step 0"):
+                observer.finalize(output_dir, {"case_uid": "case_test"})
+            self.assert_no_artifacts_written(output_dir)
+
+    def test_same_state_inversion_probe_rejects_mismatched_signal_shapes_before_writing(self):
+        probe = load_probe_module()
+        attention_probe = DummyAttentionProbe()
+        attention_probe.token_groups = {"part": [0], "edit": [1]}
+        attention_probe.layer_ids = [0]
+        attention_probe.step_records = {
+            "part": [torch.tensor([[0.2, 0.8], [0.5, 0.1]], dtype=torch.float32)],
+            "edit": [torch.tensor([[0.2, 0.8]], dtype=torch.float32)],
+        }
+        observer = probe.SameStateInversionProbe(
+            model=RecordingModel(target_pred=torch.zeros(1, 2, 2)),
+            target_txt=torch.ones(1, 2, 4),
+            target_txt_ids=torch.ones(1, 2, 3),
+            target_vec=torch.ones(1, 4),
+            attention_probe=attention_probe,
+        )
+        observer.step_indices = [0]
+        observer.step_timesteps = [0.75]
+        observer.step_grid_shapes = [(2, 2)]
+        observer.velocity_step_maps = [np.array([[1.0, 2.0], [0.0, 4.0]], dtype=np.float32)]
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir) / "probe"
+            with self.assertRaisesRegex(ValueError, "edit_attention step 0 shape"):
+                observer.finalize(output_dir, {"case_uid": "case_test"})
+            self.assert_no_artifacts_written(output_dir)
 
 
 if __name__ == "__main__":
