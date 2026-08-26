@@ -108,7 +108,7 @@ def build_commands(
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    repo_root = find_repo_root(Path.cwd())
+    repo_root = find_repo_root(Path(__file__))
     parser = argparse.ArgumentParser(description="Run same-state inversion localization diagnostics.")
     parser.add_argument(
         "--manifest",

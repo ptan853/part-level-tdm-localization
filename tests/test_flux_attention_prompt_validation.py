@@ -280,6 +280,21 @@ class PromptValidationTest(unittest.TestCase):
         )
         edit.validate_args(parser, args)
 
+        controlnet_args = parser.parse_args(
+            [
+                "--same_state_probe_dir",
+                "probe",
+                "--probe_part",
+                "head",
+                "--probe_edit",
+                "alien",
+                "--controlnet_type",
+                "single",
+            ]
+        )
+        with self.assertRaises(SystemExit):
+            edit.validate_args(parser, controlnet_args)
+
     def test_main_wires_same_state_probe_only_for_inversion_and_finalizes(self):
         edit = load_edit_module()
         denoise_calls = []

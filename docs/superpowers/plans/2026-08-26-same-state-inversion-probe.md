@@ -378,4 +378,3 @@ Confirm there are no tracked model caches, generated images, `__pycache__`, or e
 git add docs/superpowers/specs/2026-08-26-same-state-inversion-probe-design.md docs/superpowers/plans/2026-08-26-same-state-inversion-probe.md
 git commit -m "docs: finalize same-state probe workflow"
 ```
-

@@ -8,6 +8,7 @@ import pytest
 ISOLATED_TEST_FILES = {
     "test_flux_attention_prompt_validation.py",
     "test_inversion_step_observer.py",
+    "test_run_same_state_inversion_probe.py",
     "test_same_state_probe.py",
 }
 ISOLATED_MODULE_ROOTS = {

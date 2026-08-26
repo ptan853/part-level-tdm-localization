@@ -104,4 +104,3 @@ Submodule commit:
 
 - The repo-local submodule still has generated `__pycache__` files from the test run, but they were not staged or committed.
 - This task intentionally does not wire the probe into `edit.py` or add runner logic.
-
