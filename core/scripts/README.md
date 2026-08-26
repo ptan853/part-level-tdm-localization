@@ -48,15 +48,29 @@ Run a specific case:
 python core/scripts/run_fys_pilot.py --case-uid real_0008 --execute
 ```
 
-Run the original `--mask_path` path for debugging only:
+Run a one-case GT-mask oracle smoke test:
 
 ```bash
-python core/scripts/run_fys_pilot.py --case-uid real_0008 --oracle-mask --execute
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --case-uid real_0008 \
+  --seeds 0 \
+  --oracle-mask \
+  --execute
 ```
 
-This is not reported as a clean GT-mask oracle in the final note because the
-original FYS code path still prioritizes the internally computed `edit_map` for
-the injected layers.
+Oracle mode projects the manifest GT mask to the FLUX image-token grid and uses
+it as the final Stage 3 `edit_map`. It keeps the original source inversion,
+target trajectory, and late KV-injection schedule. Outputs are isolated under
+`core/results/fys_mask_ablation/oracle_gt_mask/`.
+
+Each Oracle run saves the diagnostic TDM as well as the actual control mask:
+
+```text
+tdm/oracle_gt_mask_patch_grid.npy
+tdm/selected_injection_mask.npy
+tdm/tdm_metadata.json
+```
 
 Preview the attention-gated TDM variant without launching the model:
 

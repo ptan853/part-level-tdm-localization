@@ -158,10 +158,10 @@ def build_fys_command(
     if use_oracle_mask:
         args.extend(["--mask_path", str(resolve_repo_path(repo_root, record["gt_mask"]))])
     if tdm_mask_mode != "original":
+        args.extend(["--tdm_mask_mode", tdm_mask_mode])
+    if tdm_mask_mode == "attention_gated":
         args.extend(
             [
-                "--tdm_mask_mode",
-                tdm_mask_mode,
                 "--attention_token_mode",
                 attention_token_mode,
                 "--attention_part",
@@ -205,10 +205,10 @@ def build_fys_command(
         "controlnet_type": controlnet_type,
         "use_oracle_mask": use_oracle_mask,
         "tdm_mask_mode": tdm_mask_mode,
-        "attention_token_mode": attention_token_mode if tdm_mask_mode != "original" else None,
-        "attention_part": record.get("part") if tdm_mask_mode != "original" else None,
-        "attention_edit": record.get("edit") if tdm_mask_mode != "original" else None,
-        "attention_layers": attention_layers if tdm_mask_mode != "original" else None,
+        "attention_token_mode": attention_token_mode if tdm_mask_mode == "attention_gated" else None,
+        "attention_part": record.get("part") if tdm_mask_mode == "attention_gated" else None,
+        "attention_edit": record.get("edit") if tdm_mask_mode == "attention_gated" else None,
+        "attention_layers": attention_layers if tdm_mask_mode == "attention_gated" else None,
     }
 
     return FysCommand(
@@ -309,7 +309,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Write the command/config matrix during dry-run. --execute always writes it.",
     )
     parser.add_argument("--execute", action="store_true", help="Actually run FYS. Default is dry-run only.")
-    parser.add_argument("--oracle-mask", action="store_true", help="Pass gt_mask as --mask_path for oracle-mask runs.")
+    parser.add_argument(
+        "--oracle-mask",
+        action="store_true",
+        help="Use gt_mask as the Stage 3 injection mask while keeping the FYS schedule unchanged.",
+    )
     parser.add_argument("--python", default=sys.executable, help="Python executable used inside FollowYourShape/src.")
     parser.add_argument("--name", default="flux-dev", help="FYS model name.")
     parser.add_argument("--guidance", type=float, default=2.0)
@@ -332,6 +336,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.oracle_mask and args.tdm_mask_mode != "original":
+        raise ValueError("--oracle-mask cannot be combined with --tdm-mask-mode attention_gated")
+    effective_mask_mode = "oracle" if args.oracle_mask else args.tdm_mask_mode
     repo_root = find_repo_root(args.manifest)
     records = select_records(load_manifest(args.manifest), args.case_uids, args.limit)
     if not records:
@@ -342,8 +349,10 @@ def main(argv: list[str] | None = None) -> int:
     output_root = None
     if args.output_root is not None:
         output_root = args.output_root if args.output_root.is_absolute() else repo_root / args.output_root
-    if output_root is None and args.tdm_mask_mode != "original":
+    if output_root is None and effective_mask_mode == "attention_gated":
         output_root = repo_root / "core" / "results" / "fys_mask_ablation" / "attention_gated_tdm"
+    elif output_root is None and effective_mask_mode == "oracle":
+        output_root = repo_root / "core" / "results" / "fys_mask_ablation" / "oracle_gt_mask"
     commands = []
     for record in records:
         for seed in seeds:
@@ -362,7 +371,7 @@ def main(argv: list[str] | None = None) -> int:
                     inject=args.inject,
                     offload=not args.no_offload,
                     controlnet_type=args.controlnet_type,
-                    tdm_mask_mode=args.tdm_mask_mode,
+                    tdm_mask_mode=effective_mask_mode,
                     attention_token_mode=args.attention_token_mode,
                     attention_layers=args.attention_layers,
                     output_root=output_root,
@@ -372,7 +381,12 @@ def main(argv: list[str] | None = None) -> int:
     run_matrix_path = args.run_matrix
     if run_matrix_path is None:
         suffix = "single_seed" if args.seeds is None else "multi_seed"
-        mode_prefix = "" if args.tdm_mask_mode == "original" else f"{args.tdm_mask_mode}_{args.attention_token_mode}_"
+        if effective_mask_mode == "original":
+            mode_prefix = ""
+        elif effective_mask_mode == "attention_gated":
+            mode_prefix = f"{effective_mask_mode}_{args.attention_token_mode}_"
+        else:
+            mode_prefix = "oracle_"
         run_matrix_path = repo_root / "core" / "results" / "run_matrices" / f"{mode_prefix}{args.manifest.stem}_{suffix}.csv"
     elif not run_matrix_path.is_absolute():
         run_matrix_path = repo_root / run_matrix_path

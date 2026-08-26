@@ -55,6 +55,36 @@ class AttentionGatedTdmMaskTest(unittest.TestCase):
         self.assertEqual(result["binary_mask"][0, 1], 1)
         self.assertEqual(int(result["binary_mask"].sum()), 1)
 
+    def test_oracle_mode_uses_gt_mask_without_tdm_or_attention(self):
+        mask_utils = load_mask_utils_module()
+        smoothed_tdm = np.array([[0.9, 0.9], [0.1, 0.1]], dtype=np.float32)
+        original_binary = np.array([[1, 1], [0, 0]], dtype=np.uint8)
+        oracle_binary = np.array([[0, 0], [1, 0]], dtype=np.uint8)
+
+        result = mask_utils.build_attention_gated_tdm_mask(
+            smoothed_tdm=smoothed_tdm,
+            original_binary_tdm=original_binary,
+            attention_map=None,
+            oracle_binary_mask=oracle_binary,
+            mask_mode="oracle",
+        )
+
+        np.testing.assert_array_equal(result["binary_mask"], oracle_binary)
+        self.assertEqual(result["selected_mask_source"], "oracle_gt_mask")
+        self.assertIsNone(result["threshold"])
+
+    def test_oracle_mode_rejects_shape_mismatch(self):
+        mask_utils = load_mask_utils_module()
+
+        with self.assertRaisesRegex(ValueError, "oracle_binary_mask shape"):
+            mask_utils.build_attention_gated_tdm_mask(
+                smoothed_tdm=np.zeros((2, 2), dtype=np.float32),
+                original_binary_tdm=np.zeros((2, 2), dtype=np.uint8),
+                attention_map=None,
+                oracle_binary_mask=np.zeros((3, 2), dtype=np.uint8),
+                mask_mode="oracle",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

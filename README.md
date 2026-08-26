@@ -89,7 +89,11 @@ The baseline runs plain target-prompt FLUX denoising from the same inverted late
 
 ### Attention-Gated FYS
 
-Attention-gated FYS keeps the same inversion, target denoising, and late KV-injection schedule as FYS, but replaces the final binary TDM mask with a TDM-attention hybrid mask. The hybrid is formed by normalizing the smoothed TDM and the target-token attention map, multiplying them as a soft gate, smoothing the product, and binarizing with Otsu thresholding. I evaluate both `part+edit` token attention and `part`-only token attention. The current repo excludes the attempted oracle-mask run because the original code path gives priority to the internally computed `edit_map`; it is not a clean GT-mask oracle.
+Attention-gated FYS keeps the same inversion, target denoising, and late KV-injection schedule as FYS, but replaces the final binary TDM mask with a TDM-attention hybrid mask. The hybrid is formed by normalizing the smoothed TDM and the target-token attention map, multiplying them as a soft gate, smoothing the product, and binarizing with Otsu thresholding. I evaluate both `part+edit` token attention and `part`-only token attention.
+
+### Oracle GT Mask
+
+The oracle mode keeps the same source inversion, target trajectory, injection schedule, and KV-injection operation as FYS, but replaces the final Stage 3 `edit_map` with the ground-truth part mask projected to the FLUX image-token grid. The GT mask is not applied during the early initialization steps, so this is a mask-source ablation rather than a different control schedule. The run saves both the diagnostic TDM and the exact oracle mask used for injection.
 
 ## Reproduce
 
@@ -193,6 +197,12 @@ python core/scripts/run_fys_pilot.py \
   --attention-token-mode part \
   --output-root core/results/fys_mask_ablation/attention_gated_tdm_part \
   --run-matrix core/results/run_matrices/attention_gated_part_pilot_12_manifest_multi_seed.csv \
+  --execute
+
+python core/scripts/run_fys_pilot.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0 \
+  --oracle-mask \
   --execute
 ```
 

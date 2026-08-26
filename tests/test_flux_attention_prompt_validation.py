@@ -95,6 +95,46 @@ class PromptValidationTest(unittest.TestCase):
         self.assertIn("alien", command.args)
         self.assertIn("fys_mask_ablation/attention_gated_tdm/case_0001/seed_000", command.run_config["output_dir"])
 
+    def test_oracle_fys_command_uses_gt_mask_and_oracle_mode(self):
+        runner = load_fys_runner_module()
+        record = {
+            "case_uid": "case_0001",
+            "source_image": "core/data/case/source.png",
+            "gt_mask": "core/data/case/gt_mask.png",
+            "source_prompt": "a man standing",
+            "target_prompt": "a man with alien head standing",
+            "follow_your_shape_output_dir": "core/results/follow_your_shape/case_0001",
+            "part": "head",
+            "edit": "alien",
+        }
+
+        command = runner.build_fys_command(
+            record,
+            repo_root=REPO_ROOT,
+            python_executable="python",
+            seed=0,
+            seed_subdirs=True,
+            use_oracle_mask=True,
+            name="flux-dev",
+            guidance=2.0,
+            num_steps=15,
+            front=2,
+            inject=4,
+            offload=True,
+            controlnet_type="none",
+            tdm_mask_mode="oracle",
+            attention_token_mode="part_edit",
+            attention_layers="28,29",
+            output_root=REPO_ROOT / "core" / "results" / "fys_mask_ablation" / "oracle_gt_mask",
+        )
+
+        self.assertIn("--mask_path", command.args)
+        self.assertIn("core/data/case/gt_mask.png", "/".join(command.args))
+        self.assertIn("--tdm_mask_mode", command.args)
+        self.assertIn("oracle", command.args)
+        self.assertEqual(command.run_config["tdm_mask_mode"], "oracle")
+        self.assertIn("fys_mask_ablation/oracle_gt_mask/case_0001/seed_000", command.run_config["output_dir"])
+
 
 if __name__ == "__main__":
     unittest.main()
