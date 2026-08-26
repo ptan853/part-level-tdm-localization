@@ -1,5 +1,7 @@
 import importlib.util
+import json
 import importlib
+import tempfile
 from pathlib import Path
 import sys
 import unittest
@@ -387,6 +389,81 @@ class SameStateProbeTest(unittest.TestCase):
         self.assertIsNone(info_after["edit_map"])
         self.assertEqual(info_after["type"], "single")
         self.assertEqual(info_after["id"], 0)
+
+    def test_same_state_inversion_probe_serializes_step_and_aggregate_artifacts(self):
+        probe = load_probe_module()
+        attention_probe = DummyAttentionProbe()
+        attention_probe.token_groups = {"part": [0], "edit": [1]}
+        attention_probe.layer_ids = [0]
+        attention_probe.step_records = {
+            "part": [
+                torch.tensor([0.20, 0.80], dtype=torch.float32),
+                torch.tensor([0.60, 0.40], dtype=torch.float32),
+            ],
+            "edit": [
+                torch.tensor([0.55, 0.45], dtype=torch.float32),
+                torch.tensor([0.15, 0.85], dtype=torch.float32),
+            ],
+        }
+        observer = probe.SameStateInversionProbe(
+            model=RecordingModel(target_pred=torch.zeros(1, 2, 2)),
+            target_txt=torch.ones(1, 2, 4),
+            target_txt_ids=torch.ones(1, 2, 3),
+            target_vec=torch.ones(1, 4),
+            attention_probe=attention_probe,
+        )
+        observer.step_indices = [0, 1]
+        observer.step_timesteps = [0.75, 0.50]
+        observer.velocity_step_maps = [
+            np.array([1.0, 2.0], dtype=np.float32),
+            np.array([3.0, 4.0], dtype=np.float32),
+        ]
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            observer.finalize(output_dir, {"case_uid": "case_test"})
+
+            expected_paths = [
+                "steps/step_00_velocity_delta.npy",
+                "steps/step_00_velocity_delta.png",
+                "steps/step_00_part_attention.npy",
+                "steps/step_00_part_attention.png",
+                "steps/step_00_edit_attention.npy",
+                "steps/step_00_edit_attention.png",
+                "steps/step_01_velocity_delta.npy",
+                "steps/step_01_velocity_delta.png",
+                "steps/step_01_part_attention.npy",
+                "steps/step_01_part_attention.png",
+                "steps/step_01_edit_attention.npy",
+                "steps/step_01_edit_attention.png",
+                "aggregate/velocity_delta_raw.npy",
+                "aggregate/velocity_delta_smoothed.npy",
+                "aggregate/velocity_delta_binary.npy",
+                "aggregate/part_attention_raw.npy",
+                "aggregate/part_attention_smoothed.npy",
+                "aggregate/part_attention_binary.npy",
+                "aggregate/edit_attention_raw.npy",
+                "aggregate/edit_attention_smoothed.npy",
+                "aggregate/edit_attention_binary.npy",
+                "aggregate/velocity_delta_raw.png",
+                "aggregate/velocity_delta_smoothed.png",
+                "aggregate/velocity_delta_binary.png",
+                "aggregate/part_attention_raw.png",
+                "aggregate/part_attention_smoothed.png",
+                "aggregate/part_attention_binary.png",
+                "aggregate/edit_attention_raw.png",
+                "aggregate/edit_attention_smoothed.png",
+                "aggregate/edit_attention_binary.png",
+                "probe_metadata.json",
+            ]
+            for relative_path in expected_paths:
+                self.assertTrue((output_dir / relative_path).exists(), relative_path)
+
+            metadata = json.loads((output_dir / "probe_metadata.json").read_text())
+            self.assertEqual(metadata["recorded_step_indices"], [0, 1])
+            self.assertEqual(metadata["case_uid"], "case_test")
+            self.assertEqual(metadata["part_token_indices"], [0])
+            self.assertEqual(metadata["edit_token_indices"], [1])
 
 
 if __name__ == "__main__":
