@@ -1,12 +1,20 @@
 import importlib.util
 from pathlib import Path
 import sys
+import tempfile
+import types
 import unittest
+from unittest import mock
+
+import torch
+from PIL import Image
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUNNER_PATH = REPO_ROOT / "core" / "scripts" / "run_flux_attention_baseline.py"
 FYS_RUNNER_PATH = REPO_ROOT / "core" / "scripts" / "run_fys_pilot.py"
+EDIT_PATH = REPO_ROOT / "core" / "third_party" / "FollowYourShape" / "src" / "edit.py"
+FYS_SRC = REPO_ROOT / "core" / "third_party" / "FollowYourShape" / "src"
 
 
 def load_runner_module():
@@ -25,6 +33,123 @@ def load_fys_runner_module():
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
+
+def load_edit_module():
+    sys.path.insert(0, str(FYS_SRC))
+    flux_util_module = types.ModuleType("flux.util")
+    flux_util_module.configs = {"flux-dev": object()}
+    flux_util_module.embed_watermark = lambda value: value
+    flux_util_module.load_ae = lambda *args, **kwargs: None
+    flux_util_module.load_clip = lambda *args, **kwargs: None
+    flux_util_module.load_flow_model = lambda *args, **kwargs: None
+    flux_util_module.load_t5 = lambda *args, **kwargs: None
+    sys.modules["flux.util"] = flux_util_module
+    if "fire" not in sys.modules:
+        fire_module = types.ModuleType("fire")
+        fire_module.Fire = object()
+        sys.modules["fire"] = fire_module
+    if "transformers" not in sys.modules:
+        transformers_module = types.ModuleType("transformers")
+        for name in [
+            "CLIPTextModel",
+            "CLIPTokenizer",
+            "T5EncoderModel",
+            "T5Tokenizer",
+            "DPTForDepthEstimation",
+            "DPTImageProcessor",
+        ]:
+            setattr(transformers_module, name, type(name, (), {}))
+        transformers_module.pipeline = lambda *args, **kwargs: None
+        sys.modules["transformers"] = transformers_module
+    if "diffusers" not in sys.modules:
+        diffusers_module = types.ModuleType("diffusers")
+        diffusers_module.FluxControlNetModel = type("FluxControlNetModel", (), {})
+        diffusers_module.FluxMultiControlNetModel = type("FluxMultiControlNetModel", (), {})
+        sys.modules["diffusers"] = diffusers_module
+    if "seaborn" not in sys.modules:
+        sys.modules["seaborn"] = types.ModuleType("seaborn")
+    if "cv2" not in sys.modules:
+        sys.modules["cv2"] = types.ModuleType("cv2")
+    if "imwatermark" not in sys.modules:
+        imwatermark_module = types.ModuleType("imwatermark")
+        imwatermark_module.WatermarkEncoder = type("WatermarkEncoder", (), {})
+        sys.modules["imwatermark"] = imwatermark_module
+    spec = importlib.util.spec_from_file_location("fys_edit", EDIT_PATH)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+class DummyT5:
+    def __init__(self):
+        self.max_length = 512
+        self.tokenizer = object()
+
+    def to(self, device):
+        return self
+
+
+class DummyClip:
+    def to(self, device):
+        return self
+
+
+class DummyModel:
+    def to(self, device):
+        return self
+
+    def cpu(self):
+        return self
+
+
+class DummyEncoderDecoder:
+    def to(self, device):
+        return self
+
+
+class DummyAE:
+    def __init__(self):
+        self.encoder = DummyEncoderDecoder()
+        self.decoder = DummyEncoderDecoder()
+
+    def to(self, device):
+        return self
+
+    def cpu(self):
+        return self
+
+    def decode(self, x):
+        return x
+
+
+class RecordingAttentionProbe:
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+        self.closed = False
+        self.step_records = {"part": [], "edit": []}
+        self.token_groups = kwargs["token_groups"]
+        self.layer_ids = set(kwargs["layer_ids"])
+
+    def close(self):
+        self.closed = True
+
+
+class RecordingSameStateProbe:
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+        self.finalize_calls = []
+
+    def __call__(self, **event):
+        return None
+
+    def finalize(self, output_dir, metadata):
+        self.finalize_calls.append((Path(output_dir), metadata))
+        return {"probe_dir": str(output_dir)}
 
 
 class PromptValidationTest(unittest.TestCase):
@@ -134,6 +259,212 @@ class PromptValidationTest(unittest.TestCase):
         self.assertIn("oracle", command.args)
         self.assertEqual(command.run_config["tdm_mask_mode"], "oracle")
         self.assertIn("fys_mask_ablation/oracle_gt_mask/case_0001/seed_000", command.run_config["output_dir"])
+
+    def test_same_state_probe_requires_part_and_edit_terms(self):
+        edit = load_edit_module()
+        parser = edit.build_arg_parser()
+
+        with self.assertRaises(SystemExit):
+            args = parser.parse_args(["--same_state_probe_dir", "probe"])
+            edit.validate_args(parser, args)
+
+        args = parser.parse_args(
+            [
+                "--same_state_probe_dir",
+                "probe",
+                "--probe_part",
+                "head",
+                "--probe_edit",
+                "alien",
+            ]
+        )
+        edit.validate_args(parser, args)
+
+    def test_main_wires_same_state_probe_only_for_inversion_and_finalizes(self):
+        edit = load_edit_module()
+        denoise_calls = []
+        probe_instances = []
+        attention_instances = []
+        select_calls = []
+
+        def fake_prepare(t5, clip, img, prompt):
+            return {
+                "img": torch.zeros(1, 4, 4),
+                "img_ids": torch.zeros(1, 4, 3),
+                "txt": torch.zeros(1, 8, 4),
+                "txt_ids": torch.zeros(1, 8, 3),
+                "vec": torch.zeros(1, 4),
+            }
+
+        def fake_select(tokenizer, target_prompt, part, edit, max_length, token_mode):
+            select_calls.append(
+                {
+                    "target_prompt": target_prompt,
+                    "part": part,
+                    "edit": edit,
+                    "max_length": max_length,
+                    "token_mode": token_mode,
+                }
+            )
+            if token_mode == "part":
+                return [4, 5]
+            if token_mode == "edit":
+                return [2]
+            raise AssertionError(f"unexpected token mode: {token_mode}")
+
+        def fake_attention_probe(*args, **kwargs):
+            instance = RecordingAttentionProbe(*args, **kwargs)
+            attention_instances.append(instance)
+            return instance
+
+        def fake_same_state_probe(*args, **kwargs):
+            instance = RecordingSameStateProbe(*args, **kwargs)
+            probe_instances.append(instance)
+            return instance
+
+        def fake_denoise(*args, **kwargs):
+            denoise_calls.append(kwargs)
+            return torch.zeros(1, 4, 4), kwargs["info"]
+
+        def fake_denoise_with_tdm(*args, **kwargs):
+            self.assertNotIn("step_observer", kwargs)
+            return torch.zeros(1, 3, 4, 4), kwargs["info"]
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            image_path = tmp_path / "source.png"
+            Image.new("RGB", (16, 16), color="white").save(image_path)
+            output_dir = tmp_path / "outputs"
+            feature_dir = tmp_path / "features"
+            vis_dir = tmp_path / "vis"
+            probe_dir = tmp_path / "probe"
+
+            args = edit.build_arg_parser().parse_args(
+                [
+                    "--source_img_dir",
+                    str(image_path),
+                    "--source_prompt",
+                    "a man standing in a park wearing a green shirt",
+                    "--target_prompt",
+                    "a man with alien head standing in a park wearing a green shirt",
+                    "--feature_path",
+                    str(feature_dir),
+                    "--vis_path",
+                    str(vis_dir),
+                    "--output_dir",
+                    str(output_dir),
+                    "--same_state_probe_dir",
+                    str(probe_dir),
+                    "--probe_part",
+                    "head",
+                    "--probe_edit",
+                    "alien",
+                    "--probe_layers",
+                    "28,29",
+                ]
+            )
+            edit.validate_args(edit.build_arg_parser(), args)
+
+            with mock.patch.object(edit, "pipeline", return_value=lambda img: [{"label": "nsfw", "score": 0.0}]), \
+                mock.patch.object(edit, "load_t5", return_value=DummyT5()), \
+                mock.patch.object(edit, "load_clip", return_value=DummyClip()), \
+                mock.patch.object(edit, "load_flow_model", return_value=DummyModel()), \
+                mock.patch.object(edit, "load_ae", return_value=DummyAE()), \
+                mock.patch.object(edit, "encode", return_value=torch.zeros(1, 16, 4, 4)), \
+                mock.patch.object(edit, "prepare", side_effect=fake_prepare), \
+                mock.patch.object(edit, "get_schedule", return_value=[1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0]), \
+                mock.patch.object(edit, "denoise", side_effect=fake_denoise), \
+                mock.patch.object(edit, "denoise_with_TDM", side_effect=fake_denoise_with_tdm), \
+                mock.patch.object(edit, "build_inject_list", return_value=[False] * 10), \
+                mock.patch.object(edit, "unpack", return_value=torch.zeros(1, 3, 4, 4)), \
+                mock.patch.object(edit, "embed_watermark", side_effect=lambda x: x), \
+                mock.patch.object(edit, "select_target_token_indices", side_effect=fake_select), \
+                mock.patch.object(edit, "NamedSingleBlockAttentionProbe", side_effect=fake_attention_probe), \
+                mock.patch.object(edit, "SameStateInversionProbe", side_effect=fake_same_state_probe):
+                edit.main(args, device="cpu")
+
+        self.assertEqual(len(select_calls), 2)
+        self.assertEqual([call["token_mode"] for call in select_calls], ["part", "edit"])
+        self.assertEqual(len(attention_instances), 1)
+        self.assertEqual(attention_instances[0].token_groups, {"part": [4, 5], "edit": [2]})
+        self.assertEqual(attention_instances[0].layer_ids, {28, 29})
+        self.assertEqual(len(probe_instances), 1)
+        self.assertEqual(len(denoise_calls), 1)
+        self.assertIs(denoise_calls[0]["step_observer"], probe_instances[0])
+        self.assertTrue(attention_instances[0].closed)
+        self.assertEqual(len(probe_instances[0].finalize_calls), 1)
+        finalize_dir, finalize_metadata = probe_instances[0].finalize_calls[0]
+        self.assertEqual(finalize_dir.name, "probe")
+        self.assertEqual(finalize_metadata["probe_part"], "head")
+        self.assertEqual(finalize_metadata["probe_edit"], "alien")
+        self.assertEqual(finalize_metadata["part_token_indices"], [4, 5])
+        self.assertEqual(finalize_metadata["edit_token_indices"], [2])
+        self.assertEqual(finalize_metadata["probe_layer_ids"], [28, 29])
+
+    def test_main_without_same_state_probe_leaves_probe_path_unused(self):
+        edit = load_edit_module()
+        denoise_calls = []
+
+        def fake_prepare(t5, clip, img, prompt):
+            return {
+                "img": torch.zeros(1, 4, 4),
+                "img_ids": torch.zeros(1, 4, 3),
+                "txt": torch.zeros(1, 8, 4),
+                "txt_ids": torch.zeros(1, 8, 3),
+                "vec": torch.zeros(1, 4),
+            }
+
+        def fake_denoise(*args, **kwargs):
+            denoise_calls.append(kwargs)
+            return torch.zeros(1, 4, 4), kwargs["info"]
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            image_path = tmp_path / "source.png"
+            Image.new("RGB", (16, 16), color="white").save(image_path)
+            output_dir = tmp_path / "outputs"
+            feature_dir = tmp_path / "features"
+            vis_dir = tmp_path / "vis"
+            probe_dir = tmp_path / "probe"
+
+            args = edit.build_arg_parser().parse_args(
+                [
+                    "--source_img_dir",
+                    str(image_path),
+                    "--source_prompt",
+                    "a man standing in a park wearing a green shirt",
+                    "--target_prompt",
+                    "a man with alien head standing in a park wearing a green shirt",
+                    "--feature_path",
+                    str(feature_dir),
+                    "--vis_path",
+                    str(vis_dir),
+                    "--output_dir",
+                    str(output_dir),
+                ]
+            )
+            edit.validate_args(edit.build_arg_parser(), args)
+
+            with mock.patch.object(edit, "pipeline", return_value=lambda img: [{"label": "nsfw", "score": 0.0}]), \
+                mock.patch.object(edit, "load_t5", return_value=DummyT5()), \
+                mock.patch.object(edit, "load_clip", return_value=DummyClip()), \
+                mock.patch.object(edit, "load_flow_model", return_value=DummyModel()), \
+                mock.patch.object(edit, "load_ae", return_value=DummyAE()), \
+                mock.patch.object(edit, "encode", return_value=torch.zeros(1, 16, 4, 4)), \
+                mock.patch.object(edit, "prepare", side_effect=fake_prepare), \
+                mock.patch.object(edit, "get_schedule", return_value=[1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0]), \
+                mock.patch.object(edit, "denoise", side_effect=fake_denoise), \
+                mock.patch.object(edit, "denoise_with_TDM", return_value=(torch.zeros(1, 3, 4, 4), {"feature": {}, "inject_step": 4})), \
+                mock.patch.object(edit, "build_inject_list", return_value=[False] * 10), \
+                mock.patch.object(edit, "unpack", return_value=torch.zeros(1, 3, 4, 4)), \
+                mock.patch.object(edit, "embed_watermark", side_effect=lambda x: x), \
+                mock.patch.object(edit, "NamedSingleBlockAttentionProbe", side_effect=AssertionError("probe should stay disabled")), \
+                mock.patch.object(edit, "SameStateInversionProbe", side_effect=AssertionError("probe should stay disabled")):
+                edit.main(args, device="cpu")
+
+        self.assertEqual(len(denoise_calls), 1)
+        self.assertIsNone(denoise_calls[0].get("step_observer"))
+        self.assertFalse(probe_dir.exists())
 
 
 if __name__ == "__main__":
