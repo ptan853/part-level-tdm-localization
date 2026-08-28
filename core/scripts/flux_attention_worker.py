@@ -94,6 +94,33 @@ def find_subsequence_positions(sequence: list[int], subsequence: list[int]) -> l
     return out
 
 
+def _normalize_token_piece(token) -> str:
+    return str(token).lower().replace("▁", "").replace("_", "")
+
+
+def find_contextual_token_positions(tokens, positions, phrase):
+    target = "".join(phrase.lower().replace("_", "").split())
+    if not target:
+        return []
+    position_set = set(positions)
+    for start in positions:
+        combined = ""
+        matched = []
+        for end in range(start, len(tokens)):
+            if end not in position_set or (end > start and end - 1 not in position_set):
+                break
+            piece = _normalize_token_piece(tokens[end])
+            if piece.startswith("<"):
+                break
+            combined += piece
+            matched.append(end)
+            if combined == target:
+                return matched
+            if len(combined) >= len(target):
+                break
+    return []
+
+
 def select_target_token_indices(
     tokenizer,
     target_prompt: str,
@@ -127,6 +154,11 @@ def select_target_token_indices(
 
     # SentencePiece sometimes splits differently in context; fall back to token
     # string containment for simple part/edit words.
+    if not selected:
+        tokens = tokenizer.convert_ids_to_tokens(prompt_ids)
+        for phrase in phrase_by_mode[token_mode]:
+            selected.extend(find_contextual_token_positions(tokens, nonpad, phrase))
+
     if not selected:
         tokens = tokenizer.convert_ids_to_tokens(prompt_ids)
         needles = []
