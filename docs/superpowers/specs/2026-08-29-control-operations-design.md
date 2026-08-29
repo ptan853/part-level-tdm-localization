@@ -14,7 +14,7 @@ The following existing entry points retain their current default behavior:
 - `core/third_party/FollowYourShape/src/edit.py`
 - Existing FYS, oracle-mask, attention-gated TDM, and baseline result directories
 
-The new experiment path does not invoke `edit.py` as a subprocess. It reuses the same FLUX model-loading, prompt-preparation, inversion, decoding, and image-KV injection primitives through a dedicated worker.
+The new runner invokes the existing `edit.py` entry point with one optional resolved control-plan argument. This keeps model loading, prompt preparation, inversion, decoding, and image-KV injection on the same implementation used by the legacy experiments.
 
 New control fields are optional and no-op when absent. This is required so legacy FYS calls through `edit.py` produce the same schedule and attention behavior as before.
 
@@ -30,18 +30,7 @@ When no Stage 2 control is active, single-stream blocks must continue to call th
 2. Expand case and seed combinations.
 3. Validate output isolation and required mask inputs.
 4. Write a command matrix.
-5. Invoke `control_plan_worker.py` once per run.
-
-### Per-run worker
-
-`core/scripts/control_plan_worker.py` will:
-
-1. Load FLUX, T5, CLIP, and the autoencoder using existing FYS utilities.
-2. Encode the source image.
-3. Run the unchanged source-prompt inversion and cache source image K/V features.
-4. Prepare target-prompt conditioning and identify target part/edit token indices.
-5. Run denoising with a validated per-step control schedule.
-6. Decode the edited image and save diagnostics, configuration, and logs.
+5. Invoke the existing `edit.py` once per run with `--control-plan-resolved`.
 
 ### Control schedule
 
@@ -79,8 +68,8 @@ L'[image_i, token_j] = L[image_i, token_j] + gate_bias(mask_i, strength)
 
 The first implementation supports:
 
-- token modes: `edit`, `part`, and `part_edit`,
-- mask modes: binary and soft,
+- oracle binary or soft-mask gating of the `edit` token span,
+- dynamic part-token to edit-token logit transfer,
 - configurable gate strength,
 - configurable single-stream block IDs.
 
@@ -108,7 +97,7 @@ The paired oracle plans use the same oracle mask, cases, seeds, latent inversion
 ### Oracle FYS control
 
 ```text
-Stage 1: original target denoising behavior
+Stage 1: original full-source image-KV trajectory initialization
 Stage 2: target prompt, no IT gate, no image-KV injection
 Stage 3: target prompt, oracle-mask image-KV injection
 ```
@@ -116,7 +105,7 @@ Stage 3: target prompt, oracle-mask image-KV injection
 ### Oracle Stage 2 IT-gated FYS
 
 ```text
-Stage 1: unchanged
+Stage 1: unchanged full-source image-KV trajectory initialization
 Stage 2: target prompt, oracle-mask edit-token IT gate, no image-KV injection
 Stage 3: unchanged oracle-mask image-KV injection
 ```
@@ -126,7 +115,7 @@ The only intended difference is the Stage 2 IT gate.
 ### Per-step part-to-edit Stage 2 transfer
 
 ```text
-Stage 1: unchanged
+Stage 1: unchanged full-source image-KV trajectory initialization
 Stage 2: target prompt, current part-token logits transferred to edit-token IT logits
 Stage 3: unchanged image-KV injection schedule and operation
 ```
@@ -154,7 +143,7 @@ This operation is not a mask estimator and does not use a previously thresholded
       "start": 0,
       "end": 1,
       "prompt": "target",
-      "image_kv": "none",
+      "image_kv": "source_all",
       "it_gate": "none"
     },
     {

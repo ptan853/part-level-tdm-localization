@@ -2,6 +2,34 @@
 
 This directory contains runner and evaluation scripts for the PartEdit pilot.
 
+## Config-Driven Control Operations
+
+New Stage 2 attention controls are opt-in and run under isolated result roots.
+Preview the paired oracle experiment without loading FLUX:
+
+```bash
+python core/scripts/run_control_plan.py \
+  --plan core/configs/control_plans/oracle_stage2_edit_logit_gate.json \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0 \
+  --limit 1
+```
+
+Add `--execute` on a configured GPU machine. The locked plans are:
+
+- `oracle_fys_control.json`: no Stage 2 IT gate; oracle Stage 3 image-KV control.
+- `oracle_stage2_edit_logit_gate.json`: oracle-mask edit-token logit gate in Stage 2.
+- `part_to_edit_logit_transfer.json`: per-step part-token logits transferred to edit-token logits in Stage 2.
+
+All three keep the same source inversion, target prompt, 15-step schedule, and
+Stage 3 image-KV operation. Outputs are written to
+`core/results/control_operations/<plan_name>/<case_uid>/seed_<seed>/`. Existing
+FYS result directories are never reused, and non-empty output directories are
+rejected unless `--overwrite` is explicitly supplied.
+
+Without `--control-plan-resolved`, `edit.py` uses the original fused attention
+and legacy FYS injection schedule.
+
 ## Follow-Your-Shape Pilot Runner
 
 Preview the first manifest case without launching the model:

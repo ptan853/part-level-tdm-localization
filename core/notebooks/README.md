@@ -9,6 +9,9 @@ This directory contains the dataset inspection and final evaluation notebooks.
 - `03_evaluate_controlled_revision.ipynb`: final 12-case x 3-seed evaluation, metric tables, and qualitative figures.
 - `04_explore_attention_gated_tdm.ipynb`: offline localization-only exploration of attention-gated TDM masks.
 - `05_evaluate_attention_gated_fys.ipynb`: final attention-gated FYS evaluation, image-preservation metrics, and representative figures.
+- `06_inspect_same_state_inversion_probe.ipynb`: inspect per-step inversion trajectory and attention signals.
+- `07_evaluate_inversion_vs_forward_localization.ipynb`: compare inversion-derived and forward-denoising localization masks.
+- `08_evaluate_control_operations.ipynb`: audit and compare the three config-driven control plans, including optional LPIPS, manual semantic scoring, and full-case visualization.
 
 ## Environment
 

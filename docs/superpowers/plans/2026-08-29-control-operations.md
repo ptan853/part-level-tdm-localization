@@ -301,7 +301,7 @@ Expected: FAIL because the builder does not exist.
 
 - [ ] **Step 3: Implement step control construction and diagnostics**
 
-At each first- and second-order model call, resolve the same integer denoising step and place the control record in `info`. Save operation, step, layers, part/edit indices, mask source, strength, and epsilon to the per-run metadata. Do not alter `inject_list`, `edit_map`, or Stage 3 image-KV code.
+At each first- and second-order model call, resolve the same integer denoising step and place the control record in `info`. Save operation, step, layers, part/edit indices, mask source, strength, and epsilon to the per-run metadata. Preserve the legacy `inject_list` path when no plan is supplied; plan runs reproduce its Stage 1/Stage 3 behavior through explicit `image_kv` stages without altering `edit_map` semantics.
 
 - [ ] **Step 4: Add optional `--control-plan-resolved` support to `edit.py`**
 
@@ -324,7 +324,6 @@ git commit -m "feat: apply scheduled controls during denoising"
 
 **Files:**
 - Create: `core/scripts/run_control_plan.py`
-- Create: `core/scripts/control_plan_worker.py`
 - Create: `core/configs/control_plans/oracle_fys_control.json`
 - Create: `core/configs/control_plans/oracle_stage2_edit_logit_gate.json`
 - Create: `core/configs/control_plans/part_to_edit_logit_transfer.json`
@@ -386,7 +385,7 @@ Expected: PASS. GPU-dependent model execution is not attempted locally.
 - [ ] **Step 7: Commit Task 5**
 
 ```bash
-git add tests/test_run_control_plan.py core/scripts/run_control_plan.py core/scripts/control_plan_worker.py core/configs/control_plans core/scripts/README.md
+git add tests/test_run_control_plan.py core/scripts/run_control_plan.py core/configs/control_plans core/scripts/README.md
 git commit -m "feat: add isolated control-plan experiments"
 ```
 
@@ -429,4 +428,3 @@ python core/scripts/run_control_plan.py \
 - [ ] **Step 4: Verify artifacts and compare the oracle pair**
 
 Confirm each run has `img_0.jpg`, `run_config.json`, `resolved_control_plan.json`, and `run.log`; confirm the baseline and gated oracle configs differ only in the Stage 2 operation; confirm logs contain selected edit-token indices and active steps/layers.
-
