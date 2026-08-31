@@ -147,6 +147,88 @@ class FakeModel:
 
 
 class InversionStepObserverTest(unittest.TestCase):
+    def test_record_source_latents_in_denoising_schedule_order(self):
+        install_optional_dependency_stubs()
+        sampling = load_sampling_module()
+
+        initial = torch.ones(1, 2, 2, requires_grad=True)
+        inversion_input = initial.clone()
+        img_ids = torch.zeros(1, 1, 3)
+        txt = torch.zeros(1, 1, 4)
+        txt_ids = torch.zeros(1, 1, 3)
+        vec = torch.zeros(1, 4)
+        timesteps = [1.0, 0.5, 0.0]
+        inject_list = [False, False]
+
+        _, info = sampling.denoise(
+            FakeModel(),
+            img=inversion_input,
+            img_ids=img_ids,
+            txt=txt,
+            txt_ids=txt_ids,
+            vec=vec,
+            timesteps=timesteps,
+            inverse=True,
+            info={},
+            inject_list=inject_list,
+            record_source_latents=True,
+        )
+
+        self.assertEqual(sorted(info["source_latents"]), [0, 1, 2])
+        torch.testing.assert_close(info["source_latents"][2], initial)
+        torch.testing.assert_close(info["source_latents"][1], torch.full_like(initial, 1.75))
+        torch.testing.assert_close(info["source_latents"][0], torch.full_like(initial, 3.28125))
+        self.assertFalse(info["source_latents"][2].requires_grad)
+        self.assertNotEqual(info["source_latents"][2].data_ptr(), inversion_input.data_ptr())
+        with torch.no_grad():
+            inversion_input.add_(10.0)
+        torch.testing.assert_close(info["source_latents"][2], initial)
+
+    def test_source_latent_recording_is_opt_in_and_preserves_output(self):
+        install_optional_dependency_stubs()
+        sampling = load_sampling_module()
+
+        initial = torch.ones(1, 2, 2)
+        img_ids = torch.zeros(1, 1, 3)
+        txt = torch.zeros(1, 1, 4)
+        txt_ids = torch.zeros(1, 1, 3)
+        vec = torch.zeros(1, 4)
+        timesteps = [1.0, 0.5, 0.0]
+        inject_list = [False, False]
+
+        unrecorded_info = {}
+        unrecorded, unrecorded_info = sampling.denoise(
+            FakeModel(),
+            img=initial.clone(),
+            img_ids=img_ids,
+            txt=txt,
+            txt_ids=txt_ids,
+            vec=vec,
+            timesteps=timesteps,
+            inverse=True,
+            info=unrecorded_info,
+            inject_list=inject_list,
+        )
+
+        recorded_info = {}
+        recorded, recorded_info = sampling.denoise(
+            FakeModel(),
+            img=initial.clone(),
+            img_ids=img_ids,
+            txt=txt,
+            txt_ids=txt_ids,
+            vec=vec,
+            timesteps=timesteps,
+            inverse=True,
+            info=recorded_info,
+            inject_list=inject_list,
+            record_source_latents=True,
+        )
+
+        torch.testing.assert_close(recorded, unrecorded)
+        self.assertNotIn("source_latents", unrecorded_info)
+        self.assertIn("source_latents", recorded_info)
+
     def test_observer_sees_pre_update_state_and_matches_plain_output(self):
         install_optional_dependency_stubs()
         sampling = load_sampling_module()
