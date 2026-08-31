@@ -30,10 +30,19 @@ rejected unless `--overwrite` is explicitly supplied.
 ### Locked Oracle Latent-Projection Pilots
 
 These two plans test direct latent-state projection, not a learned editor. Both
-use the manifest GT part mask only as a diagnostic upper bound: it establishes
-whether a control operation can preserve the source trajectory outside an
-already-correct region. It is not a mask-free result and must not be used as a
-claim of deployable localization.
+use the manifest GT part mask only as an oracle upper bound on localization
+support. It establishes whether a control operation can preserve the source
+trajectory outside an already-correct region. It is not a mask-free result,
+and it is not an upper bound on semantic edit success or visual quality:
+spatially expanding edits can still be suppressed by a fixed GT part mask.
+
+Run these commands from the repository root on local parent branch
+`experiment/latent-state-projection`, with FollowYourShape initialized at
+gitlink `4aee1e642ecf64573e19e36a3a2e216e5d41e85d`. Use the pinned environment
+and setup from the [root reproduction instructions](../../README.md), including
+accepted FLUX.1-dev access, local model cache, and a CUDA-capable GPU for
+commands with `--execute`. A fresh remote clone is not available until the
+parent and submodule feature branches have been pushed.
 
 Preview the Stage 2 projection plan without loading FLUX or writing outputs:
 
@@ -45,14 +54,19 @@ python core/scripts/run_control_plan.py \
   --limit 1
 ```
 
-Run its locked four-case, seed-0 pilot on a configured GPU machine:
+Run its locked four-case, seed-0 pilot on a configured GPU machine. The
+explicit case IDs freeze the cohort as `real_0006`, `real_0010`, `real_0011`,
+and `real_0001`; do not replace them with `--limit 4`.
 
 ```bash
 python core/scripts/run_control_plan.py \
   --plan core/configs/control_plans/oracle_stage2_latent_projection.json \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --case-uid real_0006 \
+  --case-uid real_0010 \
+  --case-uid real_0011 \
+  --case-uid real_0001 \
   --seeds 0 \
-  --limit 4 \
   --execute
 ```
 
@@ -75,8 +89,11 @@ Run its corresponding GPU pilot:
 python core/scripts/run_control_plan.py \
   --plan core/configs/control_plans/oracle_extended_latent_projection.json \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --case-uid real_0006 \
+  --case-uid real_0010 \
+  --case-uid real_0011 \
+  --case-uid real_0001 \
   --seeds 0 \
-  --limit 4 \
   --execute
 ```
 
@@ -88,13 +105,18 @@ core/results/control_operations/<plan_name>/<case_uid>/seed_<seed>/
   resolved_control_plan.json
   run_config.json
   run.log
+  img_0.jpg                  # when accepted by the existing safety filter
+  tdm/oracle_gt_mask_patch_grid.npy
   tdm/selected_injection_mask.npy
   tdm/tdm_metadata.json
+  tdm/control_trace.json
 ```
 
-When latent projection is enabled, `tdm/tdm_metadata.json` and the run log also
-record the projection steps and source-trajectory diagnostics. The runner writes
-the matching command matrix to
+When latent projection is enabled, `tdm/control_trace.json` records both the
+per-step control `trace` and `latent_projection_trace`, including the selected
+source endpoint and outside-mask error diagnostics. `tdm/tdm_metadata.json`
+contains TDM and mask-construction metadata. The runner writes the matching
+command matrix to
 `core/results/run_matrices/<plan_name>.csv` only with `--execute` (or
 `--write-run-matrix`); dry runs print the isolated matrix path without writing
 it.
