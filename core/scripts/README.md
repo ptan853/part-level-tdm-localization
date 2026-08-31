@@ -41,8 +41,7 @@ Run these commands from the repository root on local parent branch
 gitlink `4aee1e642ecf64573e19e36a3a2e216e5d41e85d`. Use the pinned environment
 and setup from the [root reproduction instructions](../../README.md), including
 accepted FLUX.1-dev access, local model cache, and a CUDA-capable GPU for
-commands with `--execute`. A fresh remote clone is not available until the
-parent and submodule feature branches have been pushed.
+commands with `--execute`.
 
 Preview the Stage 2 projection plan without loading FLUX or writing outputs:
 
@@ -120,6 +119,51 @@ command matrix to
 `core/results/run_matrices/<plan_name>.csv` only with `--execute` (or
 `--write-run-matrix`); dry runs print the isolated matrix path without writing
 it.
+
+### Latent-Projection Duration Sweep
+
+The locked duration sweep isolates endpoint projection from Stage 3 image-KV
+injection. It evaluates `real_0006` and `real_0011` at seed 0. Duration `N`
+projects the target endpoint outside the oracle GT mask for denoising steps
+`2..N+1`; `N=0` is the no-projection control and `N=13` covers steps `2-14`.
+No sweep plan uses `source_outside_mask` image-KV injection.
+
+Preview all 28 commands without loading FLUX:
+
+```bash
+python core/scripts/run_latent_projection_duration_sweep.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --case-uid real_0006 \
+  --case-uid real_0011 \
+  --durations 0-13 \
+  --seed 0
+```
+
+Run the complete sweep on a configured GPU machine:
+
+```bash
+python core/scripts/run_latent_projection_duration_sweep.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --case-uid real_0006 \
+  --case-uid real_0011 \
+  --durations 0-13 \
+  --seed 0 \
+  --execute
+```
+
+Outputs are isolated by duration:
+
+```text
+core/results/control_operations/latent_projection_duration_sweep/
+  plans/duration_NN.json
+  duration_NN/<case_uid>/seed_000/
+```
+
+The command matrix is written to
+`core/results/run_matrices/latent_projection_duration_sweep.csv`. The existing
+`oracle_stage2_latent_projection` result (`N=7` plus Stage 3 image-KV
+injection) is retained only as a separate reference and is not part of the
+duration sweep.
 
 Without `--control-plan-resolved`, `edit.py` uses the original fused attention
 and legacy FYS injection schedule.
