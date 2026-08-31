@@ -9,7 +9,12 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 FYS_SRC = REPO_ROOT / "core" / "third_party" / "FollowYourShape" / "src"
 sys.path.insert(0, str(FYS_SRC))
 
-from flux.control_schedule import ControlPlan, load_control_plan, resolve_stage  # noqa: E402
+from flux.control_schedule import (  # noqa: E402
+    ControlPlan,
+    load_control_plan,
+    plan_requires_source_latents,
+    resolve_stage,
+)
 
 
 VALID_PLAN = {
@@ -94,6 +99,84 @@ class ControlScheduleTests(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "it_gate"):
             ControlPlan.from_dict(value)
+
+    def test_latent_projection_defaults_to_none(self):
+        plan = ControlPlan.from_dict(VALID_PLAN)
+
+        self.assertEqual(plan.stages[0].latent_projection, "none")
+
+    def test_latent_projection_accepts_source_outside_mask(self):
+        value = {
+            "name": "projection",
+            "num_steps": 15,
+            "mask_source": "oracle",
+            "stages": [{
+                "name": "stage2",
+                "start": 2,
+                "end": 8,
+                "latent_projection": "source_outside_mask",
+            }],
+        }
+
+        stage = ControlPlan.from_dict(value).stages[0]
+
+        self.assertEqual(stage.latent_projection, "source_outside_mask")
+
+    def test_plan_rejects_unknown_latent_projection(self):
+        value = dict(VALID_PLAN)
+        value["stages"] = [
+            {**VALID_PLAN["stages"][0], "latent_projection": "mystery"}
+        ]
+
+        with self.assertRaisesRegex(ValueError, "latent_projection"):
+            ControlPlan.from_dict(value)
+
+    def test_latent_projection_requires_mask_source(self):
+        value = dict(VALID_PLAN)
+        value.pop("mask_source")
+        value["stages"] = [
+            {**VALID_PLAN["stages"][0], "latent_projection": "source_outside_mask"}
+        ]
+
+        with self.assertRaisesRegex(ValueError, "mask_source"):
+            ControlPlan.from_dict(value)
+
+    def test_plan_requires_source_latents_only_for_projection(self):
+        self.assertFalse(plan_requires_source_latents(None))
+        self.assertFalse(plan_requires_source_latents(ControlPlan.from_dict(VALID_PLAN)))
+
+        value = dict(VALID_PLAN)
+        value["stages"] = [
+            {**VALID_PLAN["stages"][0], "latent_projection": "source_outside_mask"}
+        ]
+
+        self.assertTrue(plan_requires_source_latents(ControlPlan.from_dict(value)))
+
+    def test_locked_latent_projection_plans_have_expected_coverage(self):
+        config_dir = REPO_ROOT / "core" / "configs" / "control_plans"
+        stage2 = load_control_plan(config_dir / "oracle_stage2_latent_projection.json")
+        extended = load_control_plan(config_dir / "oracle_extended_latent_projection.json")
+
+        self.assertEqual(stage2.num_steps, 15)
+        self.assertEqual(extended.num_steps, 15)
+        self.assertEqual(
+            [(stage.start, stage.end, stage.image_kv, stage.latent_projection) for stage in stage2.stages],
+            [
+                (0, 1, "source_all", "none"),
+                (2, 8, "none", "source_outside_mask"),
+                (10, 13, "source_outside_mask", "none"),
+            ],
+        )
+        self.assertEqual(
+            [(stage.start, stage.end, stage.image_kv, stage.latent_projection) for stage in extended.stages],
+            [
+                (0, 1, "source_all", "none"),
+                (2, 14, "none", "source_outside_mask"),
+            ],
+        )
+        self.assertEqual(resolve_stage(stage2, 9), None)
+        self.assertEqual(resolve_stage(stage2, 14), None)
+        self.assertIsNone(resolve_stage(extended, 15))
 
     def test_spatial_operation_requires_mask_source(self):
         value = dict(VALID_PLAN)
