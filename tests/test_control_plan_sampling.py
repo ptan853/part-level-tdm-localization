@@ -165,6 +165,23 @@ class ControlPlanSamplingTests(unittest.TestCase):
                 control_plan=self._projection_plan(),
             )
 
+    def test_projection_validates_mask_before_bfloat16_cast(self):
+        inputs = self._projection_inputs()
+        inputs["img"] = inputs["img"].to(torch.bfloat16)
+        inputs["info"]["source_latents"] = {
+            index: latent.to(torch.bfloat16)
+            for index, latent in inputs["info"]["source_latents"].items()
+        }
+        inputs["control_spatial_mask"] = torch.tensor(
+            [1.0, 0.0, 1.0, 1.0001], dtype=torch.float32
+        )
+
+        with self.assertRaisesRegex(RuntimeError, r"spatial mask values must be in \[0, 1\]"):
+            denoise_with_TDM(
+                **inputs,
+                control_plan=self._projection_plan(),
+            )
+
     def test_projection_trace_is_written_to_control_trace_json(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             inputs = self._projection_inputs(vis_path=temp_dir)
