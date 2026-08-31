@@ -4,10 +4,10 @@
 
 Measure how the duration of oracle-mask latent projection changes the trade-off between target-edit strength and non-target preservation. The sweep isolates latent projection from late-stage FYS image-KV injection.
 
-## Locked Case
+## Locked Cases
 
-- Case: `real_0006`
-- Part/edit: `head -> alien`
+- Case `real_0006`: `head -> alien`
+- Case `real_0011`: `hair -> curly_hair`
 - Seed: `0`
 - Model and sampler settings: unchanged from the existing 15-step controlled experiments
 - Mask source: oracle GT part mask
@@ -49,7 +49,7 @@ The comparison artifact should show all 14 primary outputs in duration order, pl
 
 ## Validation
 
-- Exactly 14 primary runs are present.
+- Exactly 28 primary runs are present: 14 durations for each of the two cases.
 - Run `N` projects exactly steps `2..(N+1)` when `N > 0`.
 - Every projected step uses source endpoint index `i+1`.
 - `outside_mae_after` is zero at every projected step.
