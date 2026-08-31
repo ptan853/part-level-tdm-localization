@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from types import SimpleNamespace
 import sys
 import tempfile
 import unittest
@@ -10,7 +11,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = REPO_ROOT / "core" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-from run_control_plan import build_control_command, validate_output_dir  # noqa: E402
+from run_control_plan import build_control_command, validate_output_dir, write_run_matrix  # noqa: E402
 
 
 class RunControlPlanTests(unittest.TestCase):
@@ -53,6 +54,17 @@ class RunControlPlanTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 validate_output_dir(output, overwrite=False)
             validate_output_dir(output, overwrite=True)
+
+    def test_run_matrix_uses_lf_line_endings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "matrix.csv"
+            command = SimpleNamespace(
+                run_config={"case_uid": "case", "resolved_control_plan": {}},
+                cwd=REPO_ROOT,
+                args=("python", "edit.py"),
+            )
+            write_run_matrix(path, [command], REPO_ROOT)
+            self.assertNotIn(b"\r\n", path.read_bytes())
 
 
 if __name__ == "__main__":

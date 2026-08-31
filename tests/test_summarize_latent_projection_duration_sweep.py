@@ -11,6 +11,7 @@ from core.scripts.summarize_latent_projection_duration_sweep import (
     compute_region_metrics,
     parse_duration_spec,
     validate_primary_run,
+    write_metrics_csv,
 )
 
 
@@ -150,6 +151,12 @@ class SummarizeLatentProjectionDurationSweepTests(unittest.TestCase):
         self.assertAlmostEqual(n2["outside_mean"], 0.075)
         self.assertAlmostEqual(n2["inside_retention_vs_n0"], 2 / 3)
         self.assertAlmostEqual(n2["outside_reduction_vs_n0"], 0.5)
+
+    def test_metrics_csv_uses_lf_line_endings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "metrics.csv"
+            write_metrics_csv(path, [{"duration": 0, "value": 1.0}])
+            self.assertNotIn(b"\r\n", path.read_bytes())
 
 
 if __name__ == "__main__":

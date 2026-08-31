@@ -203,7 +203,7 @@ def write_run_matrix(path: Path, commands: list[ControlCommand], repo_root: Path
         for command in commands
     ]
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 

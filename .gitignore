@@ -22,6 +22,8 @@ core/results/attention_gated_tdm/hybrid_masks/**
 !core/results/control_operations_eval/
 !core/results/control_operations_eval/latent_projection_duration_sweep/
 !core/results/control_operations_eval/latent_projection_duration_sweep/**
+!core/results/control_operations_eval/latent_projection_n0_n3_all_cases/
+!core/results/control_operations_eval/latent_projection_n0_n3_all_cases/**
 !core/results/flux_attention_baseline/
 !core/results/flux_attention_baseline/**
 !core/results/follow_your_shape/
