@@ -165,6 +165,19 @@ The command matrix is written to
 injection) is retained only as a separate reference and is not part of the
 duration sweep.
 
+After all 28 runs finish, validate every trace and generate the metrics table,
+continuous comparison sheet, and inside/outside change curves:
+
+```bash
+python core/scripts/summarize_latent_projection_duration_sweep.py
+```
+
+The summary artifacts are written to
+`core/results/control_operations_eval/latent_projection_duration_sweep/`.
+The summarizer rejects incomplete runs, incorrect source endpoint indices,
+nonzero post-projection outside-mask error, and accidental Stage 3 image-KV
+injection before calculating any image metric.
+
 Without `--control-plan-resolved`, `edit.py` uses the original fused attention
 and legacy FYS injection schedule.
 
