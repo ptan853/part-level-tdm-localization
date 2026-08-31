@@ -160,7 +160,7 @@ def _gt_overlay(source_path: Path, mask_path: Path) -> Image.Image:
     mask = _load_mask(mask_path, source.size)
     overlay = np.zeros((source.height, source.width, 4), dtype=np.uint8)
     overlay[mask] = (230, 45, 45, 120)
-    return Image.alpha_composite(source, Image.fromarray(overlay, mode="RGBA")).convert("RGB")
+    return Image.alpha_composite(source, Image.fromarray(overlay)).convert("RGB")
 
 
 def render_comparison_sheet(
