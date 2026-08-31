@@ -14,6 +14,7 @@ sys.path.insert(0, str(SCRIPTS))
 from run_latent_projection_duration_sweep import (  # noqa: E402
     build_duration_plan,
     build_sweep_commands,
+    select_sweep_records,
     write_duration_plan,
 )
 
@@ -32,6 +33,17 @@ def _record(case_uid: str) -> dict:
 
 
 class DurationPlanTests(unittest.TestCase):
+    def test_all_cases_selects_complete_manifest(self):
+        records = [_record("real_0006"), _record("real_0011"), _record("real_0003")]
+
+        selected = select_sweep_records(records, case_uids=None, all_cases=True)
+
+        self.assertEqual([record["case_uid"] for record in selected], ["real_0006", "real_0011", "real_0003"])
+
+    def test_all_cases_rejects_explicit_case_ids(self):
+        with self.assertRaisesRegex(ValueError, "cannot combine"):
+            select_sweep_records([_record("real_0006")], case_uids=["real_0006"], all_cases=True)
+
     def test_duration_zero_has_no_projection_stage(self):
         plan = build_duration_plan(0)
 

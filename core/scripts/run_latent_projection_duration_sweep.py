@@ -136,6 +136,25 @@ def parse_durations(value: str) -> list[int]:
     return unique
 
 
+def select_sweep_records(
+    manifest: list[dict],
+    *,
+    case_uids: list[str] | None,
+    all_cases: bool,
+) -> list[dict]:
+    if all_cases and case_uids:
+        raise ValueError("cannot combine --all-cases with --case-uid")
+    if all_cases:
+        if not manifest:
+            raise ValueError("manifest contains no cases")
+        return manifest
+    selected_uids = case_uids or list(DEFAULT_CASE_UIDS)
+    records = select_records(manifest, selected_uids, None)
+    if {str(record["case_uid"]) for record in records} != set(selected_uids):
+        raise ValueError("every requested case UID must exist in the manifest")
+    return records
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     repo_root = find_repo_root(Path.cwd())
     parser = argparse.ArgumentParser(description=__doc__)
@@ -145,6 +164,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=repo_root / "core" / "data" / "partedit_subset" / "pilot_12_manifest.json",
     )
     parser.add_argument("--case-uid", action="append", dest="case_uids")
+    parser.add_argument(
+        "--all-cases",
+        action="store_true",
+        help="Run every case in the manifest instead of the two-case diagnostic default.",
+    )
     parser.add_argument("--durations", default="0-13")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--python", default=sys.executable)
@@ -162,10 +186,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     repo_root = find_repo_root(args.manifest)
-    case_uids = args.case_uids or list(DEFAULT_CASE_UIDS)
-    records = select_records(load_manifest(args.manifest), case_uids, None)
-    if {str(record["case_uid"]) for record in records} != set(case_uids):
-        raise ValueError("every requested case UID must exist in the manifest")
+    records = select_sweep_records(
+        load_manifest(args.manifest),
+        case_uids=args.case_uids,
+        all_cases=args.all_cases,
+    )
 
     durations = parse_durations(args.durations)
     output_root = (

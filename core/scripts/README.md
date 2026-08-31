@@ -123,18 +123,17 @@ it.
 ### Latent-Projection Duration Sweep
 
 The locked duration sweep isolates endpoint projection from Stage 3 image-KV
-injection. It evaluates `real_0006` and `real_0011` at seed 0. Duration `N`
+injection. The canonical experiment evaluates all 12 manifest cases at seed 0. Duration `N`
 projects the target endpoint outside the oracle GT mask for denoising steps
 `2..N+1`; `N=0` is the no-projection control and `N=13` covers steps `2-14`.
 No sweep plan uses `source_outside_mask` image-KV injection.
 
-Preview all 28 commands without loading FLUX:
+Preview all 168 commands without loading FLUX:
 
 ```bash
 python core/scripts/run_latent_projection_duration_sweep.py \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
-  --case-uid real_0006 \
-  --case-uid real_0011 \
+  --all-cases \
   --durations 0-13 \
   --seed 0
 ```
@@ -144,11 +143,11 @@ Run the complete sweep on a configured GPU machine:
 ```bash
 python core/scripts/run_latent_projection_duration_sweep.py \
   --manifest core/data/partedit_subset/pilot_12_manifest.json \
-  --case-uid real_0006 \
-  --case-uid real_0011 \
+  --all-cases \
   --durations 0-13 \
   --seed 0 \
-  --execute
+  --execute \
+  --overwrite
 ```
 
 Outputs are isolated by duration:
@@ -160,44 +159,50 @@ core/results/control_operations/latent_projection_duration_sweep/
 ```
 
 The command matrix is written to
-`core/results/run_matrices/latent_projection_duration_sweep.csv`. The existing
-`oracle_stage2_latent_projection` result (`N=7` plus Stage 3 image-KV
-injection) is retained only as a separate reference and is not part of the
-duration sweep.
+`core/results/run_matrices/latent_projection_duration_sweep.csv`. Earlier
+attention-control and Stage 3 image-KV experiments are not part of this locked
+duration sweep or its final evaluation.
 
-After all 28 runs finish, validate every trace and generate the metrics table,
+After all 168 runs finish, validate every trace and generate the metrics table,
 continuous comparison sheet, and inside/outside change curves:
 
 ```bash
-python core/scripts/summarize_latent_projection_duration_sweep.py
+python core/scripts/summarize_latent_projection_duration_sweep.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --all-cases \
+  --durations 0-13 \
+  --output-dir core/results/control_operations_eval/latent_projection_all_cases_n0_n13
 ```
 
 The summary artifacts are written to
-`core/results/control_operations_eval/latent_projection_duration_sweep/`.
+`core/results/control_operations_eval/latent_projection_all_cases_n0_n13/`.
 The summarizer rejects incomplete runs, incorrect source endpoint indices,
 nonzero post-projection outside-mask error, and accidental Stage 3 image-KV
 injection before calculating any image metric.
-
-To evaluate the local `N=0..3` neighborhood across the complete locked
-12-case manifest, pass all case IDs to the same runner, then summarize them
-without rerunning inference:
-
-```bash
-python core/scripts/summarize_latent_projection_duration_sweep.py \
-  --case-uid real_0006 --case-uid real_0008 \
-  --case-uid real_0003 --case-uid real_0002 \
-  --case-uid real_0010 --case-uid real_0004 \
-  --case-uid real_0007 --case-uid real_0001 \
-  --case-uid real_0000 --case-uid real_0011 \
-  --case-uid real_0005 --case-uid real_0009 \
-  --durations 0-3 \
-  --output-dir core/results/control_operations_eval/latent_projection_n0_n3_all_cases
-```
 
 This produces per-run metrics plus overall and part-size-stratified summaries.
 `inside_retention_vs_n0` measures retained GT-region change and
 `outside_reduction_vs_n0` measures reduced non-target change; neither is a
 semantic edit-success score.
+
+### Reusable Manual Review
+
+`build_manual_review.py` creates a standalone scoring page from a long-form
+CSV and a JSON configuration. Each CSV row represents one review item. The
+configuration selects the unique ID, image panels, score dimensions, browser
+storage key, note field, and downloaded filename.
+
+```bash
+python core/scripts/build_manual_review.py \
+  --input <review.csv> \
+  --config <review_config.json> \
+  --output <manual_review.html>
+```
+
+The generated page supports browser-local autosave, importing a prior CSV,
+copying CSV text, downloading current scores, and keyboard navigation. Give
+each task a distinct `storage_key` so unrelated experiments cannot share
+ratings.
 
 Without `--control-plan-resolved`, `edit.py` uses the original fused attention
 and legacy FYS injection schedule.

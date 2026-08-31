@@ -10,6 +10,7 @@ from core.scripts.summarize_latent_projection_duration_sweep import (
     aggregate_metrics,
     compute_region_metrics,
     parse_duration_spec,
+    select_case_uids,
     validate_primary_run,
     write_metrics_csv,
 )
@@ -21,6 +22,17 @@ def write_json(path: Path, payload: dict) -> None:
 
 
 class SummarizeLatentProjectionDurationSweepTests(unittest.TestCase):
+    def test_all_cases_uses_every_manifest_case(self):
+        manifest = {"real_0006": {}, "real_0011": {}, "real_0003": {}}
+
+        selected = select_case_uids(manifest, case_uids=None, all_cases=True)
+
+        self.assertEqual(selected, ("real_0006", "real_0011", "real_0003"))
+
+    def test_all_cases_rejects_explicit_case_ids(self):
+        with self.assertRaisesRegex(ValueError, "cannot combine"):
+            select_case_uids({"real_0006": {}}, case_uids=["real_0006"], all_cases=True)
+
     def make_run(self, root: Path, duration: int = 2) -> Path:
         run_dir = root / f"duration_{duration:02d}" / "real_0006" / "seed_000"
         (run_dir / "tdm").mkdir(parents=True)

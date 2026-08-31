@@ -130,6 +130,21 @@ def load_manifest(path: Path) -> dict[str, dict]:
     return {str(record["case_uid"]): record for record in records}
 
 
+def select_case_uids(
+    manifest: dict[str, dict],
+    *,
+    case_uids: list[str] | None,
+    all_cases: bool,
+) -> tuple[str, ...]:
+    if all_cases and case_uids:
+        raise ValueError("cannot combine --all-cases with --case-uid")
+    if all_cases:
+        if not manifest:
+            raise ValueError("manifest contains no cases")
+        return tuple(manifest)
+    return tuple(case_uids or DEFAULT_CASE_UIDS)
+
+
 def collect_metrics(
     *,
     repo_root: Path,
@@ -313,6 +328,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--reference-root", type=Path)
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--case-uid", action="append", dest="case_uids")
+    parser.add_argument(
+        "--all-cases",
+        action="store_true",
+        help="Evaluate every case in the manifest instead of the two-case diagnostic default.",
+    )
     parser.add_argument("--durations", default="0-13")
     return parser.parse_args(argv)
 
@@ -330,7 +350,12 @@ def main(argv: list[str] | None = None) -> int:
         args.output_dir
         or repo_root / "core/results/control_operations_eval/latent_projection_duration_sweep"
     )
-    case_uids = tuple(args.case_uids or DEFAULT_CASE_UIDS)
+    manifest = load_manifest(manifest_path)
+    case_uids = select_case_uids(
+        manifest,
+        case_uids=args.case_uids,
+        all_cases=args.all_cases,
+    )
     durations = parse_duration_spec(args.durations)
     rows, manifest = collect_metrics(
         repo_root=repo_root,
