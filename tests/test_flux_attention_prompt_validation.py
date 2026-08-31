@@ -1,4 +1,5 @@
 import importlib.util
+import json
 from pathlib import Path
 import sys
 import tempfile
@@ -6,6 +7,7 @@ import types
 import unittest
 from unittest import mock
 
+import numpy as np
 import torch
 from PIL import Image
 
@@ -49,19 +51,22 @@ def load_edit_module():
         fire_module = types.ModuleType("fire")
         fire_module.Fire = object()
         sys.modules["fire"] = fire_module
-    if "transformers" not in sys.modules:
+    transformers_module = sys.modules.get("transformers")
+    if transformers_module is None:
         transformers_module = types.ModuleType("transformers")
-        for name in [
-            "CLIPTextModel",
-            "CLIPTokenizer",
-            "T5EncoderModel",
-            "T5Tokenizer",
-            "DPTForDepthEstimation",
-            "DPTImageProcessor",
-        ]:
-            setattr(transformers_module, name, type(name, (), {}))
-        transformers_module.pipeline = lambda *args, **kwargs: None
         sys.modules["transformers"] = transformers_module
+    for name in [
+        "CLIPTextModel",
+        "CLIPTokenizer",
+        "T5EncoderModel",
+        "T5Tokenizer",
+        "DPTForDepthEstimation",
+        "DPTImageProcessor",
+    ]:
+        if not hasattr(transformers_module, name):
+            setattr(transformers_module, name, type(name, (), {}))
+    if not hasattr(transformers_module, "pipeline"):
+        transformers_module.pipeline = lambda *args, **kwargs: None
     if "diffusers" not in sys.modules:
         diffusers_module = types.ModuleType("diffusers")
         diffusers_module.FluxControlNetModel = type("FluxControlNetModel", (), {})
@@ -479,7 +484,104 @@ class PromptValidationTest(unittest.TestCase):
 
         self.assertEqual(len(denoise_calls), 1)
         self.assertIsNone(denoise_calls[0].get("step_observer"))
+        self.assertFalse(denoise_calls[0].get("record_source_latents", False))
         self.assertFalse(probe_dir.exists())
+
+    def test_main_records_source_latents_only_for_projection_plan(self):
+        edit = load_edit_module()
+
+        def fake_prepare(t5, clip, img, prompt):
+            return {
+                "img": torch.zeros(1, 4, 4),
+                "img_ids": torch.zeros(1, 4, 3),
+                "txt": torch.zeros(1, 8, 4),
+                "txt_ids": torch.zeros(1, 8, 3),
+                "vec": torch.zeros(1, 4),
+            }
+
+        def run_with_plan(tmp_path, plan):
+            plan_path = tmp_path / f"{plan['name']}.json"
+            plan_path.write_text(json.dumps(plan), encoding="utf-8")
+            image_path = tmp_path / "source.png"
+            mask_path = tmp_path / "mask.png"
+            Image.new("RGB", (16, 16), color="white").save(image_path)
+            Image.new("L", (16, 16), color=255).save(mask_path)
+            args = edit.build_arg_parser().parse_args(
+                [
+                    "--source_img_dir", str(image_path),
+                    "--source_prompt", "a man standing",
+                    "--target_prompt", "a man with alien head standing",
+                    "--feature_path", str(tmp_path / f"{plan['name']}_features"),
+                    "--vis_path", str(tmp_path / f"{plan['name']}_vis"),
+                    "--output_dir", str(tmp_path / f"{plan['name']}_outputs"),
+                    "--mask_path", str(mask_path),
+                    "--tdm_mask_mode", "oracle",
+                    "--num_steps", "10",
+                    "--control-plan-resolved", str(plan_path),
+                ]
+            )
+            edit.validate_args(edit.build_arg_parser(), args)
+            denoise_calls = []
+            target_infos = []
+            target_masks = []
+
+            def fake_denoise(*args, **kwargs):
+                denoise_calls.append(kwargs)
+                if kwargs.get("record_source_latents"):
+                    kwargs["info"]["source_latents"] = {index: torch.zeros(1, 4, 4) for index in range(11)}
+                return torch.zeros(1, 4, 4), kwargs["info"]
+
+            def fake_denoise_with_tdm(*args, **kwargs):
+                target_infos.append(kwargs["info"])
+                target_masks.append(kwargs["control_spatial_mask"])
+                return torch.zeros(1, 3, 4, 4), kwargs["info"]
+
+            with mock.patch.object(edit, "pipeline", return_value=lambda img: [{"label": "nsfw", "score": 0.0}]), \
+                mock.patch.object(edit, "load_t5", return_value=DummyT5()), \
+                mock.patch.object(edit, "load_clip", return_value=DummyClip()), \
+                mock.patch.object(edit, "load_flow_model", return_value=DummyModel()), \
+                mock.patch.object(edit, "load_ae", return_value=DummyAE()), \
+                mock.patch.object(edit, "encode", return_value=torch.zeros(1, 16, 4, 4)), \
+                mock.patch.object(edit, "prepare", side_effect=fake_prepare), \
+                mock.patch.object(edit, "get_schedule", return_value=[1.0 - index / 10 for index in range(11)]), \
+                mock.patch.object(edit, "denoise", side_effect=fake_denoise), \
+                mock.patch.object(edit, "denoise_with_TDM", side_effect=fake_denoise_with_tdm), \
+                mock.patch.object(edit, "build_inject_list", return_value=[False] * 10), \
+                mock.patch.object(edit, "unpack", return_value=torch.zeros(1, 3, 4, 4)), \
+                mock.patch.object(edit, "embed_watermark", side_effect=lambda x: x):
+                edit.main(args, device="cpu")
+
+            return denoise_calls, target_infos, target_masks
+
+        projection_plan = {
+            "name": "projection",
+            "num_steps": 10,
+            "mask_source": "oracle",
+            "stages": [{
+                "name": "project",
+                "start": 2,
+                "end": 8,
+                "latent_projection": "source_outside_mask",
+            }],
+        }
+        legacy_plan = {
+            "name": "legacy",
+            "num_steps": 10,
+            "mask_source": "oracle",
+            "stages": [{"name": "target", "start": 2, "end": 8}],
+        }
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            projection_calls, projection_infos, projection_masks = run_with_plan(tmp_path, projection_plan)
+            legacy_calls, legacy_infos, legacy_masks = run_with_plan(tmp_path, legacy_plan)
+
+        self.assertTrue(projection_calls[0]["record_source_latents"])
+        self.assertIn("source_latents", projection_infos[0])
+        self.assertEqual(np.asarray(projection_masks[0]).shape, (2, 2))
+        self.assertFalse(legacy_calls[0].get("record_source_latents", False))
+        self.assertNotIn("source_latents", legacy_infos[0])
+        self.assertEqual(np.asarray(legacy_masks[0]).shape, (2, 2))
 
 
 if __name__ == "__main__":
