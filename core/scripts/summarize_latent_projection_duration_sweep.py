@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -16,6 +17,26 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 DEFAULT_CASE_UIDS = ("real_0006", "real_0011")
 DEFAULT_DURATIONS = tuple(range(14))
 IMAGE_NAME = "img_0.jpg"
+
+
+def parse_duration_spec(value: str) -> tuple[int, ...]:
+    durations = []
+    for item in value.split(","):
+        item = item.strip()
+        if not item:
+            continue
+        if "-" in item:
+            start_text, end_text = item.split("-", 1)
+            start, end = int(start_text), int(end_text)
+            if end < start:
+                raise ValueError("duration range end must be greater than or equal to start")
+            durations.extend(range(start, end + 1))
+        else:
+            durations.append(int(item))
+    unique = tuple(dict.fromkeys(durations))
+    if not unique or min(unique) < 0 or max(unique) > 13:
+        raise ValueError("durations must be between 0 and 13")
+    return unique
 
 
 def find_repo_root(start: Path) -> Path:
@@ -132,6 +153,7 @@ def collect_metrics(
                 "case_uid": case_uid,
                 "part": record["part"],
                 "edit": record["edit"],
+                "part_size": record["part_size"],
                 "duration": duration,
                 "projection_start_step": 2 if duration else "",
                 "projection_end_step": duration + 1 if duration else "",
@@ -149,6 +171,46 @@ def write_metrics_csv(path: Path, rows: list[dict]) -> None:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
+
+
+def aggregate_metrics(rows: list[dict], group_field: str | None = None) -> list[dict]:
+    groups: dict[tuple, list[dict]] = {}
+    for row in rows:
+        key = (row[group_field], int(row["duration"])) if group_field else (int(row["duration"]),)
+        groups.setdefault(key, []).append(row)
+
+    baseline_by_group = {}
+    for key, group_rows in groups.items():
+        duration = key[-1]
+        if duration == 0:
+            group_name = key[0] if group_field else "all"
+            baseline_by_group[group_name] = (
+                float(np.mean([float(row["inside_mask_rgb_mae"]) for row in group_rows])),
+                float(np.mean([float(row["outside_mask_rgb_mae"]) for row in group_rows])),
+            )
+
+    output = []
+    for key in sorted(groups):
+        group_rows = groups[key]
+        duration = key[-1]
+        group_name = key[0] if group_field else "all"
+        inside = np.asarray([float(row["inside_mask_rgb_mae"]) for row in group_rows], dtype=np.float64)
+        outside = np.asarray([float(row["outside_mask_rgb_mae"]) for row in group_rows], dtype=np.float64)
+        baseline_inside, baseline_outside = baseline_by_group[group_name]
+        summary = {
+            "duration": duration,
+            "n_cases": len(group_rows),
+            "inside_mean": float(inside.mean()),
+            "inside_std": float(inside.std(ddof=0)),
+            "outside_mean": float(outside.mean()),
+            "outside_std": float(outside.std(ddof=0)),
+            "inside_retention_vs_n0": float(inside.mean() / baseline_inside),
+            "outside_reduction_vs_n0": float(1.0 - outside.mean() / baseline_outside),
+        }
+        if group_field:
+            summary = {group_field: group_name, **summary}
+        output.append(summary)
+    return output
 
 
 def _thumbnail(image: Image.Image, size: tuple[int, int]) -> Image.Image:
@@ -220,8 +282,10 @@ def render_comparison_sheet(
 
 
 def render_change_curve(path: Path, rows: list[dict], case_uids: tuple[str, ...] = DEFAULT_CASE_UIDS) -> None:
-    fig, axes = plt.subplots(1, len(case_uids), figsize=(12, 4), sharey=True)
-    axes = np.atleast_1d(axes)
+    columns = min(4, len(case_uids))
+    plot_rows = math.ceil(len(case_uids) / columns)
+    fig, axes = plt.subplots(plot_rows, columns, figsize=(4.2 * columns, 3.4 * plot_rows), sharey=True)
+    axes = np.atleast_1d(axes).ravel()
     for ax, case_uid in zip(axes, case_uids):
         case_rows = sorted((row for row in rows if row["case_uid"] == case_uid), key=lambda row: row["duration"])
         durations = [row["duration"] for row in case_rows]
@@ -232,6 +296,8 @@ def render_change_curve(path: Path, rows: list[dict], case_uids: tuple[str, ...]
         ax.grid(alpha=0.25)
         ax.legend()
     axes[0].set_ylabel("mean absolute RGB change")
+    for ax in axes[len(case_uids):]:
+        ax.axis("off")
     fig.suptitle("Edit activity and non-target drift vs latent-projection duration")
     fig.tight_layout()
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -246,6 +312,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--sweep-root", type=Path)
     parser.add_argument("--reference-root", type=Path)
     parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--case-uid", action="append", dest="case_uids")
+    parser.add_argument("--durations", default="0-13")
     return parser.parse_args(argv)
 
 
@@ -262,25 +330,37 @@ def main(argv: list[str] | None = None) -> int:
         args.output_dir
         or repo_root / "core/results/control_operations_eval/latent_projection_duration_sweep"
     )
+    case_uids = tuple(args.case_uids or DEFAULT_CASE_UIDS)
+    durations = parse_duration_spec(args.durations)
     rows, manifest = collect_metrics(
         repo_root=repo_root,
         manifest_path=manifest_path,
         sweep_root=sweep_root,
+        case_uids=case_uids,
+        durations=durations,
     )
     metrics_path = output_dir / "duration_sweep_metrics.csv"
+    summary_path = output_dir / "duration_sweep_summary.csv"
+    part_size_summary_path = output_dir / "duration_sweep_summary_by_part_size.csv"
     comparison_path = output_dir / "duration_sweep_comparison.jpg"
     curve_path = output_dir / "duration_sweep_change_curve.png"
     write_metrics_csv(metrics_path, rows)
+    write_metrics_csv(summary_path, aggregate_metrics(rows))
+    write_metrics_csv(part_size_summary_path, aggregate_metrics(rows, group_field="part_size"))
     render_comparison_sheet(
         path=comparison_path,
         repo_root=repo_root,
         manifest=manifest,
         sweep_root=sweep_root,
         reference_root=reference_root,
+        case_uids=case_uids,
+        durations=durations,
     )
-    render_change_curve(curve_path, rows)
+    render_change_curve(curve_path, rows, case_uids=case_uids)
     print(f"validated runs: {len(rows)}")
     print(f"metrics: {metrics_path}")
+    print(f"summary: {summary_path}")
+    print(f"part-size summary: {part_size_summary_path}")
     print(f"comparison: {comparison_path}")
     print(f"curve: {curve_path}")
     return 0

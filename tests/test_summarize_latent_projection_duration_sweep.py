@@ -7,7 +7,9 @@ import numpy as np
 from PIL import Image
 
 from core.scripts.summarize_latent_projection_duration_sweep import (
+    aggregate_metrics,
     compute_region_metrics,
+    parse_duration_spec,
     validate_primary_run,
 )
 
@@ -129,6 +131,25 @@ class SummarizeLatentProjectionDurationSweepTests(unittest.TestCase):
             metrics = compute_region_metrics(root / "source.png", root / "edited.png", root / "mask.png")
         self.assertAlmostEqual(metrics["inside_mask_rgb_mae"], 1.0)
         self.assertAlmostEqual(metrics["outside_mask_rgb_mae"], (128 / 255) / 3)
+
+    def test_parses_duration_spec(self):
+        self.assertEqual(parse_duration_spec("0-3"), (0, 1, 2, 3))
+        self.assertEqual(parse_duration_spec("0,2-3"), (0, 2, 3))
+
+    def test_aggregates_duration_tradeoff_against_n0(self):
+        rows = [
+            {"duration": 0, "part_size": "small", "inside_mask_rgb_mae": 0.4, "outside_mask_rgb_mae": 0.2},
+            {"duration": 0, "part_size": "large", "inside_mask_rgb_mae": 0.2, "outside_mask_rgb_mae": 0.1},
+            {"duration": 2, "part_size": "small", "inside_mask_rgb_mae": 0.3, "outside_mask_rgb_mae": 0.1},
+            {"duration": 2, "part_size": "large", "inside_mask_rgb_mae": 0.1, "outside_mask_rgb_mae": 0.05},
+        ]
+        summary = aggregate_metrics(rows)
+        n2 = next(row for row in summary if row["duration"] == 2)
+        self.assertEqual(n2["n_cases"], 2)
+        self.assertAlmostEqual(n2["inside_mean"], 0.2)
+        self.assertAlmostEqual(n2["outside_mean"], 0.075)
+        self.assertAlmostEqual(n2["inside_retention_vs_n0"], 2 / 3)
+        self.assertAlmostEqual(n2["outside_reduction_vs_n0"], 0.5)
 
 
 if __name__ == "__main__":

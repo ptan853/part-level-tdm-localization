@@ -178,6 +178,27 @@ The summarizer rejects incomplete runs, incorrect source endpoint indices,
 nonzero post-projection outside-mask error, and accidental Stage 3 image-KV
 injection before calculating any image metric.
 
+To evaluate the local `N=0..3` neighborhood across the complete locked
+12-case manifest, pass all case IDs to the same runner, then summarize them
+without rerunning inference:
+
+```bash
+python core/scripts/summarize_latent_projection_duration_sweep.py \
+  --case-uid real_0006 --case-uid real_0008 \
+  --case-uid real_0003 --case-uid real_0002 \
+  --case-uid real_0010 --case-uid real_0004 \
+  --case-uid real_0007 --case-uid real_0001 \
+  --case-uid real_0000 --case-uid real_0011 \
+  --case-uid real_0005 --case-uid real_0009 \
+  --durations 0-3 \
+  --output-dir core/results/control_operations_eval/latent_projection_n0_n3_all_cases
+```
+
+This produces per-run metrics plus overall and part-size-stratified summaries.
+`inside_retention_vs_n0` measures retained GT-region change and
+`outside_reduction_vs_n0` measures reduced non-target change; neither is a
+semantic edit-success score.
+
 Without `--control-plan-resolved`, `edit.py` uses the original fused attention
 and legacy FYS injection schedule.
 
