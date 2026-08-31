@@ -106,6 +106,14 @@ class LatentControlTests(unittest.TestCase):
                         torch.zeros(1, 2, 3), torch.zeros(1, 2, 3), torch.tensor([0.0, value])
                     )
 
+    def test_slightly_out_of_range_mask_is_rejected_before_low_precision_cast(self):
+        with self.assertRaisesRegex(ValueError, "spatial mask values must be in \[0, 1\]"):
+            project_source_outside(
+                torch.zeros(1, 2, 3, dtype=torch.bfloat16),
+                torch.zeros(1, 2, 3, dtype=torch.bfloat16),
+                torch.tensor([0.0, 1.0001], dtype=torch.float32),
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
