@@ -27,6 +27,78 @@ Stage 3 image-KV operation. Outputs are written to
 FYS result directories are never reused, and non-empty output directories are
 rejected unless `--overwrite` is explicitly supplied.
 
+### Locked Oracle Latent-Projection Pilots
+
+These two plans test direct latent-state projection, not a learned editor. Both
+use the manifest GT part mask only as a diagnostic upper bound: it establishes
+whether a control operation can preserve the source trajectory outside an
+already-correct region. It is not a mask-free result and must not be used as a
+claim of deployable localization.
+
+Preview the Stage 2 projection plan without loading FLUX or writing outputs:
+
+```bash
+python core/scripts/run_control_plan.py \
+  --plan core/configs/control_plans/oracle_stage2_latent_projection.json \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0 \
+  --limit 1
+```
+
+Run its locked four-case, seed-0 pilot on a configured GPU machine:
+
+```bash
+python core/scripts/run_control_plan.py \
+  --plan core/configs/control_plans/oracle_stage2_latent_projection.json \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0 \
+  --limit 4 \
+  --execute
+```
+
+The Stage 2 plan projects endpoints for steps `2-8` and retains the original
+source-outside image-KV operation for steps `10-13`. The extended plan instead
+projects endpoints from steps `2-14` and has no Stage 3 image-KV operation.
+Preview it with its own isolated plan name and output directory:
+
+```bash
+python core/scripts/run_control_plan.py \
+  --plan core/configs/control_plans/oracle_extended_latent_projection.json \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0 \
+  --limit 1
+```
+
+Run its corresponding GPU pilot:
+
+```bash
+python core/scripts/run_control_plan.py \
+  --plan core/configs/control_plans/oracle_extended_latent_projection.json \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0 \
+  --limit 4 \
+  --execute
+```
+
+For either executed plan, the artifact contract is:
+
+```text
+core/results/control_operations/<plan_name>/<case_uid>/seed_<seed>/
+  case_record.json
+  resolved_control_plan.json
+  run_config.json
+  run.log
+  tdm/selected_injection_mask.npy
+  tdm/tdm_metadata.json
+```
+
+When latent projection is enabled, `tdm/tdm_metadata.json` and the run log also
+record the projection steps and source-trajectory diagnostics. The runner writes
+the matching command matrix to
+`core/results/run_matrices/<plan_name>.csv` only with `--execute` (or
+`--write-run-matrix`); dry runs print the isolated matrix path without writing
+it.
+
 Without `--control-plan-resolved`, `edit.py` uses the original fused attention
 and legacy FYS injection schedule.
 
