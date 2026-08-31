@@ -98,6 +98,14 @@ class LatentControlTests(unittest.TestCase):
                 torch.zeros(1, 2, 3), torch.zeros(1, 2, 3), torch.tensor([0.0, 1.1])
             )
 
+    def test_non_finite_mask_values_are_rejected(self):
+        for value in (float("nan"), float("inf"), float("-inf")):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(ValueError, "spatial mask values must be finite"):
+                    project_source_outside(
+                        torch.zeros(1, 2, 3), torch.zeros(1, 2, 3), torch.tensor([0.0, value])
+                    )
+
 
 if __name__ == "__main__":
     unittest.main()
