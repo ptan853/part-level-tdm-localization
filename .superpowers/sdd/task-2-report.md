@@ -145,3 +145,71 @@ Output:
 
 Review-fix submodule commit:
 - `3b74d65` — `fix: supply full same-state probe info`
+
+---
+
+# Task 2 Addendum: Control-Plan Schema for Latent Projection
+
+This addendum records the current implementation of Task 2 from the latent
+state projection plan. The historical Task 2 report above is preserved.
+
+## RED
+
+Command:
+
+```bash
+/opt/homebrew/Caskroom/miniconda/base/envs/irp/bin/python -m unittest tests.test_control_schedule -v
+```
+
+Result: failed during test import because `plan_requires_source_latents` and
+the new schema field did not yet exist:
+
+```text
+ImportError: cannot import name 'plan_requires_source_latents' from 'flux.control_schedule'
+```
+
+## GREEN
+
+After the minimal schema and locked-plan changes, the same command completed
+successfully:
+
+```text
+Ran 13 tests in 0.001s
+OK
+```
+
+The tests cover the default `none` value, the only supported projection
+operation `source_outside_mask`, rejection of unknown projection operations,
+mask-source requirements, `plan_requires_source_latents`, and the exact
+15-step coverage/gaps of both locked plans.
+
+## Changed files
+
+- `core/third_party/FollowYourShape/src/flux/control_schedule.py`
+  - Added `ControlStage.latent_projection`, defaulting to `none`.
+  - Added the exact operation allowlist and validation.
+  - Added `plan_requires_source_latents`.
+  - Made `source_outside_mask` participate in the existing mask-source check.
+- `tests/test_control_schedule.py`
+  - Added schema, validation, helper, and locked-plan coverage tests.
+- `core/configs/control_plans/oracle_stage2_latent_projection.json`
+  - Source-all image KV at steps 0-1, latent projection at 2-8, no stage at 9,
+    source-outside image KV at 10-13, and no stage at 14.
+- `core/configs/control_plans/oracle_extended_latent_projection.json`
+  - Source-all image KV at steps 0-1 and latent projection at 2-14, without
+    Stage 3 source-outside image KV.
+
+## Commits
+
+- Submodule `feature/latent-state-projection`: `da9476c`
+  (`feat: configure latent projection stages`)
+- Parent `experiment/latent-state-projection`: `4488787`
+  (`feat: configure latent projection stages`)
+
+## Concerns
+
+- No functional concerns remain for Task 2.
+- Test execution created untracked Python 3.9 bytecode in the submodule; it
+  was intentionally not modified or staged.
+- The broader sampler integration is intentionally deferred to Task 3 and
+  later tasks; this task only defines the opt-in plan schema and locked plans.
