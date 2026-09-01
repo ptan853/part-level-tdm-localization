@@ -4,7 +4,7 @@
 
 **Goal:** Add an oracle-mask inversion-referenced residual RK2 control operation, run a prefix-duration sweep over `N=0..15`, evaluate it under the existing metric protocol, and keep late FYS image-KV injection as a separate fixed-duration ablation.
 
-**Architecture:** Extend the FollowYourShape submodule with aligned source midpoint recording and a pure residual RK2 state-update helper, then expose the operation through the existing control-plan schema. Add a dedicated parent-repository sweep runner whose `N` always means the first `N` denoising updates from step 0; reuse the established evaluation and manual-review conventions without changing old endpoint-projection artifacts.
+**Architecture:** Extend the FollowYourShape submodule with aligned cached inversion-reference midpoint recording and a pure residual RK2 state-update helper, then expose the operation through the existing control-plan schema. Add a dedicated parent-repository sweep runner whose `N` always means the first `N` denoising updates from step 0; reuse the established evaluation and manual-review conventions without changing old endpoint-projection artifacts.
 
 **Tech Stack:** Python 3.10+, PyTorch 2.1, FLUX/FollowYourShape, JSON control plans, `unittest`/`pytest`, pandas, scikit-image, LPIPS, Jupyter.
 
@@ -14,6 +14,10 @@
 - Use 15 denoising updates and duration values `N=0..15`.
 - `N` controls exactly `range(N)`; it never starts at step 2.
 - Primary runs use oracle masks, seed 0, target prompts, and a free tail with no image-KV injection.
+- Residual control follows `d_next=d_i+M*delta`; it does not hard-project an
+  existing residual to zero when `M=0`.
+- Only `N=15` is a full-trajectory residual RK2 solve; `N<15` is prefix control
+  followed by ordinary target RK2.
 - Existing FYS, attention-gated, endpoint-projection, evaluation, and result paths must remain unchanged.
 - Late image-KV injection is a secondary ablation at fixed `N`, not part of the primary sweep.
 - Do not perform case-specific duration selection.
@@ -27,20 +31,42 @@
 - Modify: `tests/test_latent_control.py`
 
 **Interfaces:**
-- Consumes: target state `x_i`, source endpoint `s_i`, source midpoint `s_mid_i`, source next endpoint `s_next`, target velocities `v1` and `v2`, scalar `h`, spatial mask `M`.
+- Consumes: target state `x_i`, source endpoint `s_i`, cached inversion-reference midpoint `s_mid_i`, source next endpoint `s_next`, target velocities `v1` and `v2`, scalar `h`, spatial mask `M`.
 - Produces: `build_residual_midpoint(...) -> Tensor`, `build_residual_endpoint(...) -> Tensor`, plus immutable per-step diagnostics.
 
-- [ ] **Step 1: Write failing all-zero, all-one, and mixed-mask tests**
+- [ ] **Step 1: Write failing residual-preservation, zero-initial-residual, all-one, and mixed-mask tests**
 
 Add tests equivalent to:
 
 ```python
-def test_residual_midpoint_zero_mask_returns_source_midpoint():
+def test_zero_mask_preserves_existing_residual():
     actual, _ = build_residual_midpoint(
         current=torch.tensor([[[2.0], [4.0]]]),
         source_current=torch.tensor([[[1.0], [3.0]]]),
         source_midpoint=torch.tensor([[[1.5], [3.5]]]),
         target_velocity=torch.tensor([[[10.0], [20.0]]]),
+        step_size=-0.2,
+        spatial_mask=torch.zeros(2),
+    )
+    torch.testing.assert_close(actual, torch.tensor([[[2.5], [4.5]]]))
+
+def test_zero_mask_with_zero_initial_residual_returns_source_midpoint():
+    actual, _ = build_residual_midpoint(
+        current=torch.tensor([[[1.0], [3.0]]]),
+        source_current=torch.tensor([[[1.0], [3.0]]]),
+        source_midpoint=torch.tensor([[[1.5], [3.5]]]),
+        target_velocity=torch.tensor([[[10.0], [20.0]]]),
+        step_size=-0.2,
+        spatial_mask=torch.zeros(2),
+    )
+    torch.testing.assert_close(actual, torch.tensor([[[1.5], [3.5]]]))
+
+def test_zero_mask_endpoint_preserves_existing_residual():
+    actual, _ = build_residual_endpoint(
+        current=torch.tensor([[[2.0], [4.0]]]),
+        source_current=torch.tensor([[[1.0], [3.0]]]),
+        source_next=torch.tensor([[[0.5], [2.5]]]),
+        target_mid_velocity=torch.tensor([[[10.0], [20.0]]]),
         step_size=-0.2,
         spatial_mask=torch.zeros(2),
     )
@@ -104,7 +130,7 @@ git add tests/test_latent_control.py core/third_party/FollowYourShape
 git commit -m "test: cover residual RK2 latent algebra"
 ```
 
-### Task 2: Record Aligned Source Midpoints
+### Task 2: Record Aligned Inversion-Reference Midpoints
 
 **Files:**
 - Modify: `core/third_party/FollowYourShape/src/flux/sampling.py`
@@ -113,7 +139,7 @@ git commit -m "test: cover residual RK2 latent algebra"
 
 **Interfaces:**
 - Consumes: source inversion RK2 loop and `record_source_latents=True`.
-- Produces: `info["source_midpoints"]` keyed by denoising update index `0..14` alongside `info["source_latents"]` keyed `0..15`.
+- Produces: `info["source_midpoints"]` containing cached reversed-inversion-path midpoints keyed by denoising update index `0..14`, alongside `info["source_latents"]` keyed `0..15`.
 
 - [ ] **Step 1: Write a failing source-midpoint alignment test**
 
@@ -126,7 +152,16 @@ torch.testing.assert_close(info["source_midpoints"][1], first_inversion_midpoint
 torch.testing.assert_close(info["source_midpoints"][0], second_inversion_midpoint)
 ```
 
-The test must verify reverse index mapping, not merely key count.
+The test must verify reverse index mapping, not merely key count. It must call
+these values cached inversion-reference midpoints and must not assume numerical
+identity with an independently integrated forward source midpoint.
+
+Also assert the endpoint identities:
+
+```python
+torch.testing.assert_close(info["source_latents"][T], encoded_source_latent)
+torch.testing.assert_close(info["source_latents"][0], final_inverted_noise)
+```
 
 - [ ] **Step 2: Run alignment tests and confirm failure**
 
@@ -224,7 +259,45 @@ git add tests/test_control_schedule.py core/third_party/FollowYourShape
 git commit -m "test: validate residual control plans"
 ```
 
-### Task 4: Integrate Residual RK2 Into Denoising
+### Task 4: Verify Oracle Mask-to-Token Alignment
+
+**Files:**
+- Modify: `tests/test_flux_attention_prompt_validation.py`
+
+**Interfaces:**
+- Consumes: pixel-space oracle mask and encoded latent spatial dimensions.
+- Produces: binary packed-token mask with verified spatial orientation and token count.
+
+- [ ] **Step 1: Preserve the existing asymmetric non-square regression test**
+
+Keep `test_main_aligns_mixed_nonsquare_oracle_mask_to_image_token_grid`, which
+already verifies thresholding, nearest-neighbor resize, `2x2` max pooling,
+row-major flattening, and orientation.
+
+- [ ] **Step 2: Add a top-left-quarter rectangular fixture**
+
+Create a binary mask whose top-left quarter is 1 and all other pixels are 0.
+After conversion, assert that exactly the corresponding top-left quarter of the
+packed token grid is 1, the flattened mask length equals `img.shape[1]`, and all
+values belong to `{0, 1}`.
+
+- [ ] **Step 3: Run the focused mask tests**
+
+```bash
+python -m pytest tests/test_flux_attention_prompt_validation.py -q
+```
+
+Expected: the old and new alignment tests pass without modifying the existing
+conversion implementation.
+
+- [ ] **Step 4: Commit the parent test**
+
+```bash
+git add tests/test_flux_attention_prompt_validation.py
+git commit -m "test: verify oracle mask packed-token alignment"
+```
+
+### Task 5: Integrate Residual RK2 Into Denoising
 
 **Files:**
 - Modify: `core/third_party/FollowYourShape/src/flux/sampling.py`
@@ -240,7 +313,8 @@ Use a deterministic toy velocity model and assert:
 
 ```python
 # N=0: no residual stage, unchanged ordinary RK2 output.
-# zero mask: controlled endpoints equal source endpoint references.
+# zero mask: incoming residual is preserved, not erased.
+# zero mask plus d_0=0 over a prefix: controlled endpoints equal source references.
 # one mask: controlled endpoints equal ordinary target RK2.
 # mixed mask: only masked tokens carry target residual.
 # missing midpoint: RuntimeError names source_midpoints[step].
@@ -301,7 +375,7 @@ git add tests/test_control_plan_sampling.py core/third_party/FollowYourShape
 git commit -m "test: verify residual RK2 sampler integration"
 ```
 
-### Task 5: Add the N=0..15 Primary Sweep Runner
+### Task 6: Add the N=0..15 Primary Sweep Runner
 
 **Files:**
 - Create: `core/scripts/run_residual_rk2_prefix_sweep.py`
@@ -380,7 +454,7 @@ git add core/scripts/run_residual_rk2_prefix_sweep.py core/scripts/README.md tes
 git commit -m "feat: add residual RK2 prefix sweep"
 ```
 
-### Task 6: GPU Smoke Test and Full Primary Run
+### Task 7: GPU Smoke Test and Full Primary Run
 
 **Files:**
 - Generated: `core/results/control_operations/residual_rk2_prefix_sweep/**`
@@ -426,7 +500,7 @@ python core/scripts/run_residual_rk2_prefix_sweep.py \
 Require 192 output images, 192 run configs, 192 logs with zero exit status,
 and no duplicate `(case_uid, N)` rows.
 
-### Task 7: Unified Automated Evaluation and Human Review
+### Task 8: Unified Automated Evaluation and Human Review
 
 **Files:**
 - Create: `core/scripts/evaluate_residual_rk2_prefix_sweep.py`
@@ -479,7 +553,7 @@ git add core/scripts/evaluate_residual_rk2_prefix_sweep.py core/scripts/build_re
 git commit -m "feat: evaluate residual RK2 prefix sweep"
 ```
 
-### Task 8: Notebook and Standalone Report
+### Task 9: Notebook and Standalone Report
 
 **Files:**
 - Create: `core/scripts/build_residual_rk2_prefix_notebook.py`
@@ -536,7 +610,7 @@ git add core/scripts/build_residual_rk2_prefix_notebook.py core/scripts/build_re
 git commit -m "docs: report residual RK2 prefix experiment"
 ```
 
-### Task 9: Fixed-N Late-KV Ablation
+### Task 10: Fixed-N Late-KV Ablation
 
 **Files:**
 - Create: `core/scripts/run_residual_rk2_late_kv_ablation.py`
@@ -586,7 +660,7 @@ duration curve as if they were independent methods.
 State whether late KV improves preservation, suppresses semantic editing, or
 changes neither. Add N=2/N=5 only if N=3 is inconclusive and compute permits.
 
-### Task 10: Final Reproducibility Audit
+### Task 11: Final Reproducibility Audit
 
 **Files:**
 - Modify: `README.md`

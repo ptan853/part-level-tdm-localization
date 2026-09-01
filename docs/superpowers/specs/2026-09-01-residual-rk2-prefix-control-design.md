@@ -52,8 +52,8 @@ Every primary run uses:
 ## Residual RK2 Operation
 
 Let `s_i` be the aligned source inversion endpoint at denoising schedule index
-`i`, and let `s_mid_i` be the aligned source midpoint for update `i`. Let `x_i`
-be the target editing state and define the residual:
+`i`, and let `s_mid_i` be the cached inversion-reference midpoint for update
+`i`. Let `x_i` be the target editing state and define the residual:
 
 ```text
 d_i = x_i - s_i
@@ -77,11 +77,21 @@ x_{i+1} = s_{i+1} + d_next
 For each free step `i >= N`, use the repository's unchanged target-prompt RK2
 update from the current `x_i`.
 
-This operation has two invariants for a binary mask:
+This first version uses residual-ODE semantics rather than hard residual
+projection. For a binary mask:
 
-- outside the mask, a controlled endpoint equals `s_{i+1}` exactly;
+- where `M=0`, the existing residual is preserved: `d_next=d_i`; no new
+  residual is introduced, but a historical residual is not erased;
 - inside the mask, the target RK2 residual is retained relative to the source
   trajectory.
+
+Because every primary controlled interval begins at step 0, `d_0=0`, and the
+oracle mask is fixed, the outside-mask residual remains zero throughout the
+controlled prefix. Consequently the outside-mask controlled state equals the
+source reference in this experiment. This equality is a consequence of the
+initial condition and fixed mask, not a general hard-projection rule. A future
+dynamic-mask method must separately define whether residuals are retained or
+removed when a mask location changes from 1 to 0.
 
 The midpoint reference is required. Reusing only source endpoints would reduce
 the method to post-update endpoint projection and would not test the proposed
@@ -90,8 +100,9 @@ control operation.
 ## Source-Trajectory Alignment
 
 Source inversion already stores endpoints under denoising schedule indices.
-It must additionally store one midpoint per denoising update. If inversion loop
-index is `k` and there are `T=15` updates, the aligned denoising update is:
+It must additionally store one cached inversion-reference midpoint per
+denoising update. If inversion loop index is `k` and there are `T=15` updates,
+the aligned denoising update is:
 
 ```text
 i = T - 1 - k
@@ -104,8 +115,39 @@ source_latents:  keys 0..15
 source_midpoints: keys 0..14
 ```
 
+`source_midpoints[i]` is the midpoint state actually visited by the reversed
+inversion reference path. It is not claimed to equal a midpoint obtained by
+running an independent forward source RK2 solve, because explicit RK2 is not
+generally time-reversible. The method defines `s(t)` as this cached reversed
+inversion path, so its visited midpoint is the required reference.
+
+The endpoint identities are part of the cache contract:
+
+```text
+source_latents[15] = encoded source-image VAE latent
+source_latents[0]  = final inverted source noise latent
+```
+
 The sampler must reject missing keys, shape mismatches, non-finite values, and
 masks outside `[0, 1]` before executing residual control.
+
+## Oracle Mask to FLUX Token Mapping
+
+The experiment preserves the repository's existing deterministic conversion:
+
+1. Read the pixel-space mask as grayscale and threshold with `pixel > 0`.
+2. Resize the binary mask with nearest-neighbor interpolation to the encoded
+   VAE latent spatial grid.
+3. Re-threshold to binary.
+4. Apply `2x2` max pooling with stride 2, matching FLUX's `2x2` latent packing.
+5. Flatten the pooled grid in row-major order, the same order used by
+   `rearrange(..., "b c (h ph) (w pw) -> b (h w) (c ph pw)", ph=2, pw=2)`.
+6. Require the flattened mask length to equal the packed image-token count and
+   retain strictly binary values.
+
+The existing asymmetric non-square mask regression test must continue to pass.
+A rectangular top-left-quarter fixture additionally verifies that spatial
+orientation and packed-token support remain aligned for residual control.
 
 ## Primary Sweep
 
@@ -117,6 +159,11 @@ Run one method, `residual_rk2`, for all `N=0..15` and all 12 cases:
 
 `N=0` is not described as a separate method. Residual Euler is limited to a
 unit-level numerical sanity check and is not included in image evaluation.
+
+Only `N=15` applies the residual ODE discretization over the complete generation
+trajectory. Runs with `N<15` are explicitly described as residual RK2 prefix
+control followed by release to ordinary target RK2, not as complete residual
+ODE solutions.
 
 The output hierarchy is isolated from previous experiments:
 
@@ -185,10 +232,14 @@ Implementation correctness requires:
 
 - all unit and integration tests pass;
 - `N=0` is numerically identical to the unchanged free target path;
-- with an all-zero mask, every controlled endpoint equals the aligned source
-  endpoint;
+- with an all-zero mask, residual-control helpers preserve the incoming
+  residual rather than erase it;
+- with an all-zero mask and the primary initial condition `d_0=0`, every
+  controlled endpoint equals the aligned source endpoint;
 - with an all-one mask, controlled RK2 equals ordinary target RK2 within the
   configured numerical tolerance;
+- source endpoint identities and pixel-to-packed-token mask alignment pass
+  automated tests;
 - controlled-step traces are exactly `range(N)`;
 - all 192 primary runs are complete and non-overwriting.
 
