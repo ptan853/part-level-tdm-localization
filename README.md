@@ -44,6 +44,14 @@ The Oracle ablation gives the best automatic preservation but does not improve s
 
 The three requested seeds are deterministic for this inversion-based pipeline: the 36 command runs correspond to 12 unique case outputs for each method, so repeated seed rows are not treated as independent samples.
 
+### Latent-State Projection Follow-up
+
+A follow-up oracle-mask study isolates the control operation from mask estimation. During target-prompt denoising, the target state is retained inside the GT part mask while the state outside the mask is projected onto the time-aligned source inversion state. The locked sweep evaluates all 12 cases for projection durations `N=0..13`.
+
+`N=3` gives the strongest observed human-evaluated compromise: local-edit score `1.167/2`, non-target preservation `1.833/2`, and joint success `75.0%`, compared with `41.7%` joint success for Original FYS-TDM. Longer projection further improves non-target L1, PSNR, SSIM, and LPIPS, but can suppress the requested local edit.
+
+See the [latent-state projection duration report](core/reports/latent_projection_duration_study.md) and [Notebook 09](core/notebooks/09_evaluate_latent_projection_duration_sweep.ipynb).
+
 ## Visual Examples
 
 The aligned example below shows how original TDM, part+edit gating, part-only gating, and the projected Oracle mask alter both the injection support and generated output. Tighter localization generally makes the result more source-like, but does not monotonically improve the requested semantic edit.
@@ -76,12 +84,16 @@ Supporting diagnostic sheets are in:
 - `core/notebooks/03_evaluate_controlled_revision.ipynb`: final evaluation notebook.
 - `core/notebooks/05_evaluate_attention_gated_fys.ipynb`: attention-gated FYS evaluation notebook.
 - `core/notebooks/06_evaluate_oracle_mask_ablation.ipynb`: Oracle GT-mask control evaluation notebook.
+- `core/notebooks/09_evaluate_latent_projection_duration_sweep.ipynb`: final oracle latent-state projection duration evaluation.
+- `core/scripts/run_latent_projection_duration_sweep.py`: locked `N=0..13` control-operation runner.
+- `core/scripts/evaluate_latent_projection_against_fys.py`: unified FYS/projection image-metric evaluator.
 - `core/results/follow_your_shape/`: FYS edited images, logs, configs, and TDM artifacts.
 - `core/results/flux_attention_baseline/`: attention maps, logs, and configs.
 - `core/results/controlled_revision/`: final metric tables and qualitative figures.
 - `core/results/attention_gated_fys_eval/`: attention-gated FYS metric tables and figures.
 - `core/results/oracle_mask_eval/`: Oracle validation, preservation metrics, and comparison figures.
 - `core/reports/final_note.md`: compact project note.
+- `core/reports/latent_projection_duration_study.md`: final latent-state projection control-operation report.
 
 Main result tables:
 
@@ -118,6 +130,10 @@ Attention-gated FYS keeps the same inversion, target denoising, and late KV-inje
 ### Oracle GT Mask
 
 The oracle mode keeps the same source inversion, target trajectory, injection schedule, and KV-injection operation as FYS, but replaces the final Stage 3 `edit_map` with the ground-truth part mask projected to the FLUX image-token grid. The GT mask is not applied during the early initialization steps, so this is a mask-source ablation rather than a different control schedule. The run saves both the diagnostic TDM and the exact oracle mask used for injection.
+
+### Oracle Latent-State Projection
+
+The duration study uses the same source inversion and 15-step target denoising schedule, but does not use late Stage 3 image-KV injection. Beginning at step 2, it projects each selected target endpoint outside the GT mask onto the time-aligned source inversion endpoint. `N=0` applies no projection, while `N=13` controls steps `2-14`. This is an oracle control-operation study, not an automatic localization method.
 
 ## Reproduce
 
@@ -229,6 +245,28 @@ python core/scripts/run_fys_pilot.py \
   --oracle-mask \
   --execute
 ```
+
+Run the complete oracle latent-state projection duration sweep:
+
+```bash
+python core/scripts/run_latent_projection_duration_sweep.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --all-cases \
+  --durations 0-13 \
+  --seed 0 \
+  --execute
+
+python core/scripts/summarize_latent_projection_duration_sweep.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --all-cases \
+  --durations 0-13 \
+  --output-dir core/results/control_operations_eval/latent_projection_all_cases_n0_n13
+
+TORCH_HOME="$TORCH_HOME" python core/scripts/evaluate_latent_projection_against_fys.py \
+  --lpips require
+```
+
+Then execute `core/notebooks/09_evaluate_latent_projection_duration_sweep.ipynb`. The runner can be invoked without `--execute` to preview all 168 commands without loading FLUX.
 
 Run evaluation:
 

@@ -12,6 +12,7 @@ This directory contains the dataset inspection and final evaluation notebooks.
 - `06_inspect_same_state_inversion_probe.ipynb`: inspect per-step inversion trajectory and attention signals.
 - `07_evaluate_inversion_vs_forward_localization.ipynb`: compare inversion-derived and forward-denoising localization masks.
 - `08_evaluate_control_operations.ipynb`: audit and compare the three config-driven control plans, including optional LPIPS, manual semantic scoring, and full-case visualization.
+- `09_evaluate_latent_projection_duration_sweep.ipynb`: final 12-case `N=0..13` oracle latent-state projection evaluation against Original FYS-TDM, with unified image metrics and complete human scores.
 
 ## Environment
 
