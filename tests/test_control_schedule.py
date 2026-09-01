@@ -105,6 +105,71 @@ class ControlScheduleTests(unittest.TestCase):
 
         self.assertEqual(plan.stages[0].latent_projection, "none")
 
+    def test_residual_control_defaults_to_none(self):
+        plan = ControlPlan.from_dict(VALID_PLAN)
+
+        self.assertEqual(plan.stages[0].residual_control, "none")
+
+    def test_residual_control_accepts_source_referenced_rk2_and_serializes(self):
+        value = {
+            "name": "residual",
+            "num_steps": 15,
+            "mask_source": "oracle",
+            "stages": [{
+                "name": "residual",
+                "start": 0,
+                "end": 2,
+                "residual_control": "source_referenced_rk2",
+            }],
+        }
+
+        plan = ControlPlan.from_dict(value)
+
+        self.assertEqual(plan.stages[0].residual_control, "source_referenced_rk2")
+        self.assertEqual(
+            plan.to_dict()["stages"][0]["residual_control"],
+            "source_referenced_rk2",
+        )
+
+    def test_plan_rejects_unknown_residual_control(self):
+        value = dict(VALID_PLAN)
+        value["stages"] = [
+            {**VALID_PLAN["stages"][0], "residual_control": "mystery"}
+        ]
+
+        with self.assertRaisesRegex(ValueError, "residual_control"):
+            ControlPlan.from_dict(value)
+
+    def test_residual_control_requires_mask_source(self):
+        value = {
+            "name": "residual",
+            "num_steps": 15,
+            "stages": [{
+                "name": "residual",
+                "start": 0,
+                "end": 2,
+                "residual_control": "source_referenced_rk2",
+            }],
+        }
+
+        with self.assertRaisesRegex(ValueError, "mask_source"):
+            ControlPlan.from_dict(value)
+
+    def test_residual_control_requires_source_latents(self):
+        value = {
+            "name": "residual",
+            "num_steps": 15,
+            "mask_source": "oracle",
+            "stages": [{
+                "name": "residual",
+                "start": 0,
+                "end": 2,
+                "residual_control": "source_referenced_rk2",
+            }],
+        }
+
+        self.assertTrue(plan_requires_source_latents(ControlPlan.from_dict(value)))
+
     def test_latent_projection_accepts_source_outside_mask(self):
         value = {
             "name": "projection",
