@@ -52,6 +52,13 @@ A follow-up oracle-mask study isolates the control operation from mask estimatio
 
 See the [latent-state projection duration report](core/reports/latent_projection_duration_study.md) and [Notebook 09](core/notebooks/09_evaluate_latent_projection_duration_sweep.ipynb).
 
+The next control-operation study integrates an oracle-mask residual relative to
+the aligned source inversion trajectory at both RK2 midpoints and endpoints.
+Its implementation and frozen `12 x 16` protocol are documented in the
+[residual RK2 report](core/reports/residual_rk2_prefix_study.md) and
+[Notebook 10](core/notebooks/10_evaluate_residual_rk2_prefix_sweep.ipynb).
+Empirical results remain pending until the 192-output GPU sweep is complete.
+
 ## Visual Examples
 
 The aligned example below shows how original TDM, part+edit gating, part-only gating, and the projected Oracle mask alter both the injection support and generated output. Tighter localization generally makes the result more source-like, but does not monotonically improve the requested semantic edit.
@@ -85,8 +92,12 @@ Supporting diagnostic sheets are in:
 - `core/notebooks/05_evaluate_attention_gated_fys.ipynb`: attention-gated FYS evaluation notebook.
 - `core/notebooks/06_evaluate_oracle_mask_ablation.ipynb`: Oracle GT-mask control evaluation notebook.
 - `core/notebooks/09_evaluate_latent_projection_duration_sweep.ipynb`: final oracle latent-state projection duration evaluation.
+- `core/notebooks/10_evaluate_residual_rk2_prefix_sweep.ipynb`: residual RK2 prefix-control evaluation and integrity audit.
 - `core/scripts/run_latent_projection_duration_sweep.py`: locked `N=0..13` control-operation runner.
 - `core/scripts/evaluate_latent_projection_against_fys.py`: unified FYS/projection image-metric evaluator.
+- `core/scripts/run_residual_rk2_prefix_sweep.py`: locked `N=0..15` source-referenced residual RK2 runner.
+- `core/scripts/evaluate_residual_rk2_prefix_sweep.py`: unified FYS/projection/residual metric evaluator.
+- `core/scripts/build_residual_rk2_manual_review.py`: reusable 192-output semantic review page and score validator.
 - `core/results/follow_your_shape/`: FYS edited images, logs, configs, and TDM artifacts.
 - `core/results/flux_attention_baseline/`: attention maps, logs, and configs.
 - `core/results/controlled_revision/`: final metric tables and qualitative figures.
@@ -94,6 +105,7 @@ Supporting diagnostic sheets are in:
 - `core/results/oracle_mask_eval/`: Oracle validation, preservation metrics, and comparison figures.
 - `core/reports/final_note.md`: compact project note.
 - `core/reports/latent_projection_duration_study.md`: final latent-state projection control-operation report.
+- `core/reports/residual_rk2_prefix_study.md`: residual RK2 method, protocol, and execution status.
 
 Main result tables:
 
