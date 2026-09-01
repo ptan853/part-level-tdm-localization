@@ -123,6 +123,179 @@ class ControlPlanSamplingTests(unittest.TestCase):
             "control_spatial_mask": torch.tensor([1.0, 0.0, 1.0, 0.0]),
         }
 
+    @staticmethod
+    def _residual_plan(num_steps: int, end: int) -> ControlPlan:
+        stages = []
+        if end >= 0:
+            stages.append(
+                {
+                    "name": "residual",
+                    "start": 0,
+                    "end": end,
+                    "residual_control": "source_referenced_rk2",
+                }
+            )
+        return ControlPlan.from_dict(
+            {
+                "name": "residual-test",
+                "num_steps": num_steps,
+                "front": 0,
+                "inject": 0,
+                "tail_pad": 0,
+                "mask_source": "oracle",
+                "stages": stages,
+            }
+        )
+
+    @staticmethod
+    def _residual_inputs(
+        *,
+        num_steps: int = 2,
+        img: torch.Tensor | None = None,
+        source_latents: dict[int, torch.Tensor] | None = None,
+        source_midpoints: dict[int, torch.Tensor] | None = None,
+    ):
+        shape = (1, 4, 1)
+        zeros = lambda: torch.zeros(shape)
+        if source_latents is None:
+            source_latents = {index: zeros() for index in range(num_steps + 1)}
+        if source_midpoints is None:
+            source_midpoints = {index: zeros() for index in range(num_steps)}
+        return {
+            "model": ControlPlanSamplingTests._ConstantVelocityModel(),
+            "img": zeros() if img is None else img,
+            "img_ids": torch.zeros(1, 4, 3),
+            "txt": torch.zeros(1, 1, 1),
+            "txt_ids": torch.zeros(1, 1, 3),
+            "vec": torch.zeros(1, 1),
+            "timesteps": [1.0 - index / num_steps for index in range(num_steps + 1)],
+            "inverse": False,
+            "width": 32,
+            "height": 32,
+            "inject_list": [False] * num_steps,
+            "tail_pad": 0,
+            "front_pad": 0,
+            "info": {
+                "inject_step": 0,
+                "inv_noise": {
+                    f"step{index}": torch.tensor([[[0.0], [0.1], [0.2], [0.3]]])
+                    for index in range(num_steps)
+                },
+                "source_latents": source_latents,
+                "source_midpoints": source_midpoints,
+            },
+        }
+
+    def test_zero_duration_control_plan_matches_ordinary_rk2(self):
+        ordinary, _ = denoise_with_TDM(**self._residual_inputs())
+        controlled, info = denoise_with_TDM(
+            **self._residual_inputs(),
+            control_plan=self._residual_plan(num_steps=2, end=-1),
+            control_spatial_mask=torch.ones(4),
+        )
+
+        torch.testing.assert_close(controlled, ordinary)
+        self.assertNotIn("residual_control_trace", info)
+
+    def test_zero_mask_preserves_incoming_residual(self):
+        source_latents = {
+            0: torch.zeros(1, 4, 1),
+            1: torch.ones(1, 4, 1),
+        }
+        source_midpoints = {0: torch.full((1, 4, 1), 0.5)}
+        actual, info = denoise_with_TDM(
+            **self._residual_inputs(
+                num_steps=1,
+                img=torch.full((1, 4, 1), 2.0),
+                source_latents=source_latents,
+                source_midpoints=source_midpoints,
+            ),
+            control_plan=self._residual_plan(num_steps=1, end=0),
+            control_spatial_mask=torch.zeros(4),
+        )
+
+        torch.testing.assert_close(actual, torch.full((1, 4, 1), 3.0))
+        self.assertEqual(info["residual_control_trace"][0]["outside_residual_mae_after"], 2.0)
+
+    def test_zero_mask_with_zero_initial_residual_tracks_source_prefix(self):
+        source_latents = {
+            0: torch.zeros(1, 4, 1),
+            1: torch.full((1, 4, 1), 2.0),
+            2: torch.full((1, 4, 1), 4.0),
+        }
+        source_midpoints = {
+            0: torch.full((1, 4, 1), 1.0),
+            1: torch.full((1, 4, 1), 3.0),
+        }
+        actual, _ = denoise_with_TDM(
+            **self._residual_inputs(
+                source_latents=source_latents,
+                source_midpoints=source_midpoints,
+            ),
+            control_plan=self._residual_plan(num_steps=2, end=1),
+            control_spatial_mask=torch.zeros(4),
+        )
+
+        torch.testing.assert_close(actual, source_latents[2])
+
+    def test_one_mask_matches_ordinary_target_rk2(self):
+        ordinary, _ = denoise_with_TDM(**self._residual_inputs())
+        controlled, _ = denoise_with_TDM(
+            **self._residual_inputs(),
+            control_plan=self._residual_plan(num_steps=2, end=1),
+            control_spatial_mask=torch.ones(4),
+        )
+
+        torch.testing.assert_close(controlled, ordinary)
+
+    def test_mixed_mask_carries_target_residual_only_inside(self):
+        actual, _ = denoise_with_TDM(
+            **self._residual_inputs(),
+            control_plan=self._residual_plan(num_steps=2, end=1),
+            control_spatial_mask=torch.tensor([1.0, 0.0, 1.0, 0.0]),
+        )
+
+        torch.testing.assert_close(actual, torch.tensor([[[-1.0], [0.0], [-1.0], [0.0]]]))
+
+    def test_residual_control_requires_selected_source_midpoint(self):
+        inputs = self._residual_inputs()
+        del inputs["info"]["source_midpoints"][0]
+
+        with self.assertRaisesRegex(RuntimeError, r"source_midpoints\[0\]"):
+            denoise_with_TDM(
+                **inputs,
+                control_plan=self._residual_plan(num_steps=2, end=0),
+                control_spatial_mask=torch.ones(4),
+            )
+
+    def test_residual_control_trace_matches_three_step_prefix(self):
+        _, info = denoise_with_TDM(
+            **self._residual_inputs(num_steps=3),
+            control_plan=self._residual_plan(num_steps=3, end=2),
+            control_spatial_mask=torch.ones(4),
+        )
+
+        self.assertEqual(
+            [item["step"] for item in info["residual_control_trace"]],
+            [0, 1, 2],
+        )
+
+    def test_residual_control_trace_is_written_to_control_trace_json(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            inputs = self._residual_inputs(num_steps=1)
+            inputs["info"]["vis_path"] = temp_dir
+            _, _ = denoise_with_TDM(
+                **inputs,
+                control_plan=self._residual_plan(num_steps=1, end=0),
+                control_spatial_mask=torch.ones(4),
+            )
+
+            payload = json.loads((Path(temp_dir) / "control_trace.json").read_text())
+
+        self.assertEqual(payload["trace"][0]["residual_control"], "source_referenced_rk2")
+        self.assertEqual(payload["residual_control_trace"][0]["step"], 0)
+        self.assertEqual(payload["residual_control_trace"][0]["source_next_index"], 1)
+
     def test_projection_uses_source_endpoint_after_complete_heun_step(self):
         inputs = self._projection_inputs()
 
