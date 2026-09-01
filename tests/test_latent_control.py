@@ -15,11 +15,137 @@ sys.path.insert(0, str(FYS_SRC))
 
 from flux.latent_control import (  # noqa: E402
     LatentProjectionMetrics,
+    build_residual_endpoint,
+    build_residual_midpoint,
     project_source_outside,
 )
 
 
 class LatentControlTests(unittest.TestCase):
+    def test_zero_mask_midpoint_preserves_existing_residual(self):
+        actual, metrics = build_residual_midpoint(
+            current=torch.tensor([[[2.0], [4.0]]]),
+            source_current=torch.tensor([[[1.0], [3.0]]]),
+            source_midpoint=torch.tensor([[[1.5], [3.5]]]),
+            target_velocity=torch.tensor([[[10.0], [20.0]]]),
+            step_size=-0.2,
+            spatial_mask=torch.zeros(2),
+        )
+
+        torch.testing.assert_close(actual, torch.tensor([[[2.5], [4.5]]]))
+        self.assertEqual(metrics.mask_area_ratio, 0.0)
+        self.assertEqual(metrics.outside_residual_mae_before, 1.0)
+        self.assertEqual(metrics.outside_residual_mae_after, 1.0)
+        self.assertEqual(metrics.outside_residual_max_after, 1.0)
+
+    def test_zero_mask_midpoint_with_zero_residual_returns_source_midpoint(self):
+        actual, _ = build_residual_midpoint(
+            current=torch.tensor([[[1.0], [3.0]]]),
+            source_current=torch.tensor([[[1.0], [3.0]]]),
+            source_midpoint=torch.tensor([[[1.5], [3.5]]]),
+            target_velocity=torch.tensor([[[10.0], [20.0]]]),
+            step_size=-0.2,
+            spatial_mask=torch.zeros(2),
+        )
+
+        torch.testing.assert_close(actual, torch.tensor([[[1.5], [3.5]]]))
+
+    def test_zero_mask_endpoint_preserves_existing_residual(self):
+        actual, _ = build_residual_endpoint(
+            current=torch.tensor([[[2.0], [4.0]]]),
+            source_current=torch.tensor([[[1.0], [3.0]]]),
+            source_next=torch.tensor([[[0.5], [2.5]]]),
+            target_mid_velocity=torch.tensor([[[10.0], [20.0]]]),
+            step_size=-0.2,
+            spatial_mask=torch.zeros(2),
+        )
+
+        torch.testing.assert_close(actual, torch.tensor([[[1.5], [3.5]]]))
+
+    def test_one_mask_midpoint_matches_ordinary_target_rk2_midpoint(self):
+        current = torch.tensor([[[2.0], [4.0]]])
+        velocity = torch.tensor([[[10.0], [20.0]]])
+
+        actual, metrics = build_residual_midpoint(
+            current=current,
+            source_current=torch.tensor([[[1.0], [3.0]]]),
+            source_midpoint=torch.tensor([[[1.5], [3.5]]]),
+            target_velocity=velocity,
+            step_size=-0.2,
+            spatial_mask=torch.ones(2),
+        )
+
+        torch.testing.assert_close(actual, current + (-0.2 / 2) * velocity)
+        self.assertEqual(metrics.mask_area_ratio, 1.0)
+        self.assertEqual(metrics.outside_residual_mae_before, 0.0)
+        self.assertEqual(metrics.outside_residual_mae_after, 0.0)
+        self.assertEqual(metrics.outside_residual_max_after, 0.0)
+
+    def test_one_mask_endpoint_matches_ordinary_target_rk2_endpoint(self):
+        current = torch.tensor([[[2.0], [4.0]]])
+        velocity = torch.tensor([[[10.0], [20.0]]])
+
+        actual, _ = build_residual_endpoint(
+            current=current,
+            source_current=torch.tensor([[[1.0], [3.0]]]),
+            source_next=torch.tensor([[[0.5], [2.5]]]),
+            target_mid_velocity=velocity,
+            step_size=-0.2,
+            spatial_mask=torch.ones(2),
+        )
+
+        torch.testing.assert_close(actual, current + (-0.2) * velocity)
+
+    def test_mixed_mask_updates_only_inside_residual(self):
+        current = torch.tensor([[[1.0], [3.0]]])
+        actual, metrics = build_residual_endpoint(
+            current=current,
+            source_current=current.clone(),
+            source_next=torch.tensor([[[0.5], [2.5]]]),
+            target_mid_velocity=torch.tensor([[[10.0], [20.0]]]),
+            step_size=-0.2,
+            spatial_mask=torch.tensor([1.0, 0.0]),
+        )
+
+        torch.testing.assert_close(actual, torch.tensor([[[-1.0], [2.5]]]))
+        self.assertEqual(metrics.mask_area_ratio, 0.5)
+        self.assertEqual(metrics.outside_residual_max_after, 0.0)
+
+    def test_residual_control_rejects_shape_mismatch(self):
+        with self.assertRaisesRegex(ValueError, "residual control tensors must have matching shapes"):
+            build_residual_midpoint(
+                current=torch.zeros(1, 2, 3),
+                source_current=torch.zeros(1, 2, 3),
+                source_midpoint=torch.zeros(1, 3, 3),
+                target_velocity=torch.zeros(1, 2, 3),
+                step_size=-0.2,
+                spatial_mask=torch.ones(2),
+            )
+
+    def test_residual_control_rejects_non_finite_inputs(self):
+        current = torch.zeros(1, 2, 3)
+        current[0, 0, 0] = float("nan")
+        with self.assertRaisesRegex(ValueError, "residual control tensors must be finite"):
+            build_residual_endpoint(
+                current=current,
+                source_current=torch.zeros(1, 2, 3),
+                source_next=torch.zeros(1, 2, 3),
+                target_mid_velocity=torch.zeros(1, 2, 3),
+                step_size=-0.2,
+                spatial_mask=torch.ones(2),
+            )
+
+    def test_residual_control_rejects_non_scalar_step_size(self):
+        with self.assertRaisesRegex(ValueError, "step_size must be a finite scalar"):
+            build_residual_endpoint(
+                current=torch.zeros(1, 2, 3),
+                source_current=torch.zeros(1, 2, 3),
+                source_next=torch.zeros(1, 2, 3),
+                target_mid_velocity=torch.zeros(1, 2, 3),
+                step_size=torch.tensor([-0.2, -0.1]),
+                spatial_mask=torch.ones(2),
+            )
+
     def test_all_zero_mask_returns_source_and_reports_outside_error(self):
         target = torch.tensor([[[1.0, 2.0], [3.0, 4.0]]])
         source = torch.tensor([[[10.0, 20.0], [30.0, 40.0]]])
