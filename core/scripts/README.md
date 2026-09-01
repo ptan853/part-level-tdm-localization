@@ -467,3 +467,30 @@ Run it on a GPU machine by adding `--execute`. Results are isolated under
 `core/results/same_state_inversion_probe/<case_uid>/seed_000/` and include
 authoritative `.npy` maps, PNG previews, `step_overview.png`, `img_0.jpg`,
 `probe_metadata.json`, `run_config.json`, and `run.log`.
+
+## Residual RK2 Prefix Sweep
+
+This oracle-mask control keeps a residual relative to the aligned source
+inversion trajectory and applies that residual consistently at both RK2
+midpoints and endpoints. Preview the full 12-case, N=0..15 matrix with:
+
+```bash
+python core/scripts/run_residual_rk2_prefix_sweep.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --all-cases --durations 0-15 --seed 0 --write-run-matrix
+```
+
+Add `--execute` on the GPU machine. Outputs are isolated under
+`core/results/control_operations/residual_rk2_prefix_sweep/`.
+
+After all 192 runs are complete, compute the frozen FYS-compatible metrics
+(including LPIPS on a CUDA machine) and build the manual-review page:
+
+```bash
+python core/scripts/evaluate_residual_rk2_prefix_sweep.py --lpips require
+python core/scripts/build_residual_rk2_manual_review.py
+```
+
+The evaluation command rejects incomplete runs and preserves existing LPIPS
+values when rerun with `--lpips auto` or `--lpips off`. The review bundle is
+written to `core/results/control_operations_eval/residual_rk2_prefix_sweep/`.
