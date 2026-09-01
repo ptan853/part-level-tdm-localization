@@ -658,6 +658,77 @@ class PromptValidationTest(unittest.TestCase):
             np.array([0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1], dtype=np.uint8),
         )
 
+    def test_main_aligns_top_left_pixel_quarter_to_top_left_token_quarter(self):
+        edit = load_edit_module()
+        captured_masks = []
+        prepared_image_token_counts = []
+
+        def fake_prepare(t5, clip, img, prompt):
+            prepared = {
+                "img": torch.zeros(1, 16, 4),
+                "img_ids": torch.zeros(1, 16, 3),
+                "txt": torch.zeros(1, 8, 4),
+                "txt_ids": torch.zeros(1, 8, 3),
+                "vec": torch.zeros(1, 4),
+            }
+            prepared_image_token_counts.append(prepared["img"].shape[1])
+            return prepared
+
+        def fake_denoise(*args, **kwargs):
+            return torch.zeros(1, 16, 4), kwargs["info"]
+
+        def fake_denoise_with_tdm(*args, **kwargs):
+            captured_masks.append(kwargs["control_spatial_mask"])
+            return torch.zeros(1, 3, 4, 4), kwargs["info"]
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            image_path = tmp_path / "source.png"
+            mask_path = tmp_path / "top_left_quarter.png"
+            Image.new("RGB", (8, 8), color="white").save(image_path)
+
+            mask_pixels = np.zeros((8, 8), dtype=np.uint8)
+            mask_pixels[:4, :4] = 255
+            Image.fromarray(mask_pixels, mode="L").save(mask_path)
+
+            args = edit.build_arg_parser().parse_args(
+                [
+                    "--source_img_dir", str(image_path),
+                    "--source_prompt", "a man standing",
+                    "--target_prompt", "a man with alien head standing",
+                    "--feature_path", str(tmp_path / "features"),
+                    "--vis_path", str(tmp_path / "vis"),
+                    "--output_dir", str(tmp_path / "outputs"),
+                    "--mask_path", str(mask_path),
+                    "--tdm_mask_mode", "oracle",
+                    "--num_steps", "10",
+                ]
+            )
+            edit.validate_args(edit.build_arg_parser(), args)
+
+            with mock.patch.object(edit, "pipeline", return_value=lambda img: [{"label": "nsfw", "score": 0.0}]), \
+                mock.patch.object(edit, "load_t5", return_value=DummyT5()), \
+                mock.patch.object(edit, "load_clip", return_value=DummyClip()), \
+                mock.patch.object(edit, "load_flow_model", return_value=DummyModel()), \
+                mock.patch.object(edit, "load_ae", return_value=DummyAE()), \
+                mock.patch.object(edit, "encode", return_value=torch.zeros(1, 16, 8, 8)), \
+                mock.patch.object(edit, "prepare", side_effect=fake_prepare), \
+                mock.patch.object(edit, "get_schedule", return_value=[1.0 - index / 10 for index in range(11)]), \
+                mock.patch.object(edit, "denoise", side_effect=fake_denoise), \
+                mock.patch.object(edit, "denoise_with_TDM", side_effect=fake_denoise_with_tdm), \
+                mock.patch.object(edit, "build_inject_list", return_value=[False] * 10), \
+                mock.patch.object(edit, "unpack", return_value=torch.zeros(1, 3, 4, 4)), \
+                mock.patch.object(edit, "embed_watermark", side_effect=lambda x: x):
+                edit.main(args, device="cpu")
+
+        self.assertEqual(len(captured_masks), 1)
+        expected_grid = np.zeros((4, 4), dtype=np.uint8)
+        expected_grid[:2, :2] = 1
+        actual = np.asarray(captured_masks[0])
+        np.testing.assert_array_equal(actual, expected_grid)
+        self.assertEqual(actual.size, prepared_image_token_counts[0])
+        self.assertEqual(set(np.unique(actual)), {0, 1})
+
 
 if __name__ == "__main__":
     unittest.main()
