@@ -185,6 +185,39 @@ This produces per-run metrics plus overall and part-size-stratified summaries.
 `outside_reduction_vs_n0` measures reduced non-target change; neither is a
 semantic edit-success score.
 
+### Residual RK2 Prefix Sweep
+
+This oracle-mask experiment controls the deviation from the aligned inversion
+reference at both RK2 evaluations. Duration `N` controls denoising updates
+`0..N-1`; `N=0` is ordinary target RK2 and `N=15` controls the complete
+15-update trajectory. Durations below 15 are controlled prefixes followed by
+an ordinary target-RK2 tail. The primary sweep does not use image-KV injection.
+
+Preview the complete 12-case by 16-duration matrix without loading FLUX:
+
+```bash
+python core/scripts/run_residual_rk2_prefix_sweep.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --all-cases \
+  --durations 0-15 \
+  --seed 0 \
+  --write-run-matrix
+```
+
+Add `--execute` on the configured GPU machine to run all 192 outputs. Results
+are isolated from prior control experiments:
+
+```text
+core/results/control_operations/residual_rk2_prefix_sweep/
+  plans/duration_NN.json
+  duration_NN/<case_uid>/seed_000/
+```
+
+Each controlled run records aligned source endpoint and midpoint indices plus
+outside-mask residual diagnostics in `tdm/control_trace.json`. The complete
+matrix is written to
+`core/results/run_matrices/residual_rk2_prefix_sweep.csv`.
+
 ### Reusable Manual Review
 
 `build_manual_review.py` creates a standalone scoring page from a long-form
