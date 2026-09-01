@@ -175,14 +175,20 @@ class InversionStepObserverTest(unittest.TestCase):
         )
 
         self.assertEqual(sorted(info["source_latents"]), [0, 1, 2])
+        self.assertEqual(sorted(info["source_midpoints"]), [0, 1])
         torch.testing.assert_close(info["source_latents"][2], initial)
         torch.testing.assert_close(info["source_latents"][1], torch.full_like(initial, 1.75))
         torch.testing.assert_close(info["source_latents"][0], torch.full_like(initial, 3.28125))
+        torch.testing.assert_close(info["source_midpoints"][1], torch.full_like(initial, 1.25))
+        torch.testing.assert_close(info["source_midpoints"][0], torch.full_like(initial, 2.3125))
         self.assertFalse(info["source_latents"][2].requires_grad)
+        self.assertFalse(info["source_midpoints"][1].requires_grad)
         self.assertNotEqual(info["source_latents"][2].data_ptr(), inversion_input.data_ptr())
+        self.assertNotEqual(info["source_midpoints"][1].data_ptr(), inversion_input.data_ptr())
         with torch.no_grad():
             inversion_input.add_(10.0)
         torch.testing.assert_close(info["source_latents"][2], initial)
+        torch.testing.assert_close(info["source_midpoints"][1], torch.full_like(initial, 1.25))
 
     def test_source_latent_recording_is_opt_in_and_preserves_output(self):
         install_optional_dependency_stubs()
@@ -227,7 +233,9 @@ class InversionStepObserverTest(unittest.TestCase):
 
         torch.testing.assert_close(recorded, unrecorded)
         self.assertNotIn("source_latents", unrecorded_info)
+        self.assertNotIn("source_midpoints", unrecorded_info)
         self.assertIn("source_latents", recorded_info)
+        self.assertIn("source_midpoints", recorded_info)
 
     def test_observer_sees_pre_update_state_and_matches_plain_output(self):
         install_optional_dependency_stubs()
