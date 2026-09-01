@@ -246,7 +246,7 @@ def render_comparison_sheet(
     repo_root: Path,
     manifest: dict[str, dict],
     sweep_root: Path,
-    reference_root: Path,
+    reference_root: Path | None,
     case_uids: tuple[str, ...] = DEFAULT_CASE_UIDS,
     durations: tuple[int, ...] = DEFAULT_DURATIONS,
 ) -> None:
@@ -254,7 +254,9 @@ def render_comparison_sheet(
     label_width = 280
     header_height = 44
     row_height = 220
-    columns = ["source", "GT"] + [f"N={duration}" for duration in durations] + ["N=7 + Stage 3 KV"]
+    columns = ["source", "GT"] + [f"N={duration}" for duration in durations]
+    if reference_root is not None:
+        columns.append("N=7 + Stage 3 KV")
     canvas = Image.new(
         "RGB",
         (label_width + len(columns) * thumb_size[0], header_height + len(case_uids) * row_height),
@@ -283,10 +285,11 @@ def render_comparison_sheet(
             _load_rgb(sweep_root / f"duration_{duration:02d}" / case_uid / "seed_000" / IMAGE_NAME)
             for duration in durations
         )
-        reference_path = reference_root / case_uid / "seed_000" / IMAGE_NAME
-        if not reference_path.exists():
-            raise FileNotFoundError(reference_path)
-        images.append(_load_rgb(reference_path))
+        if reference_root is not None:
+            reference_path = reference_root / case_uid / "seed_000" / IMAGE_NAME
+            if not reference_path.exists():
+                raise FileNotFoundError(reference_path)
+            images.append(_load_rgb(reference_path))
         for column_index, image in enumerate(images):
             x = label_width + column_index * thumb_size[0]
             canvas.paste(_thumbnail(image, thumb_size), (x, y))
@@ -326,6 +329,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--sweep-root", type=Path)
     parser.add_argument("--reference-root", type=Path)
+    parser.add_argument(
+        "--no-reference",
+        action="store_true",
+        help="Render only the duration sweep, without the legacy Stage-3 reference column.",
+    )
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--case-uid", action="append", dest="case_uids")
     parser.add_argument(
@@ -342,7 +350,7 @@ def main(argv: list[str] | None = None) -> int:
     repo_root = find_repo_root(args.repo_root or Path.cwd())
     manifest_path = args.manifest or repo_root / "core/data/partedit_subset/pilot_12_manifest.json"
     sweep_root = args.sweep_root or repo_root / "core/results/control_operations/latent_projection_duration_sweep"
-    reference_root = (
+    reference_root = None if args.no_reference else (
         args.reference_root
         or repo_root / "core/results/control_operations/oracle_stage2_latent_projection"
     )

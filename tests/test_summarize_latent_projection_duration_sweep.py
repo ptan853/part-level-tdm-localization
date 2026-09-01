@@ -10,6 +10,7 @@ from core.scripts.summarize_latent_projection_duration_sweep import (
     aggregate_metrics,
     compute_region_metrics,
     parse_duration_spec,
+    render_comparison_sheet,
     select_case_uids,
     validate_primary_run,
     write_metrics_csv,
@@ -169,6 +170,34 @@ class SummarizeLatentProjectionDurationSweepTests(unittest.TestCase):
             path = Path(directory) / "metrics.csv"
             write_metrics_csv(path, [{"duration": 0, "value": 1.0}])
             self.assertNotIn(b"\r\n", path.read_bytes())
+
+    def test_comparison_sheet_does_not_require_legacy_reference(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            source = root / "source.png"
+            mask = root / "mask.png"
+            Image.new("RGB", (8, 8), "white").save(source)
+            Image.new("L", (8, 8), 255).save(mask)
+            run_dir = self.make_run(root / "sweep", duration=0)
+            output = root / "comparison.jpg"
+            render_comparison_sheet(
+                path=output,
+                repo_root=root,
+                manifest={
+                    "real_0006": {
+                        "source_image": "source.png",
+                        "gt_mask": "mask.png",
+                        "part": "head",
+                        "edit": "alien",
+                        "part_size": "small",
+                    }
+                },
+                sweep_root=root / "sweep",
+                reference_root=None,
+                case_uids=("real_0006",),
+                durations=(0,),
+            )
+            self.assertTrue(output.is_file())
 
 
 if __name__ == "__main__":
