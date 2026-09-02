@@ -227,7 +227,8 @@ def evaluate_rows(
         missing = [str(path) for path in (source_path, gt_path, edited_path) if not path.exists()]
         if missing:
             raise FileNotFoundError(f"Missing evaluation artifact(s) for {row['row_uid']}: {missing}")
-        image_size = Image.open(source_path).size
+        with Image.open(source_path) as source_image:
+            image_size = source_image.size
         source = load_rgb(source_path)
         edited = load_rgb(edited_path, size=image_size)
         gt_mask = load_mask(gt_path, size=image_size)

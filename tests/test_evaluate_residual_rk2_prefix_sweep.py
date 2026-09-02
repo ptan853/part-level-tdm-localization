@@ -89,6 +89,36 @@ class ResidualRk2EvaluationTest(unittest.TestCase):
         self.assertEqual(rows["method"].unique().tolist(), ["residual_rk2"])
         self.assertEqual(rows["duration"].tolist(), [0, 1])
 
+    def test_keeps_repo_relative_paths_when_dataset_directory_is_a_symlink(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp, tempfile.TemporaryDirectory() as data_tmp:
+            root = Path(tmp)
+            external_case_dir = Path(data_tmp) / "case_a"
+            write_rgb(external_case_dir / "source.png")
+            Image.fromarray(np.full((4, 4), 255, dtype=np.uint8)).save(
+                external_case_dir / "gt.png"
+            )
+            cases_link = root / "core/data/cases"
+            cases_link.parent.mkdir(parents=True)
+            cases_link.symlink_to(external_case_dir.parent, target_is_directory=True)
+            manifest = [{
+                "case_uid": "case_a",
+                "part": "head",
+                "edit": "alien",
+                "part_size": "small",
+                "source_image": "core/data/cases/case_a/source.png",
+                "gt_mask": "core/data/cases/case_a/gt.png",
+                "target_prompt": "a person with an alien head",
+            }]
+            output_root = root / "core/results/residual"
+            write_complete_run(output_root, 0, "case_a", 64)
+
+            rows = build_residual_evaluation_rows(
+                root, manifest, output_root, durations=[0], seed=0
+            )
+
+        self.assertEqual(rows.loc[0, "source_image"], manifest[0]["source_image"])
+        self.assertEqual(rows.loc[0, "gt_mask"], manifest[0]["gt_mask"])
+
     def test_rejects_an_incomplete_run(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

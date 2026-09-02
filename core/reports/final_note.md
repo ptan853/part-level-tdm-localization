@@ -162,20 +162,20 @@ By target part size:
 | Large     | Attention-gated FYS, part-only tokens |                       1.25 |                            1.50 |
 | Large     | Oracle GT-mask FYS                    |                       1.00 |                            1.50 |
 
-| Case        | Part edit              | Original FYS local / preserve | Gated part+edit local / preserve | Gated part-only local / preserve | Oracle local / preserve | Note                                                                                                                          |
-| ----------- | ---------------------- | ----------------------------: | -------------------------------: | -------------------------------: | ----------------------: | ----------------------------------------------------------------------------------------------------------------------------- |
-| `real_0006` | `head -> alien`        |                       `1 / 1` |                          `1 / 1` |                          `1 / 1` |                 `2 / 1` | Gating preserves the person and background better, but the alien-head edit is mostly suppressed.                              |
-| `real_0008` | `head -> bear`         |                       `0 / 2` |                          `0 / 2` |                          `0 / 2` |                 `0 / 2` | Head localization improves, but the head does not clearly become bear-like.                                                   |
-| `real_0003` | `head -> cheetah`      |                       `0 / 1` |                          `0 / 1` |                          `0 / 1` |                 `0 / 2` | Original FYS changes the animal more visibly; gated versions keep the horse but weaken the cheetah-head edit.                 |
-| `real_0002` | `seat -> mesh`         |                       `2 / 1` |                          `2 / 2` |                          `2 / 2` |                 `2 / 2` | Gating localizes and preserves the chair/background, but the mesh-seat semantic change is weak.                               |
-| `real_0010` | `head -> dragon`       |                       `0 / 0` |                          `0 / 1` |                          `0 / 1` |                 `0 / 1` | Attention-gated masks focus near the head and restore some body/road content, but the global cow trajectory remains affected. |
-| `real_0004` | `carhood -> rusted`    |                       `0 / 1` |                          `0 / 2` |                          `0 / 2` |                 `0 / 1` | The car is preserved better, but rust on the hood is not clear.                                                               |
-| `real_0007` | `seat -> leather`      |                       `2 / 2` |                          `2 / 2` |                          `2 / 2` |                 `1 / 1` | All methods show the seat-material edit; gated versions better preserve the chair frame/background.                           |
-| `real_0001` | `head -> cat`          |                       `2 / 1` |                          `2 / 1` |                          `2 / 1` |                 `2 / 1` | The cat-head edit is visible, and attention gating improves non-target preservation.                                          |
-| `real_0000` | `torso -> armored`     |                       `2 / 1` |                          `2 / 1` |                          `2 / 1` |                 `1 / 2` | The torso is affected, but armor semantics remain partial.                                                                    |
-| `real_0011` | `hair -> curly_hair`   |                       `2 / 0` |                          `2 / 1` |                          `2 / 1` |                 `2 / 1` | Hair localization improves, but face identity still changes.                                                                  |
-| `real_0005` | `head -> dog`          |                       `1 / 0` |                          `1 / 2` |                          `1 / 2` |                 `0 / 2` | Bear body/background are preserved, but dog-head semantics remain partial.                                                    |
-| `real_0009` | `carbody -> rusted`    |                       `0 / 1` |                          `1 / 2` |                          `0 / 2` |                 `1 / 1` | The car body is preserved better under gating, but the rusted-body edit is weak.                                              |
+| Case          | Part edit              | Original FYS local / preserve | Gated part+edit local / preserve | Gated part-only local / preserve | Oracle local / preserve | Note                                                                                                                          |
+| ------------- | ---------------------- | ----------------------------: | -------------------------------: | -------------------------------: | ----------------------: | ----------------------------------------------------------------------------------------------------------------------------- |
+| `real_0006` | `head -> alien`      |                     `1 / 1` |                        `1 / 1` |                        `1 / 1` |               `2 / 1` | Gating preserves the person and background better, but the alien-head edit is mostly suppressed.                              |
+| `real_0008` | `head -> bear`       |                     `0 / 2` |                        `0 / 2` |                        `0 / 2` |               `0 / 2` | Head localization improves, but the head does not clearly become bear-like.                                                   |
+| `real_0003` | `head -> cheetah`    |                     `0 / 1` |                        `0 / 1` |                        `0 / 1` |               `0 / 2` | Original FYS changes the animal more visibly; gated versions keep the horse but weaken the cheetah-head edit.                 |
+| `real_0002` | `seat -> mesh`       |                     `2 / 1` |                        `2 / 2` |                        `2 / 2` |               `2 / 2` | Gating localizes and preserves the chair/background, but the mesh-seat semantic change is weak.                               |
+| `real_0010` | `head -> dragon`     |                     `0 / 0` |                        `0 / 1` |                        `0 / 1` |               `0 / 1` | Attention-gated masks focus near the head and restore some body/road content, but the global cow trajectory remains affected. |
+| `real_0004` | `carhood -> rusted`  |                     `0 / 1` |                        `0 / 2` |                        `0 / 2` |               `0 / 1` | The car is preserved better, but rust on the hood is not clear.                                                               |
+| `real_0007` | `seat -> leather`    |                     `2 / 2` |                        `2 / 2` |                        `2 / 2` |               `1 / 1` | All methods show the seat-material edit; gated versions better preserve the chair frame/background.                           |
+| `real_0001` | `head -> cat`        |                     `2 / 1` |                        `2 / 1` |                        `2 / 1` |               `2 / 1` | The cat-head edit is visible, and attention gating improves non-target preservation.                                          |
+| `real_0000` | `torso -> armored`   |                     `2 / 1` |                        `2 / 1` |                        `2 / 1` |               `1 / 2` | The torso is affected, but armor semantics remain partial.                                                                    |
+| `real_0011` | `hair -> curly_hair` |                     `2 / 0` |                        `2 / 1` |                        `2 / 1` |               `2 / 1` | Hair localization improves, but face identity still changes.                                                                  |
+| `real_0005` | `head -> dog`        |                     `1 / 0` |                        `1 / 2` |                        `1 / 2` |               `0 / 2` | Bear body/background are preserved, but dog-head semantics remain partial.                                                    |
+| `real_0009` | `carbody -> rusted`  |                     `0 / 1` |                        `1 / 2` |                        `0 / 2` |               `1 / 1` | The car body is preserved better under gating, but the rusted-body edit is weak.                                              |
 
 The original and gated ratings are saved at `core/results/attention_gated_fys_eval/local_edit_success_per_case.csv`; Oracle ratings are saved at `core/results/oracle_mask_eval/oracle_local_edit_review.csv`.
 
@@ -250,3 +250,188 @@ The Oracle comparison below shows all 12 seed-0 cases in three readable panels. 
 ## Conclusion
 
 The controlled revision supports a concrete technical gap: trajectory-guided mask-free editing remains useful for object-level control, but its TDM can be too coarse for part-level edits. Token-aware attention and even GT masks projected to the FLUX token grid improve non-target preservation, but better masks alone do not guarantee stronger semantic part editing under the current FYS injection schedule. The remaining limitation is therefore not only mask estimation; it also concerns when and how the source and target trajectories are constrained.
+
+## Control-Operation Comparison
+
+### Background and hypothesis
+
+The preceding experiments separate two possible bottlenecks. FYS-TDM often produces support broader than the requested part, but replacing it with a projected GT mask still does not reliably realize the requested semantics under the original late image-KV injection schedule. Accurate localization is therefore helpful but not sufficient. The next question is whether a different source/target trajectory control operation can preserve non-target content without suppressing the local edit.
+
+Two oracle-mask controls were evaluated for this purpose. They do not estimate a mask; they assume the GT part support and test what happens after localization has been fixed.
+
+### Shared experimental setting
+
+- The same frozen 12 PartEdit cases are used, with four small, four medium, and four large target parts.
+- All outputs use the same source images, part-aware target prompts, FLUX/FYS inversion path, 15-step schedule, and seed 0.
+- Both new controls use the same projected oracle mask. Original FYS-TDM remains the native-pipeline baseline and uses its estimated TDM.
+- Automatic evaluation uses the same outside-mask L1, PSNR, global-SSIM proxy, and LPIPS implementations. Human evaluation independently scores local-edit success and non-target preservation from 0 to 2.
+- Each method uses one globally frozen duration across all cases. No result is selected per image.
+
+Endpoint projection uses its strongest observed global compromise at `N=3`. Residual RK2 uses `N=15`, its best measured setting on the reported aggregate metrics. `N=7` remains the earliest balanced point: it is the first duration reaching the maximum local-edit mean while preservation already exceeds 1.9/2. These operating points were selected from the complete sweeps on this 12-case pilot, not on an independent held-out set.
+
+### Endpoint latent projection
+
+The first strategy completes a normal target-prompt denoising update and then composes its next state with the time-aligned source-inversion state:
+
+$$
+z_{i+1}=M_{gt}\odot z^{tgt}_{i+1}+(1-M_{gt})\odot z^{src}_{i+1}.
+$$
+
+The target trajectory is retained inside the oracle part mask, while the state outside the mask is projected back to the source trajectory. Control begins at denoising step 2 and lasts for `N` consecutive steps. This directly tests whether state-level source/target composition can replace the original late masked image-KV injection.
+
+### Source-referenced Residual RK2
+
+Endpoint projection constrains only a completed solver step. The second strategy instead represents the edited state $x_i$ as a residual from the time-aligned source state $s_i$:
+
+$$
+d_i=x_i-s_i.
+$$
+
+Let $h=t_{i+1}-t_i$ be the signed denoising step, $M$ the oracle mask, and $v_1$ and $v_2$ the target-prompt velocities evaluated at the current state and RK2 midpoint. The masked midpoint update is
+
+$$
+d_{i+\frac{1}{2}}
+=d_i+M\odot\left[\frac{h}{2}v_1-\left(s_{i+\frac{1}{2}}-s_i\right)\right],
+\qquad
+x_{i+\frac{1}{2}}=s_{i+\frac{1}{2}}+d_{i+\frac{1}{2}},
+$$
+
+and the corresponding endpoint update is
+
+$$
+d_{i+1}
+=d_i+M\odot\left[hv_2-\left(s_{i+1}-s_i\right)\right],
+\qquad
+x_{i+1}=s_{i+1}+d_{i+1}.
+$$
+
+Outside the mask, the residual remains zero and the state follows the aligned source trajectory. Inside the mask, the equations recover the target-prompt midpoint RK2 update. For duration `N`, control applies to the prefix `0..N-1`, and image-KV injection is disabled so the experiment measures this operation directly.
+
+### Numerical comparison
+
+Automatic non-target preservation:
+
+| Method                      | Outside L1 ↓ | Outside PSNR ↑ | Outside SSIM ↑ | Outside LPIPS ↓ |
+| --------------------------- | ------------: | --------------: | --------------: | ---------------: |
+| Original FYS-TDM            |        0.0555 |           20.36 |          0.9192 |           0.1914 |
+| Endpoint projection,`N=3` |        0.0369 |           24.72 |          0.9657 |           0.1615 |
+| Residual RK2,`N=15`       |        0.0179 |           30.61 |          0.9914 |           0.0377 |
+
+Human semantic evaluation:
+
+`Joint success` counts a case when both local-edit success and non-target preservation are at least 1, allowing partial success on either dimension. `Strict joint success` requires both scores to equal 2. At Residual RK2 `N=15`, these correspond to 11/12 and 9/12 cases, respectively.
+
+| Method                      | Local edit ↑ | Preservation ↑ | Joint success ↑ | Strict joint ↑ |
+| --------------------------- | ------------: | --------------: | ---------------: | --------------: |
+| Original FYS-TDM            |         1.000 |           0.917 |            41.7% |            8.3% |
+| Endpoint projection,`N=3` |         1.167 |           1.833 |            75.0% |           41.7% |
+| Residual RK2,`N=15`       |         1.667 |           2.000 |            91.7% |           75.0% |
+
+Both oracle controls improve non-target preservation over Original FYS-TDM. Endpoint projection gives a useful edit-preservation compromise at `N=3`, but Residual RK2 at `N=15` is stronger on every reported automatic metric and retains substantially more requested edit semantics. Its midpoint-consistent update reaches 91.7% joint success and 75.0% strict joint success.
+
+The two `N` values denote control duration, not identical absolute windows: endpoint projection begins at denoising step 2, whereas Residual RK2 controls a prefix beginning at step 0. The values are therefore not time-aligned, and the comparison evaluates each method at its own globally frozen operating point rather than treating equal `N` as a matched ablation.
+
+### Complete qualitative comparison
+
+The following sheets contain all 12 cases. Every row is aligned by `case_uid` and shows the source, GT part overlay, Original FYS-TDM, endpoint projection at `N=3`, and Residual RK2 at `N=15`.
+
+Regenerate the aligned sheets from the unified metric table with:
+
+```bash
+python core/scripts/build_control_operation_comparison.py
+```
+
+<p align="center">
+  <a href="../results/control_operations_eval/control_operation_comparison/control_comparison_part1.jpg">
+    <img src="../results/control_operations_eval/control_operation_comparison/control_comparison_part1.jpg" width="100%" alt="Control-operation comparison cases 1 to 6">
+  </a>
+</p>
+
+<p align="center">
+  <a href="../results/control_operations_eval/control_operation_comparison/control_comparison_part2.jpg">
+    <img src="../results/control_operations_eval/control_operation_comparison/control_comparison_part2.jpg" width="100%" alt="Control-operation comparison cases 7 to 12">
+  </a>
+</p>
+
+The visual comparison supports three observations. First, both controls restore non-target structure in cases such as `real_0011` (`hair -> curly_hair`), where Original FYS changes facial identity, and `real_0004` (`carhood -> rusted`), where both controlled outputs reach human scores of 2 for editing and preservation. Second, endpoint projection can over-constrain semantics: for `real_0005` (`head -> dog`), it improves preservation to 2 but reduces local-edit success to 0, whereas Residual RK2 scores 2 on both criteria. Third, neither operation can create semantics absent from the target trajectory: `real_0010` (`head -> dragon`) reaches preservation 2 under both controls but remains at local-edit score 0.
+
+### Conclusion and scope
+
+Together with the earlier oracle-mask FYS ablation, these results support the hypothesis that the control operation is a major bottleneck after localization is fixed. The direct three-way table is nevertheless a pipeline-level comparison: Original FYS uses its native estimated TDM, while the two new operations receive an oracle mask. The experiment therefore does not by itself attribute the full improvement only to the control formula.
+
+The conclusion is limited to this frozen pilot. It demonstrates that source-referenced state control can improve the edit-preservation trade-off under ideal localization, but it does not establish automatic mask extraction, independent-test-set generalization, or seed uncertainty.
+
+Complete method-internal analyses, including all duration values and qualitative outputs, are available in:
+
+- [`latent_projection_duration_study.md`](latent_projection_duration_study.md)
+- [`residual_rk2_prefix_study.md`](residual_rk2_prefix_study.md)
+
+### Reading the Residual RK2 sweep figures
+
+The following figures explain how the operating points were selected rather than serving as unsupported supplementary plots.
+
+**Automatic preservation curves.** All four outside-mask metrics improve monotonically as `N` increases. `N=15` has the lowest L1 and LPIPS and the highest PSNR and SSIM, so it is the best measured preservation setting. The target-region activity curves remain descriptive only; they cannot establish whether the intended semantics were generated.
+
+![Residual RK2 automatic metrics](../results/control_operations_eval/residual_rk2_prefix_sweep/residual_image_metric_curves.png)
+
+**Human-score curves.** Joint success first reaches its maximum of 91.7% at `N=5`, and the local-edit mean first reaches its maximum of 1.667/2 at `N=6`. `N=7` is the earliest point combining that maximum local-edit mean with preservation above 1.9/2. Preservation and strict joint success reach their maxima at `N=9`. Consequently, `N=9..15` are tied on all four human summary metrics. `N=15` is used in the main comparison because the automatic preservation metrics continue to improve through the end of the sweep without any measured human-score reduction; it is not uniquely best under human evaluation alone.
+
+![Residual RK2 human metrics](../results/control_operations_eval/residual_rk2_prefix_sweep/residual_human_metric_curves.png)
+
+**Part-size curves.** At `N=15`, preservation is 2.000/2 for small, medium, and large parts. Local-edit success remains strongest for large parts at 2.000/2 and lower for small and medium parts at 1.500/2, showing that perfect preservation does not remove the semantic difficulty of smaller edits.
+
+![Residual RK2 part-size analysis](../results/control_operations_eval/residual_rk2_prefix_sweep/residual_human_by_part_size.png)
+
+**Per-case heatmaps.** Eleven of the 12 cases achieve joint success at `N=15`. `real_0010` (`head -> dragon`) remains at local-edit score 0 for every duration despite reaching preservation 2, while `real_0003` and `real_0008` remain partial edits with score 1. These failures prevent the preservation curves from being interpreted as universal semantic success.
+
+![Residual RK2 per-case analysis](../results/control_operations_eval/residual_rk2_prefix_sweep/residual_per_case_human_scores.png)
+
+### Exact reproduction commands
+
+Run the following commands from the repository root on the completed experiment branch. Full environment, model, and dataset setup is documented in the repository README.
+
+```bash
+git fetch origin --tags
+git switch --detach residual-rk2-pilot-v1
+git submodule update --init --recursive
+```
+
+Generate the complete Endpoint projection sweep:
+
+```bash
+python core/scripts/run_latent_projection_duration_sweep.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --all-cases --durations 0-13 --seed 0 --execute
+```
+
+Generate the complete Residual RK2 sweep:
+
+```bash
+python core/scripts/run_residual_rk2_prefix_sweep.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --all-cases --durations 0-15 --seed 0 --execute
+```
+
+Recompute the shared automatic metrics, including LPIPS:
+
+```bash
+python core/scripts/evaluate_latent_projection_against_fys.py --lpips require
+python core/scripts/evaluate_residual_rk2_prefix_sweep.py --lpips require
+```
+
+Validate the completed 192-row Residual RK2 human-score table:
+
+```bash
+python core/scripts/build_residual_rk2_manual_review.py \
+  --validate core/results/control_operations_eval/residual_rk2_prefix_sweep/manual_review_scores.csv
+```
+
+Execute both method-internal analysis notebooks and rebuild the final aligned comparison sheets:
+
+```bash
+python -m jupyter nbconvert --execute --to notebook --inplace \
+  core/notebooks/09_evaluate_latent_projection_duration_sweep.ipynb
+python -m jupyter nbconvert --execute --to notebook --inplace \
+  core/notebooks/10_evaluate_residual_rk2_prefix_sweep.ipynb
+python core/scripts/build_control_operation_comparison.py
+```

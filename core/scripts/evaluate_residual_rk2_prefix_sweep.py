@@ -26,7 +26,9 @@ DEFAULT_DURATIONS = tuple(range(16))
 
 
 def repo_relative(repo_root: Path, path: Path) -> str:
-    return str(path.resolve().relative_to(repo_root.resolve()))
+    # Keep the repository-visible path even when a dataset directory is mounted
+    # through a symlink whose physical target lives outside the checkout.
+    return str(path.absolute().relative_to(repo_root.absolute()))
 
 
 def build_residual_evaluation_rows(

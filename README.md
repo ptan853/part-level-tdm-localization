@@ -54,10 +54,10 @@ See the [latent-state projection duration report](core/reports/latent_projection
 
 The next control-operation study integrates an oracle-mask residual relative to
 the aligned source inversion trajectory at both RK2 midpoints and endpoints.
-Its implementation and frozen `12 x 16` protocol are documented in the
+The completed `12 x 16` sweep reaches `91.7%` joint human success from `N=5`;
+`N=7` is the balanced global operating point. Its implementation, results, and frozen protocol are documented in the
 [residual RK2 report](core/reports/residual_rk2_prefix_study.md) and
 [Notebook 10](core/notebooks/10_evaluate_residual_rk2_prefix_sweep.ipynb).
-Empirical results remain pending until the 192-output GPU sweep is complete.
 
 ## Visual Examples
 
@@ -105,7 +105,7 @@ Supporting diagnostic sheets are in:
 - `core/results/oracle_mask_eval/`: Oracle validation, preservation metrics, and comparison figures.
 - `core/reports/final_note.md`: compact project note.
 - `core/reports/latent_projection_duration_study.md`: final latent-state projection control-operation report.
-- `core/reports/residual_rk2_prefix_study.md`: residual RK2 method, protocol, and execution status.
+- `core/reports/residual_rk2_prefix_study.md`: final residual RK2 method, cross-method results, limitations, and reproduction commands.
 
 Main result tables:
 

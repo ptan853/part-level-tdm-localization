@@ -2,8 +2,8 @@
 
 This directory contains compact text outputs for the project:
 
-- `final_note.md`: the concise research note summarizing the problem, setup, metrics, results, and conclusion.
+- `final_note.md`: the main research note, including the appended frozen comparison of Original FYS-TDM, endpoint projection, and Residual RK2.
 - `latent_projection_duration_study.md`: the final oracle latent-state projection duration study, including the FYS comparison, human evaluation, limitations, and reproduction commands.
-- `residual_rk2_prefix_study.md`: the midpoint-consistent source-referenced residual RK2 method, frozen 12-case x 16-duration evaluation protocol, artifact contract, and current execution status.
+- `residual_rk2_prefix_study.md`: the complete midpoint-consistent source-referenced residual RK2 study, including all `N=0..15` results, part-size and per-case analysis, qualitative panels, limitations, and reproduction commands.
 
 Generated images, quantitative tables, and logs are stored under `core/results/`.

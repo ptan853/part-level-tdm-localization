@@ -216,7 +216,7 @@ core/results/control_operations/residual_rk2_prefix_sweep/
 Each controlled run records aligned source endpoint and midpoint indices plus
 outside-mask residual diagnostics in `tdm/control_trace.json`. The complete
 matrix is written to
-`core/results/run_matrices/residual_rk2_prefix_sweep.csv`.
+`core/results/run_matrices/residual_rk2_prefix_all_cases_n0_n15.csv`.
 
 ### Reusable Manual Review
 
@@ -494,3 +494,14 @@ python core/scripts/build_residual_rk2_manual_review.py
 The evaluation command rejects incomplete runs and preserves existing LPIPS
 values when rerun with `--lpips auto` or `--lpips off`. The review bundle is
 written to `core/results/control_operations_eval/residual_rk2_prefix_sweep/`.
+
+After the endpoint-projection and Residual RK2 evaluations are both present,
+build the frozen three-method qualitative comparison used by the final note:
+
+```bash
+python core/scripts/build_control_operation_comparison.py
+```
+
+The script joins rows by `case_uid`, validates Original FYS-TDM, endpoint
+projection `N=3`, and Residual RK2 `N=15`, then writes two six-case sheets to
+`core/results/control_operations_eval/control_operation_comparison/`.
