@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from types import SimpleNamespace
+import json
 import sys
 import tempfile
 import unittest
@@ -25,20 +26,34 @@ class RunControlPlanTests(unittest.TestCase):
             "part": "head",
             "edit": "alien",
         }
-        plan_path = REPO_ROOT / "core" / "configs" / "control_plans" / "oracle_stage2_edit_logit_gate.json"
-
-        command = build_control_command(
-            record,
-            plan_path=plan_path,
-            repo_root=REPO_ROOT,
-            python_executable="python",
-            seed=0,
-            offload=True,
-        )
+        plan = {
+            "name": "test_oracle_control",
+            "num_steps": 15,
+            "mask_source": "oracle",
+            "stages": [
+                {
+                    "name": "projection",
+                    "start": 2,
+                    "end": 4,
+                    "latent_projection": "source_outside_mask",
+                }
+            ],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            plan_path = Path(directory) / "plan.json"
+            plan_path.write_text(json.dumps(plan), encoding="utf-8")
+            command = build_control_command(
+                record,
+                plan_path=plan_path,
+                repo_root=REPO_ROOT,
+                python_executable="python",
+                seed=0,
+                offload=True,
+            )
 
         self.assertTrue(
             command.output_dir.as_posix().endswith(
-                "control_operations/oracle_stage2_edit_logit_gate/real_0006/seed_000"
+                "control_operations/test_oracle_control/real_0006/seed_000"
             )
         )
         self.assertIn("--control-plan-resolved", command.args)

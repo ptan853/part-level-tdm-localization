@@ -4,6 +4,9 @@ __pycache__/
 .venv/
 venv/
 .ipynb_checkpoints/
+.claude/
+.superpowers/
+docs/superpowers/
 
 # Large experiment artifacts
 core/results/**
@@ -31,7 +34,6 @@ core/results/control_operations_eval/latent_projection_all_cases_n0_n13/**
 !core/results/control_operations_eval/latent_projection_all_cases_n0_n13/fys_vs_projection_key_durations.csv
 !core/results/control_operations_eval/latent_projection_all_cases_n0_n13/unified_metrics_by_part_size.csv
 !core/results/control_operations_eval/latent_projection_all_cases_n0_n13/manual_review_scores.csv
-!core/results/control_operations_eval/latent_projection_all_cases_n0_n13/manual_review.html
 !core/results/control_operations_eval/latent_projection_all_cases_n0_n13/unified_image_metric_curves.png
 !core/results/control_operations_eval/latent_projection_all_cases_n0_n13/unified_inside_activity_curves.png
 !core/results/control_operations_eval/latent_projection_all_cases_n0_n13/unified_human_metric_curves.png

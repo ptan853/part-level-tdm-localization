@@ -41,6 +41,8 @@ class ResidualRk2AnalysisArtifactsTest(unittest.TestCase):
         self.assertIn("list(range(0, 8))", code)
         self.assertIn("list(range(8, 16))", code)
         self.assertIn("Original FYS-TDM", code)
+        self.assertIn("## Final Report Comparison Figures", markdown)
+        self.assertIn("control_comparison_part{sheet_index}.jpg", code)
         self.assertNotIn("ENDPOINT_REVIEW_PATH", code)
         self.assertIn("projection duration", markdown.lower())
         self.assertIn("part-size", markdown.lower())

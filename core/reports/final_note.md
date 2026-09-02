@@ -335,11 +335,8 @@ The two `N` values denote control duration, not identical absolute windows: endp
 
 The following sheets contain all 12 cases. Every row is aligned by `case_uid` and shows the source, GT part overlay, Original FYS-TDM, endpoint projection at `N=3`, and Residual RK2 at `N=15`.
 
-Regenerate the aligned sheets from the unified metric table with:
-
-```bash
-python core/scripts/build_control_operation_comparison.py
-```
+The final comparison cell in Notebook 10 regenerates these aligned sheets from
+the unified metric table.
 
 <p align="center">
   <a href="../results/control_operations_eval/control_operation_comparison/control_comparison_part1.jpg">
@@ -392,7 +389,7 @@ Run the following commands from the repository root on the completed experiment 
 
 ```bash
 git fetch origin --tags
-git switch --detach residual-rk2-pilot-v1.1
+git switch --detach residual-rk2-pilot-v1.2
 git submodule update --init --recursive
 ```
 
@@ -426,12 +423,11 @@ python core/scripts/build_residual_rk2_manual_review.py \
   --validate core/results/control_operations_eval/residual_rk2_prefix_sweep/manual_review_scores.csv
 ```
 
-Execute both method-internal analysis notebooks and rebuild the final aligned comparison sheets:
+Execute both analysis notebooks. Notebook 10 also rebuilds the final aligned comparison sheets:
 
 ```bash
 python -m jupyter nbconvert --execute --to notebook --inplace \
   core/notebooks/09_evaluate_latent_projection_duration_sweep.ipynb
 python -m jupyter nbconvert --execute --to notebook --inplace \
   core/notebooks/10_evaluate_residual_rk2_prefix_sweep.ipynb
-python core/scripts/build_control_operation_comparison.py
 ```

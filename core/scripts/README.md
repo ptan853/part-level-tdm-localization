@@ -2,125 +2,7 @@
 
 This directory contains runner and evaluation scripts for the PartEdit pilot.
 
-## Config-Driven Control Operations
-
-New Stage 2 attention controls are opt-in and run under isolated result roots.
-Preview the paired oracle experiment without loading FLUX:
-
-```bash
-python core/scripts/run_control_plan.py \
-  --plan core/configs/control_plans/oracle_stage2_edit_logit_gate.json \
-  --manifest core/data/partedit_subset/pilot_12_manifest.json \
-  --seeds 0 \
-  --limit 1
-```
-
-Add `--execute` on a configured GPU machine. The locked plans are:
-
-- `oracle_fys_control.json`: no Stage 2 IT gate; oracle Stage 3 image-KV control.
-- `oracle_stage2_edit_logit_gate.json`: oracle-mask edit-token logit gate in Stage 2.
-- `part_to_edit_logit_transfer.json`: per-step part-token logits transferred to edit-token logits in Stage 2.
-
-All three keep the same source inversion, target prompt, 15-step schedule, and
-Stage 3 image-KV operation. Outputs are written to
-`core/results/control_operations/<plan_name>/<case_uid>/seed_<seed>/`. Existing
-FYS result directories are never reused, and non-empty output directories are
-rejected unless `--overwrite` is explicitly supplied.
-
-### Locked Oracle Latent-Projection Pilots
-
-These two plans test direct latent-state projection, not a learned editor. Both
-use the manifest GT part mask only as an oracle upper bound on localization
-support. It establishes whether a control operation can preserve the source
-trajectory outside an already-correct region. It is not a mask-free result,
-and it is not an upper bound on semantic edit success or visual quality:
-spatially expanding edits can still be suppressed by a fixed GT part mask.
-
-Run these commands from the repository root on local parent branch
-`experiment/latent-state-projection`, with FollowYourShape initialized at
-gitlink `4aee1e642ecf64573e19e36a3a2e216e5d41e85d`. Use the pinned environment
-and setup from the [root reproduction instructions](../../README.md), including
-accepted FLUX.1-dev access, local model cache, and a CUDA-capable GPU for
-commands with `--execute`.
-
-Preview the Stage 2 projection plan without loading FLUX or writing outputs:
-
-```bash
-python core/scripts/run_control_plan.py \
-  --plan core/configs/control_plans/oracle_stage2_latent_projection.json \
-  --manifest core/data/partedit_subset/pilot_12_manifest.json \
-  --seeds 0 \
-  --limit 1
-```
-
-Run its locked four-case, seed-0 pilot on a configured GPU machine. The
-explicit case IDs freeze the cohort as `real_0006`, `real_0010`, `real_0011`,
-and `real_0001`; do not replace them with `--limit 4`.
-
-```bash
-python core/scripts/run_control_plan.py \
-  --plan core/configs/control_plans/oracle_stage2_latent_projection.json \
-  --manifest core/data/partedit_subset/pilot_12_manifest.json \
-  --case-uid real_0006 \
-  --case-uid real_0010 \
-  --case-uid real_0011 \
-  --case-uid real_0001 \
-  --seeds 0 \
-  --execute
-```
-
-The Stage 2 plan projects endpoints for steps `2-8` and retains the original
-source-outside image-KV operation for steps `10-13`. The extended plan instead
-projects endpoints from steps `2-14` and has no Stage 3 image-KV operation.
-Preview it with its own isolated plan name and output directory:
-
-```bash
-python core/scripts/run_control_plan.py \
-  --plan core/configs/control_plans/oracle_extended_latent_projection.json \
-  --manifest core/data/partedit_subset/pilot_12_manifest.json \
-  --seeds 0 \
-  --limit 1
-```
-
-Run its corresponding GPU pilot:
-
-```bash
-python core/scripts/run_control_plan.py \
-  --plan core/configs/control_plans/oracle_extended_latent_projection.json \
-  --manifest core/data/partedit_subset/pilot_12_manifest.json \
-  --case-uid real_0006 \
-  --case-uid real_0010 \
-  --case-uid real_0011 \
-  --case-uid real_0001 \
-  --seeds 0 \
-  --execute
-```
-
-For either executed plan, the artifact contract is:
-
-```text
-core/results/control_operations/<plan_name>/<case_uid>/seed_<seed>/
-  case_record.json
-  resolved_control_plan.json
-  run_config.json
-  run.log
-  img_0.jpg                  # when accepted by the existing safety filter
-  tdm/oracle_gt_mask_patch_grid.npy
-  tdm/selected_injection_mask.npy
-  tdm/tdm_metadata.json
-  tdm/control_trace.json
-```
-
-When latent projection is enabled, `tdm/control_trace.json` records both the
-per-step control `trace` and `latent_projection_trace`, including the selected
-source endpoint and outside-mask error diagnostics. `tdm/tdm_metadata.json`
-contains TDM and mask-construction metadata. The runner writes the matching
-command matrix to
-`core/results/run_matrices/<plan_name>.csv` only with `--execute` (or
-`--write-run-matrix`); dry runs print the isolated matrix path without writing
-it.
-
-### Latent-Projection Duration Sweep
+## Latent-Projection Duration Sweep
 
 The locked duration sweep isolates endpoint projection from Stage 3 image-KV
 injection. The canonical experiment evaluates all 12 manifest cases at seed 0. Duration `N`
@@ -495,13 +377,7 @@ The evaluation command rejects incomplete runs and preserves existing LPIPS
 values when rerun with `--lpips auto` or `--lpips off`. The review bundle is
 written to `core/results/control_operations_eval/residual_rk2_prefix_sweep/`.
 
-After the endpoint-projection and Residual RK2 evaluations are both present,
-build the frozen three-method qualitative comparison used by the final note:
-
-```bash
-python core/scripts/build_control_operation_comparison.py
-```
-
-The script joins rows by `case_uid`, validates Original FYS-TDM, endpoint
-projection `N=3`, and Residual RK2 `N=15`, then writes two six-case sheets to
-`core/results/control_operations_eval/control_operation_comparison/`.
+Notebook 10 regenerates the frozen three-method qualitative comparison used by
+the final note after both evaluation tables are available. It joins rows by
+`case_uid` and compares Original FYS-TDM, endpoint projection `N=3`, and
+Residual RK2 `N=15`.

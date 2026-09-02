@@ -11,7 +11,6 @@ This directory contains the dataset inspection and final evaluation notebooks.
 - `05_evaluate_attention_gated_fys.ipynb`: final attention-gated FYS evaluation, image-preservation metrics, and representative figures.
 - `06_inspect_same_state_inversion_probe.ipynb`: inspect per-step inversion trajectory and attention signals.
 - `07_evaluate_inversion_vs_forward_localization.ipynb`: compare inversion-derived and forward-denoising localization masks.
-- `08_evaluate_control_operations.ipynb`: audit and compare the three config-driven control plans, including optional LPIPS, manual semantic scoring, and full-case visualization.
 - `09_evaluate_latent_projection_duration_sweep.ipynb`: final 12-case `N=0..13` oracle latent-state projection evaluation against Original FYS-TDM, with unified image metrics and complete human scores.
 - `10_evaluate_residual_rk2_prefix_sweep.ipynb`: source-referenced residual RK2 `N=0..15` evaluation; it audits all 192 outputs, frozen image metrics, human scores, and representative cases without emitting conclusions from incomplete evidence.
 
