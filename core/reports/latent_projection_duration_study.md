@@ -80,6 +80,14 @@ N=3 gives the strongest observed compromise: local-edit score `1.167/2`, preserv
 
 ## Reproduction
 
+Check out the frozen cleaned experiment revision:
+
+```bash
+git fetch origin --tags
+git switch --detach latent-projection-pilot-v1
+git submodule update --init --recursive
+```
+
 Generate the complete duration sweep:
 
 ```bash

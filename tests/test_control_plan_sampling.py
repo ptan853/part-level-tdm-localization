@@ -30,7 +30,7 @@ if importlib.util.find_spec("skimage") is None:
     sys.modules["skimage"] = skimage_stub
     sys.modules["skimage.filters"] = filters_stub
 
-from flux.control_schedule import ControlPlan, load_control_plan  # noqa: E402
+from flux.control_schedule import ControlPlan  # noqa: E402
 from flux.control_runtime import build_step_attention_control, configure_step_control  # noqa: E402
 from flux.sampling import denoise_with_TDM  # noqa: E402
 
@@ -195,8 +195,19 @@ class ControlPlanSamplingTests(unittest.TestCase):
             self.assertEqual(payload["latent_projection_trace"][0]["source_latent_index"], 1)
 
     def test_oracle_baseline_preserves_original_injection_schedule(self):
-        plan = load_control_plan(
-            REPO_ROOT / "core" / "configs" / "control_plans" / "oracle_fys_control.json"
+        plan = ControlPlan.from_dict(
+            {
+                "name": "oracle_baseline",
+                "num_steps": 15,
+                "mask_source": "oracle",
+                "image_kv_layers": list(range(20, 38)),
+                "stages": [
+                    {"name": "stage1", "start": 0, "end": 1, "image_kv": "source_all"},
+                    {"name": "stage2", "start": 2, "end": 8},
+                    {"name": "stage3", "start": 10, "end": 13, "image_kv": "source_outside_mask"},
+                    {"name": "final", "start": 14, "end": 14},
+                ],
+            }
         )
         info = {}
         actual = []

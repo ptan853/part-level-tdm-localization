@@ -11,7 +11,6 @@ sys.path.insert(0, str(FYS_SRC))
 
 from flux.control_schedule import (  # noqa: E402
     ControlPlan,
-    load_control_plan,
     plan_requires_source_latents,
     resolve_stage,
 )
@@ -46,28 +45,6 @@ VALID_PLAN = {
 
 
 class ControlScheduleTests(unittest.TestCase):
-    def test_oracle_pair_differs_only_by_stage2_it_gate(self):
-        config_dir = REPO_ROOT / "core" / "configs" / "control_plans"
-        baseline = load_control_plan(config_dir / "oracle_fys_control.json")
-        gated = load_control_plan(config_dir / "oracle_stage2_edit_logit_gate.json")
-
-        self.assertEqual(baseline.num_steps, gated.num_steps)
-        self.assertEqual(baseline.front, gated.front)
-        self.assertEqual(baseline.inject, gated.inject)
-        self.assertEqual(baseline.tail_pad, gated.tail_pad)
-        self.assertEqual(baseline.mask_source, gated.mask_source)
-        self.assertEqual(baseline.image_kv_layers, gated.image_kv_layers)
-        self.assertEqual(baseline.it_gate_layers, gated.it_gate_layers)
-        self.assertEqual(
-            [(stage.start, stage.end, stage.image_kv) for stage in baseline.stages],
-            [(stage.start, stage.end, stage.image_kv) for stage in gated.stages],
-        )
-        self.assertEqual([stage.it_gate for stage in baseline.stages], ["none"] * 4)
-        self.assertEqual(
-            [stage.it_gate for stage in gated.stages],
-            ["none", "edit", "none", "none"],
-        )
-
     def test_resolve_stage_uses_inclusive_boundaries_and_allows_gaps(self):
         plan = ControlPlan.from_dict(VALID_PLAN)
 
@@ -151,32 +128,6 @@ class ControlScheduleTests(unittest.TestCase):
         ]
 
         self.assertTrue(plan_requires_source_latents(ControlPlan.from_dict(value)))
-
-    def test_locked_latent_projection_plans_have_expected_coverage(self):
-        config_dir = REPO_ROOT / "core" / "configs" / "control_plans"
-        stage2 = load_control_plan(config_dir / "oracle_stage2_latent_projection.json")
-        extended = load_control_plan(config_dir / "oracle_extended_latent_projection.json")
-
-        self.assertEqual(stage2.num_steps, 15)
-        self.assertEqual(extended.num_steps, 15)
-        self.assertEqual(
-            [(stage.start, stage.end, stage.image_kv, stage.latent_projection) for stage in stage2.stages],
-            [
-                (0, 1, "source_all", "none"),
-                (2, 8, "none", "source_outside_mask"),
-                (10, 13, "source_outside_mask", "none"),
-            ],
-        )
-        self.assertEqual(
-            [(stage.start, stage.end, stage.image_kv, stage.latent_projection) for stage in extended.stages],
-            [
-                (0, 1, "source_all", "none"),
-                (2, 14, "none", "source_outside_mask"),
-            ],
-        )
-        self.assertEqual(resolve_stage(stage2, 9), None)
-        self.assertEqual(resolve_stage(stage2, 14), None)
-        self.assertIsNone(resolve_stage(extended, 15))
 
     def test_spatial_operation_requires_mask_source(self):
         value = dict(VALID_PLAN)

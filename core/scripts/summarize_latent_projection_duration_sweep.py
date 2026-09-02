@@ -350,10 +350,7 @@ def main(argv: list[str] | None = None) -> int:
     repo_root = find_repo_root(args.repo_root or Path.cwd())
     manifest_path = args.manifest or repo_root / "core/data/partedit_subset/pilot_12_manifest.json"
     sweep_root = args.sweep_root or repo_root / "core/results/control_operations/latent_projection_duration_sweep"
-    reference_root = None if args.no_reference else (
-        args.reference_root
-        or repo_root / "core/results/control_operations/oracle_stage2_latent_projection"
-    )
+    reference_root = None if args.no_reference else args.reference_root
     output_dir = (
         args.output_dir
         or repo_root / "core/results/control_operations_eval/latent_projection_duration_sweep"
