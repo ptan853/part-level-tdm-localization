@@ -311,21 +311,21 @@ Outside the mask, the residual remains zero and the state follows the aligned so
 
 Automatic non-target preservation:
 
-| Method                      | Outside L1 ↓ | Outside PSNR ↑ | Outside SSIM ↑ | Outside LPIPS ↓ |
-| --------------------------- | ------------: | --------------: | --------------: | ---------------: |
-| Original FYS-TDM            |        0.0555 |           20.36 |          0.9192 |           0.1914 |
-| Endpoint projection,`N=3` |        0.0369 |           24.72 |          0.9657 |           0.1615 |
-| Residual RK2,`N=15`       |        0.0179 |           30.61 |          0.9914 |           0.0377 |
+| Method                       | Outside L1 ↓ | Outside PSNR ↑ | Outside SSIM ↑ | Outside LPIPS ↓ |
+| ---------------------------- | -----------: | -------------: | -------------: | --------------: |
+| Original FYS-TDM             |       0.0555 |          20.36 |         0.9192 |          0.1914 |
+| Endpoint projection, `N=3`   |       0.0369 |          24.72 |         0.9657 |          0.1615 |
+| Residual RK2, `N=15`         |       0.0179 |          30.61 |         0.9914 |          0.0377 |
 
 Human semantic evaluation:
 
 `Joint success` counts a case when both local-edit success and non-target preservation are at least 1, allowing partial success on either dimension. `Strict joint success` requires both scores to equal 2. At Residual RK2 `N=15`, these correspond to 11/12 and 9/12 cases, respectively.
 
-| Method                      | Local edit ↑ | Preservation ↑ | Joint success ↑ | Strict joint ↑ |
-| --------------------------- | ------------: | --------------: | ---------------: | --------------: |
-| Original FYS-TDM            |         1.000 |           0.917 |            41.7% |            8.3% |
-| Endpoint projection,`N=3` |         1.167 |           1.833 |            75.0% |           41.7% |
-| Residual RK2,`N=15`       |         1.667 |           2.000 |            91.7% |           75.0% |
+| Method                       | Local edit ↑ | Preservation ↑ | Joint success ↑ | Strict joint ↑ |
+| ---------------------------- | -----------: | -------------: | --------------: | -------------: |
+| Original FYS-TDM             |        1.000 |          0.917 |           41.7% |           8.3% |
+| Endpoint projection, `N=3`   |        1.167 |          1.833 |           75.0% |          41.7% |
+| Residual RK2, `N=15`         |        1.667 |          2.000 |           91.7% |          75.0% |
 
 Both oracle controls improve non-target preservation over Original FYS-TDM. Endpoint projection gives a useful edit-preservation compromise at `N=3`, but Residual RK2 at `N=15` is stronger on every reported automatic metric and retains substantially more requested edit semantics. Its midpoint-consistent update reaches 91.7% joint success and 75.0% strict joint success.
 
@@ -392,7 +392,7 @@ Run the following commands from the repository root on the completed experiment 
 
 ```bash
 git fetch origin --tags
-git switch --detach residual-rk2-pilot-v1
+git switch --detach residual-rk2-pilot-v1.1
 git submodule update --init --recursive
 ```
 
