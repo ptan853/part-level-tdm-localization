@@ -104,10 +104,7 @@ Endpoint projection and residual RK2 use exactly the same precomputed mask for e
 The mask is the existing **part-only attention-gated TDM** mask:
 
 $$
-M = \operatorname{Binarize}\!\left(
-\operatorname{Smooth}\!\left[
-\operatorname{Norm}(\Delta v) \odot \operatorname{Norm}(A_{\mathrm{part}})
-\right]\right).
+M = \mathrm{Binarize}(\mathrm{Smooth}(\mathrm{Norm}(\Delta v) \odot \mathrm{Norm}(A_{\mathrm{part}})))
 $$
 
 Here, $\Delta v$ is the target-conditioned trajectory-difference signal produced during the FYS scout pass and $A_{\mathrm{part}}$ is the FLUX attention map for the part token. “Part-only” describes which text token is used for the attention gate; this is not a pure attention mask.
