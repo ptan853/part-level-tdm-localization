@@ -2,6 +2,51 @@
 
 This directory contains runner and evaluation scripts for the PartEdit pilot.
 
+## Held-Out Automatic-Mask Comparison
+
+`run_heldout_control_comparison.py` prepares the bounded three-method
+comparison without using GT masks during generation. For each case and seed it
+runs four jobs in dependency order:
+
+1. Original FYS-TDM, retained as an evaluated baseline.
+2. An attention-gated FYS scout that saves one automatic patch-grid mask.
+3. Endpoint projection using the saved scout mask for steps `0..6`.
+4. Source-referenced Residual RK2 using the same mask and steps `0..6`.
+
+Only Original FYS-TDM, endpoint projection, and Residual RK2 are evaluated;
+the scout is shared preprocessing. Endpoint and RK2 never receive the manifest
+GT mask as model input. Their plans are generated with `mask_source` set to
+`precomputed`, image-KV injection disabled, and a fixed global duration
+`N=7`.
+
+Preview one existing case locally without loading FLUX:
+
+```bash
+python core/scripts/run_heldout_control_comparison.py \
+  --manifest core/data/partedit_subset/pilot_12_manifest.json \
+  --seeds 0 \
+  --limit 1 \
+  --write-run-matrix
+```
+
+After the held-out manifest and seeds are approved in the frozen protocol, run
+the complete comparison on the configured GPU machine:
+
+```bash
+python core/scripts/run_heldout_control_comparison.py \
+  --manifest core/data/partedit_subset/heldout_manifest.json \
+  --seeds 0,1,2 \
+  --attention-token-mode part \
+  --execute
+```
+
+The runner writes `run_matrix.csv`, the two resolved control plans, and four
+isolated output trees under
+`core/results/heldout_control_comparison/`. The automatic control mask is
+loaded from each scout run's
+`tdm/hybrid_binary_tdm_attention.npy`; the loader rejects non-binary, non-finite,
+or incorrectly shaped arrays before denoising.
+
 ## Latent-Projection Duration Sweep
 
 The locked duration sweep isolates endpoint projection from Stage 3 image-KV

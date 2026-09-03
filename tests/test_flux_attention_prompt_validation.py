@@ -300,6 +300,57 @@ class PromptValidationTest(unittest.TestCase):
         with self.assertRaises(SystemExit):
             edit.validate_args(parser, controlnet_args)
 
+    def test_precomputed_control_plan_requires_separate_control_mask(self):
+        edit = load_edit_module()
+        parser = edit.build_arg_parser()
+        plan = {
+            "name": "precomputed_residual",
+            "num_steps": 15,
+            "front": 2,
+            "inject": 4,
+            "mask_source": "precomputed",
+            "stages": [
+                {
+                    "name": "residual_prefix",
+                    "start": 0,
+                    "end": 6,
+                    "residual_control": "source_referenced_rk2",
+                }
+            ],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            plan_path = Path(directory) / "plan.json"
+            plan_path.write_text(json.dumps(plan), encoding="utf-8")
+
+            missing = parser.parse_args(
+                ["--control-plan-resolved", str(plan_path)]
+            )
+            with self.assertRaises(SystemExit):
+                edit.validate_args(parser, missing)
+
+            valid = parser.parse_args(
+                [
+                    "--control-plan-resolved",
+                    str(plan_path),
+                    "--control-mask-path",
+                    str(Path(directory) / "mask.npy"),
+                ]
+            )
+            edit.validate_args(parser, valid)
+
+            oracle_leak = parser.parse_args(
+                [
+                    "--control-plan-resolved",
+                    str(plan_path),
+                    "--control-mask-path",
+                    str(Path(directory) / "mask.npy"),
+                    "--mask_path",
+                    str(Path(directory) / "gt.png"),
+                ]
+            )
+            with self.assertRaises(SystemExit):
+                edit.validate_args(parser, oracle_leak)
+
     def test_main_wires_same_state_probe_only_for_inversion_and_finalizes(self):
         edit = load_edit_module()
         denoise_calls = []

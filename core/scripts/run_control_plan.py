@@ -67,6 +67,7 @@ def build_control_command(
     guidance: float = 2.0,
     model_name: str = "flux-dev",
     output_root: Path | None = None,
+    control_mask_path: Path | None = None,
 ) -> ControlCommand:
     plan_path = plan_path.resolve()
     plan = load_control_plan(plan_path)
@@ -77,6 +78,12 @@ def build_control_command(
     output_dir = output_root / case_uid / f"seed_{seed:03d}"
     source_image = resolve_repo_path(repo_root, record["source_image"])
     gt_mask = resolve_repo_path(repo_root, record["gt_mask"])
+    if plan.mask_source == "precomputed" and control_mask_path is None:
+        raise ValueError("precomputed control plan requires control_mask_path")
+    if plan.mask_source not in {None, "oracle", "precomputed"}:
+        raise ValueError(
+            f"control runner does not yet support mask_source={plan.mask_source!r}"
+        )
     cwd = repo_root / "core" / "third_party" / "FollowYourShape" / "src"
     args = [
         python_executable,
@@ -107,10 +114,6 @@ def build_control_command(
         str(output_dir / "tdm"),
         "--feature_path",
         str(output_dir / "features"),
-        "--mask_path",
-        str(gt_mask),
-        "--tdm_mask_mode",
-        "oracle",
         "--attention_part",
         str(record.get("part", "")),
         "--attention_edit",
@@ -118,6 +121,12 @@ def build_control_command(
         "--control-plan-resolved",
         str(plan_path),
     ]
+    if plan.mask_source == "oracle":
+        args.extend(["--mask_path", str(gt_mask), "--tdm_mask_mode", "oracle"])
+    else:
+        args.extend(["--tdm_mask_mode", "original"])
+    if plan.mask_source == "precomputed":
+        args.extend(["--control-mask-path", str(control_mask_path)])
     if offload:
         args.append("--offload")
 
@@ -130,6 +139,10 @@ def build_control_command(
         "plan_sha256": _sha256(plan_path),
         "source_image": record["source_image"],
         "gt_mask": record["gt_mask"],
+        "mask_source": plan.mask_source,
+        "control_mask_path": (
+            None if control_mask_path is None else str(control_mask_path)
+        ),
         "source_prompt": record["source_prompt"],
         "target_prompt": record["target_prompt"],
         "part": record.get("part"),
