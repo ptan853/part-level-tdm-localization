@@ -1,0 +1,18 @@
+{
+  "follow_your_shape_commit": "b096e8f7736b0f44d820933d5046fe252059a5eb",
+  "files": [
+    {
+      "path": "pyproject.toml",
+      "sha256": "e750bcbb87ba51ed522ecfc5c2c6540a5efbf77e6f80e631d304413600aac6f5"
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "8b2125d649248313d76f4fc82722561b9cbe3a7ebc9e5debdf0a697ca611e5ef"
+    },
+    {
+      "path": "core/third_party/FollowYourShape/pyproject.toml",
+      "sha256": "c3c3209a62fcfeb4c4b46ca0614c32bbfaa5b7676eebc530779b703e185adfb3"
+    }
+  ],
+  "runtime_snapshot": "runtime_environment.json is written immediately before --execute starts the first command"
+}

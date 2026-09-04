@@ -2,13 +2,13 @@
 
 **Protocol version:** 1.0
 
-**Frozen on:** 2026-09-03
+**Frozen on:** 2026-09-04
 
-**Status:** Frozen before held-out generation. Execution is blocked until the manifest and runner changes specified below pass preflight validation.
+**Status:** Frozen before held-out generation. Formal execution requires a successful 300-row preflight and an explicitly approved execution commit.
 
 **Repository branch:** `experiment/heldout-control-comparison`
 
-**Outer repository reference:** `af5860b91264dee282dcba456b9c246be51b0229`
+**Outer repository reference:** superseded by the frozen execution commit in the pre-launch record; the exact hash must be sent before execution.
 
 **FollowYourShape submodule reference:** `b096e8f7736b0f44d820933d5046fe252059a5eb`
 
@@ -84,6 +84,9 @@ Each case is labeled before generation as one of:
 - `expansion`: the requested target is expected to extend beyond the source-part support.
 
 The assignment may use only the source image, prompts, and part/edit labels. Generated outputs must not be inspected. Every case is retained, and the natural category counts are reported rather than forced to be equal.
+
+The pre-generation manual review was completed on 2026-09-04. The frozen
+natural distribution is 1 contraction, 46 comparable, and 13 expansion cases.
 
 ## 3. Frozen Model and Shared Settings
 
@@ -257,6 +260,11 @@ Each item receives four 0-2 scores:
 
 Reviewers work independently. No adjudication occurs before the primary analysis. Both raw ratings are retained; the mean of the two reviewer scores is used for method-level mean-score comparisons. Weighted Cohen's kappa is reported for each ordinal criterion.
 
+The two deterministic reviewer orders and opaque IDs are generated and
+archived during formal preflight, before the first held-out output is produced.
+The post-generation review builder must consume this frozen mapping and may not
+reshuffle the candidates.
+
 Derived binary outcomes are:
 
 - **Joint success:** local-edit success is at least 1 and preservation is at least 1 for a reviewer.
@@ -298,6 +306,7 @@ python core/scripts/run_heldout_control_comparison.py \
   --seeds 0 \
   --attention-token-mode part \
   --include-endpoint-n3 \
+  --execution-commit <approved-full-commit-sha> \
   --execute
 ```
 
@@ -311,7 +320,19 @@ Before executing, the runner must print and save a command matrix containing exa
 - no evaluated method receives a GT mask as generation input;
 - all output directories are empty unless an explicit full-rerun flag is provided.
 
-The `--include-endpoint-n3` option is part of this frozen command contract but is not yet implemented at this protocol revision. Held-out generation must not begin until its implementation and tests are complete.
+The `--include-endpoint-n3` option and formal preflight are implemented and
+tested. Held-out generation may begin only after the frozen execution commit,
+submodule commit, manifest SHA-256, and 300-row preflight summary have been
+sent in the pre-launch record.
+
+The runner rejects `--execute` unless `--execution-commit` exactly matches the
+current outer-repository `HEAD`.
+
+The pre-launch evidence directory is
+`core/protocols/heldout_control_comparison_v1/`. It contains the portable
+300-row command matrix, resolved plans, manifest and environment-lock hashes,
+and the frozen 480-row reviewer randomization. At execution time, the runner
+writes `runtime_environment.json` before starting the first model command.
 
 Expected A800 serial runtime is approximately 4-6 GPU hours, including scout passes and orchestration overhead. Actual wall time, peak GPU memory, disk use, package lock, CUDA/PyTorch versions, complete commands, run logs, and output checksums must be archived with the experiment.
 

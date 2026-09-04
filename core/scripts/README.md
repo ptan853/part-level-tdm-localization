@@ -4,20 +4,21 @@ This directory contains runner and evaluation scripts for the PartEdit pilot.
 
 ## Held-Out Automatic-Mask Comparison
 
-`run_heldout_control_comparison.py` prepares the bounded three-method
-comparison without using GT masks during generation. For each case and seed it
-runs four jobs in dependency order:
+`run_heldout_control_comparison.py` prepares the frozen comparison without
+using GT masks during generation. For each case and seed it runs five jobs in
+dependency order:
 
 1. Original FYS-TDM, retained as an evaluated baseline.
 2. An attention-gated FYS scout that saves one automatic patch-grid mask.
 3. Endpoint projection using the saved scout mask for steps `0..6`.
 4. Source-referenced Residual RK2 using the same mask and steps `0..6`.
+5. Supplemental historical endpoint projection with source image-KV at steps
+   `0..1` and projection at steps `2..4`.
 
-Only Original FYS-TDM, endpoint projection, and Residual RK2 are evaluated;
-the scout is shared preprocessing. Endpoint and RK2 never receive the manifest
-GT mask as model input. Their plans are generated with `mask_source` set to
-`precomputed`, image-KV injection disabled, and a fixed global duration
-`N=7`.
+The four non-scout conditions are evaluated; the scout is shared preprocessing.
+No evaluated method receives the manifest GT mask as model input. The matched
+endpoint and RK2 plans use `mask_source=precomputed`, disable image-KV
+injection, and fix the global duration at `N=7`.
 
 Preview one existing case locally without loading FLUX:
 
@@ -29,23 +30,75 @@ python core/scripts/run_heldout_control_comparison.py \
   --write-run-matrix
 ```
 
-After the held-out manifest and seeds are approved in the frozen protocol, run
-the complete comparison on the configured GPU machine:
+Before execution, validate and write the exact 300-row matrix without loading
+FLUX:
 
 ```bash
 python core/scripts/run_heldout_control_comparison.py \
-  --manifest core/data/partedit_subset/heldout_manifest.json \
-  --seeds 0,1,2 \
+  --manifest core/data/partedit_subset/synth_60_frozen_manifest.json \
+  --seeds 0 \
   --attention-token-mode part \
+  --include-endpoint-n3 \
+  --write-run-matrix
+```
+
+After sending the frozen identifiers requested in the pre-launch record, add
+`--execute` on the configured GPU machine:
+
+```bash
+python core/scripts/run_heldout_control_comparison.py \
+  --manifest core/data/partedit_subset/synth_60_frozen_manifest.json \
+  --seeds 0 \
+  --attention-token-mode part \
+  --include-endpoint-n3 \
+  --execution-commit <approved-full-commit-sha> \
   --execute
 ```
 
-The runner writes `run_matrix.csv`, the two resolved control plans, and four
+The runner refuses `--execute` unless `--execution-commit` exactly matches the
+current outer-repository `HEAD`.
+
+The runner writes `run_matrix.csv`, three resolved control plans, and five
 isolated output trees under
 `core/results/heldout_control_comparison/`. The automatic control mask is
 loaded from each scout run's
 `tdm/hybrid_binary_tdm_attention.npy`; the loader rejects non-binary, non-finite,
 or incorrectly shaped arrays before denoising.
+
+The formal dry run also freezes portable pre-generation evidence under
+`core/protocols/heldout_control_comparison_v1/`: the 300-row command matrix,
+the three resolved control plans, 480 deterministic assignments covering two
+independent blinded reviewer orders, the package-lock hashes, and the
+preflight checksums. With `--execute`, `runtime_environment.json` is captured
+before the first model command.
+
+After all 300 jobs finish, compute the frozen automatic metrics:
+
+```bash
+python core/scripts/evaluate_heldout_control_comparison.py \
+  --manifest core/data/partedit_subset/synth_60_frozen_manifest.json \
+  --run-matrix core/results/heldout_control_comparison/run_matrix.csv \
+  --output core/results/heldout_control_comparison/evaluation_metrics.csv \
+  --lpips require
+```
+
+Then create two independently randomized blinded review packages:
+
+```bash
+python core/scripts/prepare_heldout_manual_review.py \
+  --metrics core/results/heldout_control_comparison/evaluation_metrics.csv \
+  --randomization core/protocols/heldout_control_comparison_v1/reviewer_randomization.csv \
+  --output-root core/results/heldout_control_comparison/blinded_review
+```
+
+After both reviewers export their completed CSVs, run the registered analysis:
+
+```bash
+python core/scripts/analyze_heldout_reviews.py \
+  --review reviewer_1_scores.csv reviewer_1_private_mapping.csv \
+  --review reviewer_2_scores.csv reviewer_2_private_mapping.csv \
+  --output-dir core/results/heldout_control_comparison/analysis
+```
 
 ## Latent-Projection Duration Sweep
 

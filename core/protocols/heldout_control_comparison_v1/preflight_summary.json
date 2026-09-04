@@ -1,0 +1,13 @@
+{
+  "manifest_records": 60,
+  "command_rows": 300,
+  "evaluated_outputs": 240,
+  "review_assignments": 480,
+  "manifest": "core/data/partedit_subset/synth_60_frozen_manifest.json",
+  "manifest_sha256": "8e69fd42969286ce028c00c285a5a12600a5a4127e18a2c1f03d5ccbc3283147",
+  "command_matrix_sha256": "424ff9909892c4ba9a630f3817120438387cd39bc45abf81dbe284a7cd4ae2b8",
+  "reviewer_randomization_sha256": "e15a2aef735fe3991b1daddbcca0c9e0ad1264679593c1f5cfc5ad02580d645f",
+  "environment_lock_sha256": "18e8221639a58d5a7a5fe9ee609fe4c016a5302e0db3f6b80034f0b45309729a",
+  "execution_commit": null,
+  "follow_your_shape_commit": "b096e8f7736b0f44d820933d5046fe252059a5eb"
+}

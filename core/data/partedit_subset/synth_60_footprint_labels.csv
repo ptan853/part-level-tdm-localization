@@ -1,0 +1,61 @@
+dataset_index,part,edit,source_prompt,target_prompt,footprint_change
+0,head,robot,A alien at a city,A alien with robot head at a city,comparable
+1,head,bear,A robot at a school,A robot with bear head at a school,comparable
+2,head,bear,A robot at a park,A robot with bear head at a park,comparable
+3,head,robot,A alien at a museum,A alien with robot head at a museum,comparable
+4,head,tattooed,A robot at a office,A robot with tattooed head at a office,comparable
+5,head,robot,A man at a gym,A man with robot head at a gym,comparable
+6,head,robot,A girl at a beach,A girl with robot head at a beach,comparable
+7,head,robot,A alien at a school,A alien with robot head at a school,comparable
+8,head,alien,A robot at a park,A robot with alien head at a park,comparable
+9,head,bear,A alien at a museum,A alien with bear head at a museum,comparable
+10,torso,batman,A robot at a school,A robot with batman torso at a school,comparable
+11,torso,spiderman,A robot at a museum,A robot with spiderman torso at a museum,comparable
+12,torso,spiderman,A robot at a museum,A robot with spiderman torso at a museum,comparable
+13,torso,uniform,A alien at a school,A alien with uniform torso at a school,comparable
+14,torso,robot,A alien at a gym,A alien with robot torso at a gym,comparable
+15,torso,formal-suit,A robot at a restaurant,A robot with formal-suit torso at a restaurant,comparable
+16,torso,armor,A girl at a stadium,A girl with armor torso at a stadium,comparable
+17,torso,robotic-parts,A dinosaur at a museum,A dinosaur with robotic-parts torso at a museum,comparable
+18,torso,armor,A boy at a restaurant,A boy with armor torso at a restaurant,comparable
+19,hair,Wavy,A Portrait of girl at a forest,A Portrait of girl with Wavy hair at a forest,comparable
+20,hair,Curls,A Portrait of boy at a park,A Portrait of boy with Curls hair at a park,comparable
+21,hair,Afro,A Portrait of boy at a beach,A Portrait of boy with Afro hair at a beach,comparable
+22,hair,Kinky,A Portrait of boy at a park,A Portrait of boy with Kinky hair at a park,comparable
+23,hair,blond,A Portrait of man at a beach,A Portrait of man with blond hair at a beach,comparable
+24,hair,Curley,A Portrait of girl at a mountain,A Portrait of girl with Curley hair at a mountain,expansion
+25,hair,Botticelli-Curls,A Portrait of boy at a street,A Portrait of boy with Botticelli-Curls hair at a street,comparable
+26,hair,Curls,A Portrait of man at a house,A Portrait of man with Curls hair at a house,expansion
+27,hair,Curls,A Portrait of woman at a school,A Portrait of woman with Curls hair at a school,comparable
+28,head,dragon,A cow at a restaurant,A cow with dragon head at a restaurant,comparable
+29,head,lion,A dog at a pool,A dog with lion head at a pool,expansion
+30,head,dog,A bear at a jungle,A bear with dog head at a jungle,contraction
+31,head,dragon,A horse at a jungle,A horse with dragon head at a jungle,expansion
+32,head,dragon,A cat at a desert,A cat with dragon head at a desert,expansion
+33,head,cat,A dog at a restaurant,A dog with cat head at a restaurant,comparable
+34,head,unicorn,A dog at a mountain,A dog with unicorn head at a mountain,expansion
+35,head,cheetah,A cat at a museum,A cat with cheetah head at a museum,expansion
+36,head,lion,A bear at a zoo,A bear with lion head at a zoo,comparable
+37,head,dragon,A dog at a farm,A dog with dragon head at a farm,expansion
+38,head,dragon,A horse at a zoo,A horse with dragon head at a zoo,expansion
+39,head,unicorn,A cow at a house,A cow with unicorn head at a house,expansion
+40,head,tiger,A bear at a pool,A bear with tiger head at a pool,comparable
+41,head,panda,A cat at a mountain,A cat with panda head at a mountain,expansion
+42,head,cheetah,A panda at a school,A panda with cheetah head at a school,comparable
+43,head,dragon,A bear at a jungle,A bear with dragon head at a jungle,expansion
+44,head,lion,A bear at a zoo,A bear with lion head at a zoo,comparable
+45,head,panda,A dog at a store,A dog with panda head at a store,expansion
+46,car body,armored,A luxury-car at a mountain road,A luxury-car with armored car body at a mountain road,comparable
+47,car body,futuristic,A sedan at a parking lot,A sedan with futuristic car body at a parking lot,comparable
+48,car body,rusted,A classic-car at a suburban road,A classic-car with rusted car body at a suburban road,comparable
+49,car body,neon-lit,A classic-car at a suburban road,A classic-car with neon-lit car body at a suburban road,comparable
+50,car hood,black,A racing-car at a highway,A racing-car with black car hood at a highway,comparable
+51,car hood,vinyl-art,A classic-car at a garage,A classic-car with vinyl-art car hood at a garage,comparable
+52,car hood,Digital-Camouflage,A full front facing view of racing car at a parking lot,A full front facing view of racing car with Digital-Camouflage car hood at a parking lot,comparable
+53,car hood,Destroyed,A full front facing view of BMW car at a parking lot,A full front facing view of BMW car with Destroyed car hood at a parking lot,comparable
+54,car hood,Rusty,A full front facing view of Porsche car at a road,A full front facing view of Porsche car with Rusty car hood at a road,comparable
+55,car hood,Graffiti,A full front facing view of Toyota car at a parking lot,A full front facing view of Toyota car with Graffiti car hood at a parking lot,comparable
+56,seat,fabric,A closeup leather chair at a apartment,A closeup leather chair with fabric seat at a apartment,comparable
+57,seat,plastic,A closeup soft chair at a photo studio,A closeup soft chair with plastic seat at a photo studio,comparable
+58,seat,rusted,A closeup folding chair at a classroom,A closeup folding chair with rusted seat at a classroom,comparable
+59,seat,wooden,A closeup leather chair at a classroom,A closeup leather chair with wooden seat at a classroom,comparable

@@ -1,0 +1,11 @@
+{
+  "dataset_id": "Aleksandar/PartEdit-Bench",
+  "dataset_revision": "v1.1",
+  "dataset_commit": "e6e132f8bb32bec49269ae979659f2bab341e813",
+  "source_parquet": "partedit-synth-v1.1.parquet",
+  "source_parquet_sha256": "d0deff21a7eebb4d0f50bfcb83f13072e57d8f09a7b1d4954c9e4490d47e92ec",
+  "manifest_sha256": "8e69fd42969286ce028c00c285a5a12600a5a4127e18a2c1f03d5ccbc3283147",
+  "records": 60,
+  "footprint_labels_sha256": "8c16a59e99a5999eeb4b212fb16d9e5c0839bb60cac20fdef54bab863775b452",
+  "footprint_labels_reviewed": true
+}
