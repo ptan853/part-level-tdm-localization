@@ -1,6 +1,6 @@
 # Frozen Protocol: Held-Out PartEdit Control Comparison
 
-**Protocol version:** 1.0
+**Protocol version:** 1.0.1
 
 **Frozen on:** 2026-09-04
 
@@ -337,6 +337,16 @@ writes `runtime_environment.json` before starting the first model command.
 Expected A800 serial runtime is approximately 4-6 GPU hours, including scout passes and orchestration overhead. Actual wall time, peak GPU memory, disk use, package lock, CUDA/PyTorch versions, complete commands, run logs, and output checksums must be archived with the experiment.
 
 ## 12. Change Control
+
+### 1.0.1 pre-generation implementation correction (2026-09-05)
+
+Before any held-out output was generated, the registered-success analysis was
+corrected to interpret a stored confidence interval in either pair order. The
+analysis table stores each unordered method pair once; when it stores
+`baseline - residual_rk2`, the success check now converts `[low, high]` to
+`[-high, -low]` before applying the frozen `residual_rk2 - baseline` criteria.
+This correction changes no dataset record, generation method, mask, model
+setting, reviewer assignment, metric, threshold, or success criterion.
 
 After any held-out output has been inspected:
 

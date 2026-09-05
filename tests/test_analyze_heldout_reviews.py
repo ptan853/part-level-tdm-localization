@@ -100,6 +100,48 @@ class AnalyzeHeldoutReviewsTests(unittest.TestCase):
         self.assertTrue(result["all_primary_criteria_met"])
         self.assertEqual(result["stronger_local_edit_baseline"], "endpoint_projection")
 
+    def test_registered_success_accepts_pair_order_emitted_by_main_analysis(self):
+        summary = pd.DataFrame(
+            {
+                "non_target_preservation_0_2": [0.8, 1.2, 1.6],
+                "local_edit_success_0_2": [1.0, 1.2, 1.1],
+                "joint_success": [0.50, 0.70, 0.72],
+            },
+            index=["original_fys_tdm", "endpoint_projection", "residual_rk2"],
+        )
+        comparisons = pd.DataFrame(
+            [
+                {
+                    "metric": "non_target_preservation_0_2",
+                    "method_a": "original_fys_tdm",
+                    "method_b": "residual_rk2",
+                    "ci_low": -0.7,
+                    "ci_high": -0.5,
+                },
+                {
+                    "metric": "non_target_preservation_0_2",
+                    "method_a": "endpoint_projection",
+                    "method_b": "residual_rk2",
+                    "ci_low": -0.3,
+                    "ci_high": -0.2,
+                },
+                {
+                    "metric": "local_edit_success_0_2",
+                    "method_a": "endpoint_projection",
+                    "method_b": "residual_rk2",
+                    "ci_low": 0.05,
+                    "ci_high": 0.15,
+                },
+            ]
+        )
+
+        result = evaluate_registered_success(summary, comparisons)
+
+        self.assertTrue(result["preservation_superiority"])
+        self.assertTrue(result["local_edit_noninferiority"])
+        self.assertTrue(result["joint_utility"])
+        self.assertTrue(result["all_primary_criteria_met"])
+
 
 if __name__ == "__main__":
     unittest.main()

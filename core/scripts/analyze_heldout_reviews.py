@@ -156,20 +156,34 @@ def evaluate_registered_success(
     summary: pd.DataFrame,
     comparisons: pd.DataFrame,
 ) -> dict[str, Any]:
-    def ci_low(metric: str, method_b: str) -> float:
-        selected = comparisons[
+    def residual_minus_baseline_ci_low(metric: str, baseline: str) -> float:
+        direct = comparisons[
             (comparisons["metric"] == metric)
             & (comparisons["method_a"] == "residual_rk2")
-            & (comparisons["method_b"] == method_b)
+            & (comparisons["method_b"] == baseline)
         ]
-        if len(selected) != 1:
-            raise ValueError(
-                f"missing unique registered comparison for {metric} versus {method_b}"
-            )
-        return float(selected.iloc[0]["ci_low"])
+        if len(direct) == 1:
+            return float(direct.iloc[0]["ci_low"])
+
+        reverse = comparisons[
+            (comparisons["metric"] == metric)
+            & (comparisons["method_a"] == baseline)
+            & (comparisons["method_b"] == "residual_rk2")
+        ]
+        if len(reverse) == 1:
+            # If the stored interval is baseline - residual, reversing the
+            # contrast changes [low, high] to [-high, -low].
+            return -float(reverse.iloc[0]["ci_high"])
+
+        raise ValueError(
+            f"missing unique registered comparison for {metric} versus {baseline}"
+        )
 
     preservation = all(
-        ci_low("non_target_preservation_0_2", baseline) > 0
+        residual_minus_baseline_ci_low(
+            "non_target_preservation_0_2", baseline
+        )
+        > 0
         for baseline in ("endpoint_projection", "original_fys_tdm")
     )
     baseline_means = summary.loc[
@@ -177,7 +191,12 @@ def evaluate_registered_success(
         "local_edit_success_0_2",
     ]
     stronger_baseline = str(baseline_means.idxmax())
-    local_edit = ci_low("local_edit_success_0_2", stronger_baseline) > -0.20
+    local_edit = (
+        residual_minus_baseline_ci_low(
+            "local_edit_success_0_2", stronger_baseline
+        )
+        > -0.20
+    )
     joint = bool(
         summary.loc["residual_rk2", "joint_success"]
         - summary.loc["original_fys_tdm", "joint_success"]

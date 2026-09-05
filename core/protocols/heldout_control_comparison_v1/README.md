@@ -1,4 +1,4 @@
-# Held-Out Control Comparison v1
+# Held-Out Control Comparison v1.0.1
 
 This directory is the pre-generation evidence bundle for the frozen 60-case
 comparison.
@@ -19,3 +19,8 @@ contain its own final hash. The exact full commit SHA is supplied in the
 pre-launch record and passed through `--execution-commit`; the runner verifies
 that it equals the current `HEAD` before starting the first model command.
 With `--execute`, `runtime_environment.json` is captured before generation.
+
+Version 1.0.1 contains a pre-generation analysis-only correction: registered
+success criteria now handle the unordered comparison table's pair direction
+correctly. The frozen generation design and reviewer randomization are
+unchanged; see the protocol change-control section for details.
