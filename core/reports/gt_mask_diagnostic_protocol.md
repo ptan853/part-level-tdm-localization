@@ -1,6 +1,6 @@
 # GT-Mask Diagnostic: Matched Controller Comparison
 
-Version: v2, preparation dated 2026-09-08. This pre-generation revision adds two supplemental N=15 conditions; the original v1 preparation artifacts are retained, not executed.
+Version: v2, dated 2026-09-08. This pre-generation revision adds two supplemental N=15 conditions. The superseded, unexecuted v1 preparation is retained only in Git history.
 Status: prepared for pre-launch review; GPU generation has not started.
 
 ## 1. Question and Scope
@@ -9,7 +9,7 @@ Does replacing the automatic mask with a native part annotation improve editing 
 
 This is a separate exploratory diagnostic on an already-inspected split. It does not replace the completed frozen comparison. A source-part GT mask is not an oracle target-edit footprint, particularly for expansion edits. Failure with GT does not by itself prove a limitation of the model.
 
-## 2. Four Conditions
+## 2. Conditions
 
 | Controller | Automatic mask | GT mask |
 | --- | --- | --- |
@@ -20,7 +20,7 @@ Supplement: also generate Residual RK2 N=15 with the same automatic mask and wit
 
 Retain all 60 records and their indices from `core/data/partedit_subset/synth_60_frozen_manifest.json`. Its SHA-256 is `8e69fd42969286ce028c00c285a5a12600a5a4127e18a2c1f03d5ccbc3283147`.
 
-For both controllers, control applies at steps 0 through 6; steps 7 through 14 are free target-prompt updates. Image-KV injection and IT gating remain disabled. Keep FLUX-dev, native 1024-pixel resolution, seed 0, 15 steps, guidance 2.0, source/target prompts, source inversion procedure, solver and offload settings unchanged. The resolved plans are audited against each cached run. Only the precomputed control-mask path changes.
+For the primary N=7 comparison, control applies at steps 0 through 6; steps 7 through 14 are free target-prompt updates. Image-KV injection and IT gating remain disabled in all six conditions. Keep FLUX-dev, native 1024-pixel resolution, seed 0, 15 steps, guidance 2.0, source/target prompts, source inversion procedure, solver and offload settings unchanged. The N=7 resolved plans are audited against each cached run. Within each controller-duration condition, only the precomputed control-mask path changes.
 
 Source inversion is recomputed by the existing runner, not loaded from an archived latent trajectory. Before generation, compare the server environment with the original runtime record; record any differences and resolve material numerical differences before launch. Do not claim bitwise identity of recomputed reference states without checking it.
 
@@ -42,7 +42,7 @@ Do not selectively regenerate safety-filtered or unattractive outputs. Infrastru
 
 ## 5. Evaluation
 
-Reuse the previous metric definitions and implementation at 512-pixel evaluation resolution: region L1, PSNR, global selected-pixel SSIM proxy, and masked AlexNet LPIPS. Strict preservation uses the complement of native GT; buffered preservation uses the complement of GT dilated by a disk of radius 32 evaluation pixels. These regions are identical for all four conditions, regardless of the generation mask. Inside-region pixel similarity is descriptive, not semantic edit success.
+Reuse the previous metric definitions and implementation at 512-pixel evaluation resolution: region L1, PSNR, global selected-pixel SSIM proxy, and masked AlexNet LPIPS. Strict preservation uses the complement of native GT; buffered preservation uses the complement of GT dilated by a disk of radius 32 evaluation pixels. These regions are identical for all six conditions, regardless of the generation mask. Inside-region pixel similarity is descriptive, not semantic edit success.
 
 Re-score all six conditions in one new blinded review, including cached automatic outputs. Retain the previous ratings unchanged and exclude them from this diagnostic's primary comparisons. Use the existing 0-2 rubric for local edit, non-target preservation, overall prompt adherence and visual quality. Each of two reviewers scores individual candidates with the source image and prompts, without method labels or side-by-side competing methods.
 
@@ -71,10 +71,10 @@ CPU preparation command, from the repository root:
 
 The preparation script never launches generation. It freezes GT grids, resolved plans, 240 generation commands, 360 evaluation records, 720 reviewer assignments, cache hashes and a preflight summary. Existing artifacts must match byte-for-byte on repeated preparation. Generation commands in `run_matrix.csv` use `${REPO_ROOT}` for the server checkout location.
 
-New outputs belong under `core/results/gt_mask_diagnostic_v2/`; the completed comparison, reports and original ratings must remain unchanged. Keep this work on the experiment branch, without merging to main. The v1 preparation is superseded and must not be launched in addition to v2.
+New outputs belong under `core/results/gt_mask_diagnostic_v2/`; the completed comparison, reports and original ratings must remain unchanged. Keep this work on the experiment branch, without merging to main. Only the v2 matrix is active.
 
-Before generation, provide a separate pre-launch record containing the exact execution commit, submodule revision, protocol/artifact checksums, server runtime environment, and run-count/compute estimate. Send that record and this protocol for review before launching. A commit cannot contain its own final SHA; the pre-launch record must reference the already-created execution commit.
+Before generation, provide a separate pre-launch record containing the exact execution commit, submodule revision, protocol/artifact checksums, server runtime environment, and run-count/compute estimate. Send that record and this protocol for review before launching. The pre-launch record references an already-created execution commit.
 
 Planned compute: 240 new generations, no new scout passes. Scaling the earlier approximately nine-hour 300-command run gives roughly 7.2 hours. This is only a lower-confidence planning estimate: N=15 adds source-reference evaluations at eight additional controlled steps relative to N=7, so the cost cannot be assumed identical per run. Provision roughly 8-12 GPU-hours on the same A800 80GB environment, plus metric evaluation, and refine from observed initial timings without changing conditions. This is not a measured timing guarantee.
 
-The execution commit, server preflight, metric/review materialization and analysis outputs are not yet completed by this CPU preparation step. No diagnostic result or superiority claim exists yet.
+Launch requires the recorded server preflight and complete test results. Final review pages are materialized after output availability is audited and before scoring. Diagnostic results will be reported separately from the completed comparison.
