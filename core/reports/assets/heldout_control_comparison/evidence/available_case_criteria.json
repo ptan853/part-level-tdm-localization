@@ -1,0 +1,8 @@
+{
+  "preservation_superiority": false,
+  "local_edit_noninferiority": true,
+  "stronger_local_edit_baseline": "endpoint_projection",
+  "joint_utility": true,
+  "all_primary_criteria_met": false,
+  "scope": "Available-case criteria check only; not the complete frozen 60-case primary analysis."
+}

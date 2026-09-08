@@ -100,6 +100,28 @@ python core/scripts/analyze_heldout_reviews.py \
   --output-dir core/results/heldout_control_comparison/analysis
 ```
 
+### Completed held-out run: available-case postprocessing
+
+The 2026-09-07 run saved 59 images per condition: `synth_0014` was blocked at
+image saving by the existing safety filter. The complete-output commands above
+therefore do not apply unchanged. The GPU metric entry point used for this run
+is archived under `core/results/heldout_control_comparison/available_output_evaluation/`.
+Do not impute missing metrics or silently treat the run as 60 complete cases.
+
+After downloading its metrics and both core-review CSVs, run on CPU:
+
+```bash
+python core/scripts/summarize_heldout_available_cases.py
+```
+
+This validates the 236 available automatic rows and 354 core-method ratings,
+audits displayed images against originals and outputs, and recomputes 10,000
+paired stratified bootstrap draws. It writes `final_analysis/` beneath the result
+root. It preserves missing records and labels the 59-case population explicitly;
+supplemental N=3 has automatic metrics but no human scores. Notebook 11 displays
+the tables and generates the report figures. This post-generation analysis does
+not modify the frozen generation protocol or its commit.
+
 ## Latent-Projection Duration Sweep
 
 The locked duration sweep isolates endpoint projection from Stage 3 image-KV

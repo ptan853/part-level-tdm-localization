@@ -1,0 +1,21 @@
+{
+  "registered_cases": 60,
+  "available_cases": 59,
+  "registered_outputs": 240,
+  "available_outputs": 236,
+  "core_reviewed_outputs": 177,
+  "ratings": 354,
+  "missing_case": "synth_0014",
+  "bootstrap_iterations": 10000,
+  "bootstrap_seed": 20260903,
+  "execution_commit": "085e8a3b930bfdf85da4bbbb198e83aede532e37",
+  "manifest_sha256": "8e69fd42969286ce028c00c285a5a12600a5a4127e18a2c1f03d5ccbc3283147",
+  "limitations": [
+    "Available-case resampling uses 20 small, 19 medium, 20 large cases.",
+    "No missing-output score imputation; N3 human evaluation deferred.",
+    "Source prompt and Chinese rubric added to review display after generation.",
+    "Two supplied reviewers; independence cannot be verified from CSV files.",
+    "CIs resample cases while retaining both reviewers, not a reviewer population.",
+    "Metric-specific percentile intervals have no multiplicity correction."
+  ]
+}

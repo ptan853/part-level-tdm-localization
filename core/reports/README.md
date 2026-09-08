@@ -8,3 +8,8 @@ This directory contains compact text outputs for the project:
 - `residual_rk2_prefix_study.md`: the complete midpoint-consistent source-referenced residual RK2 study, including all `N=0..15` results, part-size and per-case analysis, qualitative panels, limitations, and reproduction commands.
 
 Generated images, quantitative tables, and logs are stored under `core/results/`.
+
+- `heldout_control_comparison_results.md`: the 2026-09-08 available-case held-out
+  report, including both reviewers, automatic metrics, CIs, failed-output and
+  review-display deviations, and the unmet RK2-superiority criterion. Its figures
+  are under `assets/heldout_control_comparison/`.

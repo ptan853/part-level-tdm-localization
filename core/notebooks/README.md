@@ -16,6 +16,12 @@ This directory contains the dataset inspection and final evaluation notebooks.
 
 ## Environment
 
+`11_evaluate_heldout_control_comparison.ipynb` analyzes the held-out automatic-mask
+comparison with two core-method reviewers. It explicitly reports 59 available
+cases out of 60, deferred N=3 human ratings, paired confidence intervals,
+agreement, subgroups, and all-case visualizations. It uses downloaded LPIPS
+values and runs entirely on CPU. See `core/scripts/summarize_heldout_available_cases.py`.
+
 From the repository root:
 
 ```bash

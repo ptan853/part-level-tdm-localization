@@ -1,0 +1,10 @@
+{
+  "core/data/partedit_subset/synth_60_frozen_manifest.json": "8e69fd42969286ce028c00c285a5a12600a5a4127e18a2c1f03d5ccbc3283147",
+  "core/results/heldout_control_comparison/available_output_evaluation/evaluation_metrics.csv": "c5c004fa943b1408f1e09d69cf880d59e04418518c07b47707e0f6f788fce0be",
+  "core/results/heldout_control_comparison/available_output_evaluation/evaluation_metrics_all_records.csv": "bf1228375693a42ff8514de78d966c7946ba8b87c6b7a832487e68708242bb18",
+  "core/results/heldout_control_comparison/two_reviewer_core_analysis/reviewer_1_core_scores.csv": "a03efa7e61d22084abb5d4101f25a8dc1f1516b3be4cfee795f71d65d3c80df9",
+  "core/results/heldout_control_comparison/blinded_review_available_outputs/reviewer_1_core_private_mapping.csv": "2ad7d6347f0fb41d4e094b2449312f13a5b46c308396289a8695cefe7b0663a3",
+  "core/results/heldout_control_comparison/two_reviewer_core_analysis/reviewer_2_core_scores.csv": "3d0e015a1b0d8e95a994dd65b5ab7aa1e4ef427a5d29f60a959f4e4009653476",
+  "core/results/heldout_control_comparison/blinded_review_available_outputs/reviewer_2_core_private_mapping.csv": "81548d52f24133ca902ac207a9b4d48d9efcceae7724f39441c2a6919f6615d0",
+  "core/scripts/summarize_heldout_available_cases.py": "962639926893b23b668879c6c855a9a494b8d14854116cc5eaaf72cee84d39bb"
+}

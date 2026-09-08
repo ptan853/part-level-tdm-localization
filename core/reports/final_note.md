@@ -431,3 +431,15 @@ python -m jupyter nbconvert --execute --to notebook --inplace \
 python -m jupyter nbconvert --execute --to notebook --inplace \
   core/notebooks/10_evaluate_residual_rk2_prefix_sweep.ipynb
 ```
+
+## Held-Out Follow-Up (2026-09-08)
+
+The new automatic-mask synthetic-split comparison is documented separately in
+[Held-Out Control Comparison: Results](heldout_control_comparison_results.md),
+with [Notebook 11](../notebooks/11_evaluate_heldout_control_comparison.ipynb).
+It covers 59 available cases of 60 registered cases, two reviewers, and three
+core methods; the missing output and review-display deviations are explicit.
+Both control methods improve preservation relative to native FYS, but the
+registered human-preservation criterion does not establish RK2 superiority
+over endpoint projection. These held-out observations do not replace the
+earlier oracle-mask pilot results above.
