@@ -1,0 +1,22 @@
+{
+  "name": "heldout_residual_rk2_n07",
+  "num_steps": 15,
+  "front": 2,
+  "inject": 4,
+  "tail_pad": 1,
+  "mask_source": "precomputed",
+  "stages": [
+    {
+      "name": "residual_rk2_prefix",
+      "start": 0,
+      "end": 6,
+      "prompt": "target",
+      "image_kv": "none",
+      "it_gate": "none",
+      "latent_projection": "none",
+      "residual_control": "source_referenced_rk2"
+    }
+  ],
+  "image_kv_layers": [],
+  "it_gate_layers": []
+}

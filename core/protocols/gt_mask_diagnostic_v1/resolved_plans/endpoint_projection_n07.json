@@ -1,0 +1,22 @@
+{
+  "name": "heldout_endpoint_projection_n07",
+  "num_steps": 15,
+  "front": 2,
+  "inject": 4,
+  "tail_pad": 1,
+  "mask_source": "precomputed",
+  "stages": [
+    {
+      "name": "endpoint_projection_prefix",
+      "start": 0,
+      "end": 6,
+      "prompt": "target",
+      "image_kv": "none",
+      "it_gate": "none",
+      "latent_projection": "source_outside_mask",
+      "residual_control": "none"
+    }
+  ],
+  "image_kv_layers": [],
+  "it_gate_layers": []
+}

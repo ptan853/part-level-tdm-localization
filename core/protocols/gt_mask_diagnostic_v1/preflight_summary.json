@@ -1,0 +1,19 @@
+{
+  "protocol": "gt-mask-diagnostic-v1",
+  "manifest_sha256": "8e69fd42969286ce028c00c285a5a12600a5a4127e18a2c1f03d5ccbc3283147",
+  "registered_cases": 60,
+  "new_generation_runs": 120,
+  "cached_available_images": 118,
+  "total_condition_records": 240,
+  "planned_reviewer_assignments": 480,
+  "common_case_upper_bound": 59,
+  "known_missing_case": "synth_0014",
+  "all_gt_masks_nonempty": true,
+  "gt_grid_shape": [
+    64,
+    64
+  ],
+  "review_renderer_sha256": "f35f29647abbd42681187be67a926f13816eaa65b8a82e0e41eee586d7e39ce8",
+  "runtime_environment_status": "server check required before generation",
+  "generation_started": false
+}
