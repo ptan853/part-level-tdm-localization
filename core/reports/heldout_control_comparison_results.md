@@ -183,6 +183,8 @@ With the downloaded results and both raw core-review CSVs in their existing fold
 
 The new analysis entry point is post-generation tooling; the generation commit remains the immutable reference above. The array bootstrap implementation is tested against the frozen pandas implementation for identical RNG ordering and intervals. It does not change the resampling unit or thresholds.
 
+The analysis release is commit `ab2931b79edf68f885c318c5c148f6b52296b89b`, containing the analysis script, executed notebook, figures and evidence snapshot. Use this revision for postprocessing, rather than the earlier generation-only commit. This version reference is recorded in a subsequent documentation-only commit.
+
 The [analysis evidence snapshot](assets/heldout_control_comparison/evidence/README.md) includes reviewer-level scores, per-output automatic measurements, summary tables and confidence intervals. These files support numerical inspection independently of local result paths. Full image-level verification and notebook execution additionally require the original result bundle and dataset; these large inputs are not distributed with this report. The generation commit alone does not contain this later analysis release.
 
 - [Notebook](../notebooks/11_evaluate_heldout_control_comparison.ipynb): full tables, CIs, human distributions, subgroups and complete image gallery.
