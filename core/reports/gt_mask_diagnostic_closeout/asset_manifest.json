@@ -1,0 +1,2916 @@
+[
+  {
+    "source": "core/data/partedit_subset/cases/synth_0000/source.png",
+    "asset": "assets/cc5f01ed208f72709680.png",
+    "sha256": "cc5f01ed208f72709680a9e413162afcad18157a7cab12e65c892eca53a6a80a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0000/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0000_auto_control_mask.png",
+    "source_sha256": "bbf76c9e5c57196ab80507dc3b44a8120ba4840cb7dde68e5ea9a99ff7a9641e",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0000.npy",
+    "asset": "assets/synth_0000_gt_control_mask.png",
+    "source_sha256": "628e884c4c4b60e0c7e1a7848404588516b406cfbadf21b07cd7ca6f8e3cd222",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0000/seed_000/img_0.jpg",
+    "asset": "assets/f75ab332592a27e58409.jpg",
+    "sha256": "f75ab332592a27e58409887810e69be6dd1925e80e095f0d4fb42db425adc6f9"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0000/seed_000/img_0.jpg",
+    "asset": "assets/74649f30ce1c031a7a47.jpg",
+    "sha256": "74649f30ce1c031a7a4761dff8cdd7310630961c876c71b1279200ec51698e35"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0000/seed_000/img_0.jpg",
+    "asset": "assets/a257c0a33f1eafb8268d.jpg",
+    "sha256": "a257c0a33f1eafb8268dda6b8d814b0b829c43565a3bb44a6896a2bd181c19f8"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0000/seed_000/img_0.jpg",
+    "asset": "assets/9581d56bbfd0e558ca7c.jpg",
+    "sha256": "9581d56bbfd0e558ca7c804b91f0a49b8be73d55d171a46ff85d03d5aaf58d95"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0000/seed_000/img_0.jpg",
+    "asset": "assets/67bb0dce9fdd881da0dc.jpg",
+    "sha256": "67bb0dce9fdd881da0dc43a17b8550f7e89a1189a5f7d68aec0df54c691ba8f1"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0000/seed_000/img_0.jpg",
+    "asset": "assets/66dd7a5b0f6904940f11.jpg",
+    "sha256": "66dd7a5b0f6904940f11a352dd40751591a6ae6a0a0ee39aa7bed1d4f9943a3f"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0001/source.png",
+    "asset": "assets/b618aa27f8557521bf28.png",
+    "sha256": "b618aa27f8557521bf28910d8dad68891096c50546696f9b5078e44ed8019c92"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0001/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0001_auto_control_mask.png",
+    "source_sha256": "b90d7278c25b3a32faed28c7bd84683325efb806362ce39ce2df6a33939e2703",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0001.npy",
+    "asset": "assets/synth_0001_gt_control_mask.png",
+    "source_sha256": "15e11a71f6930f6395b054a4e8545708a0b541364e9a6e8f397229224d6268d6",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0001/seed_000/img_0.jpg",
+    "asset": "assets/7a28b54fc621200e336b.jpg",
+    "sha256": "7a28b54fc621200e336b68d84c635416a5d73520cda42e6988576a62a64851d9"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0001/seed_000/img_0.jpg",
+    "asset": "assets/9b4e03dd61ad35904ef3.jpg",
+    "sha256": "9b4e03dd61ad35904ef3cd0fb056ef06fb785a4a21b3162c1c84da52d0ca6be2"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0001/seed_000/img_0.jpg",
+    "asset": "assets/c80c7179ef80baf2bd43.jpg",
+    "sha256": "c80c7179ef80baf2bd434979457c68f09a98624241efd575092abaf8c7e60023"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0001/seed_000/img_0.jpg",
+    "asset": "assets/1035a0508029360581ce.jpg",
+    "sha256": "1035a0508029360581ceb4046523a8c6edd4134fac423f362f543ae02dfbda97"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0001/seed_000/img_0.jpg",
+    "asset": "assets/53668842a90f2679ab71.jpg",
+    "sha256": "53668842a90f2679ab71bfa6fe0a0d4f675b27eaa2ba93b9617e27f41feac932"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0001/seed_000/img_0.jpg",
+    "asset": "assets/ae67dadba3bfcf4d18fe.jpg",
+    "sha256": "ae67dadba3bfcf4d18fe76873fd32bdce10dafcb0156954c1a17ad10e04fbfec"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0002/source.png",
+    "asset": "assets/06153f9c16dffc17bfd7.png",
+    "sha256": "06153f9c16dffc17bfd721f7e09257583ef7d6678cda9b4f65bee40e15276642"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0002/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0002_auto_control_mask.png",
+    "source_sha256": "d33f9fbe583d71639fbedecbb652387c25f6104ebbe8cc7a014b3f17d6d26ea3",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0002.npy",
+    "asset": "assets/synth_0002_gt_control_mask.png",
+    "source_sha256": "5b4b8aec70f8d13c5c6f35e64ea76b42b6973dd9d77116e904c5ef1aca4f4c24",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0002/seed_000/img_0.jpg",
+    "asset": "assets/952019ca8fcf70fb336a.jpg",
+    "sha256": "952019ca8fcf70fb336af427582c6e025912fbbc4da35bb3caab417c05a1fd5c"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0002/seed_000/img_0.jpg",
+    "asset": "assets/0a5914f11a58221f1897.jpg",
+    "sha256": "0a5914f11a58221f18976d4aef1f08ff4439853f898665fe223b29e56d8611aa"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0002/seed_000/img_0.jpg",
+    "asset": "assets/183283f149133237bca2.jpg",
+    "sha256": "183283f149133237bca2c022f13a76f1a4ea6233958f7b123a8d82f056440bb6"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0002/seed_000/img_0.jpg",
+    "asset": "assets/ced3661635c438f7d04d.jpg",
+    "sha256": "ced3661635c438f7d04d9c7032021be9216107fc2da86f00f3d4b65a27a72c1a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0002/seed_000/img_0.jpg",
+    "asset": "assets/1a6aca998353e35d628f.jpg",
+    "sha256": "1a6aca998353e35d628f9b188dd13e1b1037e6b5c469a1fc527a383436538de7"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0002/seed_000/img_0.jpg",
+    "asset": "assets/d47ddc1805fc9d5de07d.jpg",
+    "sha256": "d47ddc1805fc9d5de07d173d5cc7f4d34f7595328da2f8a453867733eb6caac6"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0003/source.png",
+    "asset": "assets/5a822543d05f3072ff24.png",
+    "sha256": "5a822543d05f3072ff24abb028b84d4576ededde1313086db5f4b880e1c02911"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0003/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0003_auto_control_mask.png",
+    "source_sha256": "8c3d7a355f7ace16c0cd515a6945f3ca5ac1f124114c073aaad28adf92de8552",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0003.npy",
+    "asset": "assets/synth_0003_gt_control_mask.png",
+    "source_sha256": "1e98162830ba0ea6df5b79096e07a22cd7f6840612fa4556e76d1692ee424531",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0003/seed_000/img_0.jpg",
+    "asset": "assets/99ac3d73b182b82575c6.jpg",
+    "sha256": "99ac3d73b182b82575c629e1209170d5c46e2c41449dcaad9f3b89c27f624ff9"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0003/seed_000/img_0.jpg",
+    "asset": "assets/999d0421ce344ff80c51.jpg",
+    "sha256": "999d0421ce344ff80c51d126890d3fb0173bfaeaf9cbe50898101f6b53c246af"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0003/seed_000/img_0.jpg",
+    "asset": "assets/3cfa77eaf944eb7ac4c3.jpg",
+    "sha256": "3cfa77eaf944eb7ac4c36aece429782e487cf2e62ac20543073bec4130509d54"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0003/seed_000/img_0.jpg",
+    "asset": "assets/1dfdf9fdc6bc3fb37290.jpg",
+    "sha256": "1dfdf9fdc6bc3fb372907850c31971cb0e049e8859779856efb8e92e85c52cfd"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0003/seed_000/img_0.jpg",
+    "asset": "assets/ba335befcdb012b8052e.jpg",
+    "sha256": "ba335befcdb012b8052e03c97c8ae2025368cf03a798cfab91b005664b004804"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0003/seed_000/img_0.jpg",
+    "asset": "assets/cc6975b56baa71ade62a.jpg",
+    "sha256": "cc6975b56baa71ade62a93d9c7097784958117328fa0744b1d19432fa2f5838f"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0004/source.png",
+    "asset": "assets/95d43a51e84af560d595.png",
+    "sha256": "95d43a51e84af560d595399f9427637da90506b55c439af53f9877294658ea1e"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0004/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0004_auto_control_mask.png",
+    "source_sha256": "9952471ad4b930c6876883e8976cf8d69ddc0890a1ba6f6794562fa8d114fe1e",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0004.npy",
+    "asset": "assets/synth_0004_gt_control_mask.png",
+    "source_sha256": "b929947d6cb200165ce5302cf5a10da8a182203f2c48b49e372fd97d28830032",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0004/seed_000/img_0.jpg",
+    "asset": "assets/752f1430984b9bff42d1.jpg",
+    "sha256": "752f1430984b9bff42d1f0713fe0ef14d027f31fb3e26256fcca844b18084762"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0004/seed_000/img_0.jpg",
+    "asset": "assets/4bd02813acd1822079dd.jpg",
+    "sha256": "4bd02813acd1822079dd25fbbbb9ca759179b0400ac8c2edd4bbb6d8d3f76f64"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0004/seed_000/img_0.jpg",
+    "asset": "assets/99e28ba627698acf648d.jpg",
+    "sha256": "99e28ba627698acf648da399a2738894265de0fd94c222aae052e49650cc4968"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0004/seed_000/img_0.jpg",
+    "asset": "assets/1b2332528e2c0fe1864b.jpg",
+    "sha256": "1b2332528e2c0fe1864b225d5845bd6a2f16e97f0affa5580afe08b4f5195d4d"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0004/seed_000/img_0.jpg",
+    "asset": "assets/14cb14a4f0b4b0b424f2.jpg",
+    "sha256": "14cb14a4f0b4b0b424f217dad07b297e833aa1fce25dd3460b612b114bba2048"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0004/seed_000/img_0.jpg",
+    "asset": "assets/4991c8cd9fdd6f528bce.jpg",
+    "sha256": "4991c8cd9fdd6f528bce62b629a1bd722ad62226754bb3bccc500ae099614311"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0005/source.png",
+    "asset": "assets/a0e6abb84c900968be16.png",
+    "sha256": "a0e6abb84c900968be160841135aca42607d6917c33f20e69aa1fa4c25ca8a2d"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0005/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0005_auto_control_mask.png",
+    "source_sha256": "bea5a2abbbf41393da775c226e419d8d9a0de89b81d8ecdd19064228ba04f4a6",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0005.npy",
+    "asset": "assets/synth_0005_gt_control_mask.png",
+    "source_sha256": "fd4585dda1f47814f195ff3a3498eb0585b0ab47d9deb6db111d287cfe27404c",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0005/seed_000/img_0.jpg",
+    "asset": "assets/4a7daad6bedd9370bda3.jpg",
+    "sha256": "4a7daad6bedd9370bda3701ca476fc13adac4655c1d8f57b9145d957f4e501c9"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0005/seed_000/img_0.jpg",
+    "asset": "assets/9773da4b12be4f7501b5.jpg",
+    "sha256": "9773da4b12be4f7501b53c722808efc5e0c1e4533c9ee29ffd31b39810493129"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0005/seed_000/img_0.jpg",
+    "asset": "assets/cf6cffb16b6f4d7d4b76.jpg",
+    "sha256": "cf6cffb16b6f4d7d4b76f5eadcd192f6b69c0086dab8cbc7e0fb439d1d496a24"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0005/seed_000/img_0.jpg",
+    "asset": "assets/b7c9e48a575b635ae3b3.jpg",
+    "sha256": "b7c9e48a575b635ae3b3a6d233922e9e2f1357f138d2aa69c9983933c99e81de"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0005/seed_000/img_0.jpg",
+    "asset": "assets/090e1dd3ff3e90a9e01e.jpg",
+    "sha256": "090e1dd3ff3e90a9e01e9b2daab129955bd02fdee19c37519de15c71d8b91276"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0005/seed_000/img_0.jpg",
+    "asset": "assets/725623bb1bba8b0324ae.jpg",
+    "sha256": "725623bb1bba8b0324aee664b633f09631007041fbf9e338650eb4a1140532b3"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0006/source.png",
+    "asset": "assets/625cb403a9a4bd5a187d.png",
+    "sha256": "625cb403a9a4bd5a187df4ab61cb81aa1a7d801eab4b79640c5539694c46f186"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0006/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0006_auto_control_mask.png",
+    "source_sha256": "c2309b03447e641785e2ac32dcd05e0637670ae23c7b55e9b66d4b616ae334b5",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0006.npy",
+    "asset": "assets/synth_0006_gt_control_mask.png",
+    "source_sha256": "e8bef2464e395f9e007dc776c1f1161dd7dfc3728614442226b6c84ed5fda21f",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0006/seed_000/img_0.jpg",
+    "asset": "assets/b6540f99f5ee075189fe.jpg",
+    "sha256": "b6540f99f5ee075189fef1c2a2a1ce48f18f88297a8b4e0a8b9bc3c0d1cb38a6"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0006/seed_000/img_0.jpg",
+    "asset": "assets/3b5583243790aea9672d.jpg",
+    "sha256": "3b5583243790aea9672d31176502dd4618c30f9d5042e4d91ee8c9e2f8f02128"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0006/seed_000/img_0.jpg",
+    "asset": "assets/0bcfefc0138f2334e849.jpg",
+    "sha256": "0bcfefc0138f2334e849db3646f14c8a3dc9f6dd2e94ace9f5ffc22d6fe43d53"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0006/seed_000/img_0.jpg",
+    "asset": "assets/3320280fa57b6f227c82.jpg",
+    "sha256": "3320280fa57b6f227c82b03e6897d684e825a4489a75c4686c84d64d2be11e11"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0006/seed_000/img_0.jpg",
+    "asset": "assets/a7503c02983087248e38.jpg",
+    "sha256": "a7503c02983087248e3807eca1b2c08f0a23e0a2547a85bf843a7f500b5ebfe2"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0006/seed_000/img_0.jpg",
+    "asset": "assets/343ab356bc8f6f05987b.jpg",
+    "sha256": "343ab356bc8f6f05987be83dcf1651c16d04427f2fcf497a37091b25fa467143"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0007/source.png",
+    "asset": "assets/e68c9359b05c1bb262f9.png",
+    "sha256": "e68c9359b05c1bb262f9005b957953ed8c42d3c4a3f3320ac32d46b70bec9ac8"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0007/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0007_auto_control_mask.png",
+    "source_sha256": "768d2602998e960bc395010956bf8fc7d76c5f840427b0801d0f3d47663b180a",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0007.npy",
+    "asset": "assets/synth_0007_gt_control_mask.png",
+    "source_sha256": "661543fc99f04afd149956f72085d13a7f2d24d4d0c901c8f025a202a7cfdde7",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0007/seed_000/img_0.jpg",
+    "asset": "assets/8b5a06981164a8931965.jpg",
+    "sha256": "8b5a06981164a8931965ff2179f6d5eb3cc474e186f8eda023de75b1db0bad8c"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0007/seed_000/img_0.jpg",
+    "asset": "assets/8b193a11c8ada8bbb9b2.jpg",
+    "sha256": "8b193a11c8ada8bbb9b2e3a690277e48a278b3287bd53c2beadd31b41ee0da6c"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0007/seed_000/img_0.jpg",
+    "asset": "assets/808d119895288705d383.jpg",
+    "sha256": "808d119895288705d38394eaded8b18563b045e95e57da637ba012652953a1c8"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0007/seed_000/img_0.jpg",
+    "asset": "assets/53ceec04f120ce567f27.jpg",
+    "sha256": "53ceec04f120ce567f27569fd1c9566824f8bcaef64f6392bc89d4cf22f7f15b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0007/seed_000/img_0.jpg",
+    "asset": "assets/32f9366e6eecf041ef60.jpg",
+    "sha256": "32f9366e6eecf041ef6030db3e81bef12858ad2c0466222cfff59423c23403be"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0007/seed_000/img_0.jpg",
+    "asset": "assets/347eb8236301f57f7e46.jpg",
+    "sha256": "347eb8236301f57f7e462dbbf7e6b49bec5db08bb2bc3fc737a585df9f7ada6a"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0008/source.png",
+    "asset": "assets/a9e11e1f221eb73b9cca.png",
+    "sha256": "a9e11e1f221eb73b9cca2adba6cb35bcfc38156dc6797cbbfdc82d35f57df25b"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0008/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0008_auto_control_mask.png",
+    "source_sha256": "71e3cf35ce60d04fc56f904816e5f575f55d4e7d636c2b9a9be332efbce5e973",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0008.npy",
+    "asset": "assets/synth_0008_gt_control_mask.png",
+    "source_sha256": "fc6cc786cab1ffb2bbb60a031f9e60e5f7b607e6e6a11bb5c36a880a23bd5524",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0008/seed_000/img_0.jpg",
+    "asset": "assets/ac99bb329aae4de3575c.jpg",
+    "sha256": "ac99bb329aae4de3575cf04b80000ffadbc44decf46ede5adb30e675d655b5ed"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0008/seed_000/img_0.jpg",
+    "asset": "assets/4918508292a9b271e105.jpg",
+    "sha256": "4918508292a9b271e10510968bf7e4af3adf654002cf4596e80c4b1c5cbaa5a4"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0008/seed_000/img_0.jpg",
+    "asset": "assets/55c7c9b8c311bdbcb339.jpg",
+    "sha256": "55c7c9b8c311bdbcb339a9ee39a3499321961f1dc05e2278b449b98d2e6b5ce0"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0008/seed_000/img_0.jpg",
+    "asset": "assets/0494021cb56bfa3d993e.jpg",
+    "sha256": "0494021cb56bfa3d993e26c7ba1ba76765994a8f9290d5516837fdfd2de408ff"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0008/seed_000/img_0.jpg",
+    "asset": "assets/68baca8a3445c731a659.jpg",
+    "sha256": "68baca8a3445c731a659b26cd3c005cdda5835ecc381b1e88f9c9e50ebbeafbe"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0008/seed_000/img_0.jpg",
+    "asset": "assets/60193f9d7b54ee9bf5e2.jpg",
+    "sha256": "60193f9d7b54ee9bf5e2c5641f606932eab2f76fe3fd9af6684a520c294fcfa6"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0009/source.png",
+    "asset": "assets/c7098c982dbc8f357439.png",
+    "sha256": "c7098c982dbc8f357439bf5c2e2c46636e5ff692a3196ef5ecc216982ca923fb"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0009/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0009_auto_control_mask.png",
+    "source_sha256": "acb0de6e10b1c93757fe81ec12dadbd19843ea318c2c92f3d74983b1b90565a3",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0009.npy",
+    "asset": "assets/synth_0009_gt_control_mask.png",
+    "source_sha256": "162c20da0f4bcd8fb7df4bf03016cbf358a906db5db4f57c9ff4270f10657bee",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0009/seed_000/img_0.jpg",
+    "asset": "assets/8b77b1791bb16922f747.jpg",
+    "sha256": "8b77b1791bb16922f747d5c00e9e0bddadc89d19d4c2368687f04a6adea2c987"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0009/seed_000/img_0.jpg",
+    "asset": "assets/c0124be4f5c8ec1eee1e.jpg",
+    "sha256": "c0124be4f5c8ec1eee1e3a36d559bccaf7d8f1ee2788218ed90c47607a2a3b8b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0009/seed_000/img_0.jpg",
+    "asset": "assets/f371a25cd6f885274a9f.jpg",
+    "sha256": "f371a25cd6f885274a9ff61cde1b1c9c7b5d403c5e2ab733a71eeb35c3f1b791"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0009/seed_000/img_0.jpg",
+    "asset": "assets/7f434a72a6a842138c25.jpg",
+    "sha256": "7f434a72a6a842138c254495675c5db78d21f4d4e2c4cf64c728934c0715c510"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0009/seed_000/img_0.jpg",
+    "asset": "assets/507abcb1080e7f50dd3e.jpg",
+    "sha256": "507abcb1080e7f50dd3e535f5e4f8edf30370ee7ad8d2a2c2f0b3bb9a61350f6"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0009/seed_000/img_0.jpg",
+    "asset": "assets/011c107c10c2e426df98.jpg",
+    "sha256": "011c107c10c2e426df980c0ab7a6f99617ee60137af1f4ffee9b082e5d6856c6"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0010/source.png",
+    "asset": "assets/0f3cd46376625b70fd81.png",
+    "sha256": "0f3cd46376625b70fd812c07c8ccca926169d889ca55b71a21b54aa74517cf9b"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0010/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0010_auto_control_mask.png",
+    "source_sha256": "03e6e7d9c4eca872866df0a4b5dc6b0a31fceaff79ccc21f12cc37018fbb667b",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0010.npy",
+    "asset": "assets/synth_0010_gt_control_mask.png",
+    "source_sha256": "d5b5f8b13ece0b44b10447ba2b12fd5187b1dc7bd3fa7d36737e565af55d9e4c",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0010/seed_000/img_0.jpg",
+    "asset": "assets/b8e0004cbb22e3d60c3f.jpg",
+    "sha256": "b8e0004cbb22e3d60c3f48f59081db21235d43015203bd8826b79bfc7149399f"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0010/seed_000/img_0.jpg",
+    "asset": "assets/e4b601ab0d44ce5ee73a.jpg",
+    "sha256": "e4b601ab0d44ce5ee73a19200ad4ab95cf39f0d61d354e183677451845ffd6ce"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0010/seed_000/img_0.jpg",
+    "asset": "assets/0349c559fa63b5bf4030.jpg",
+    "sha256": "0349c559fa63b5bf40306d65ea0ed8782e3ce2ce06d55037cfffd2ed7b4f391a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0010/seed_000/img_0.jpg",
+    "asset": "assets/6edcf1366c243c5e33ea.jpg",
+    "sha256": "6edcf1366c243c5e33ea18249acac1d7b29e7ea258cf18cf4a5d332a8e6c9802"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0010/seed_000/img_0.jpg",
+    "asset": "assets/e843b65609e9a6d7802a.jpg",
+    "sha256": "e843b65609e9a6d7802a5ac8faa4aef369d4d97fe2c35d3f07d975d26cc5e085"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0010/seed_000/img_0.jpg",
+    "asset": "assets/d4a5a25917dbb0ff9c6a.jpg",
+    "sha256": "d4a5a25917dbb0ff9c6a825a38551a964845a71abf517f47cae43232351aba57"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0011/source.png",
+    "asset": "assets/d10334437e175ada776b.png",
+    "sha256": "d10334437e175ada776b22a86905f9cfec0749fb55d8ab451720358569be886a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0011/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0011_auto_control_mask.png",
+    "source_sha256": "4de0fba2b3d2af2aac64ea4384c21c3ba8f104e4daf2493669b5d693d667c6bf",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0011.npy",
+    "asset": "assets/synth_0011_gt_control_mask.png",
+    "source_sha256": "b0db98c8d110e547768efc825d48793bc8f29278e64651bf35e4d820a468366a",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0011/seed_000/img_0.jpg",
+    "asset": "assets/fa9c496e503d8f85f544.jpg",
+    "sha256": "fa9c496e503d8f85f544c2009a1e75108bd797775dbc1a9a1c45af0c082aef8c"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0011/seed_000/img_0.jpg",
+    "asset": "assets/b972e6fe3cb48126b061.jpg",
+    "sha256": "b972e6fe3cb48126b061a60110af600dd046a8f230ff581ffb5205160f21c86b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0011/seed_000/img_0.jpg",
+    "asset": "assets/22a63ae216a20f58f7fa.jpg",
+    "sha256": "22a63ae216a20f58f7fa7c248b45bedadf6a4e0d0d1c88ccacadcee11fc6d43f"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0011/seed_000/img_0.jpg",
+    "asset": "assets/4127b0a1ce4b0c5ce2a2.jpg",
+    "sha256": "4127b0a1ce4b0c5ce2a2cfa551d0619e6856451ee1927bde51f4d642869bd38a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0011/seed_000/img_0.jpg",
+    "asset": "assets/481220ae93f8202a280a.jpg",
+    "sha256": "481220ae93f8202a280a33a14c15c8252d07f6f33739920916e6fed7a6e42afb"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0011/seed_000/img_0.jpg",
+    "asset": "assets/e243c7f2636ded8286bc.jpg",
+    "sha256": "e243c7f2636ded8286bc05a117a05b7a3bf0c2f66377a8d4e2279c21b2c58a33"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0012/source.png",
+    "asset": "assets/3b0bd5d4f2562425f902.png",
+    "sha256": "3b0bd5d4f2562425f9025bdf3d772176479ba1989bc3ca6c9a6bb882963f307d"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0012/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0012_auto_control_mask.png",
+    "source_sha256": "4c1d8c3aa56e11f4e6a0ffab2832063aaf32bf7eb5800ed08e13496b7b0ade1e",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0012.npy",
+    "asset": "assets/synth_0012_gt_control_mask.png",
+    "source_sha256": "5ccfa4e70c6eab9a6cef0e6b2bbb73d2d10be9fa133ee92bc5c518a95d13fa80",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0012/seed_000/img_0.jpg",
+    "asset": "assets/7c8183e2982a181f0bd7.jpg",
+    "sha256": "7c8183e2982a181f0bd77bfb6c6458ca18bdb2d0e0321b762350a58f028d640e"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0012/seed_000/img_0.jpg",
+    "asset": "assets/c456915ce30a091c997c.jpg",
+    "sha256": "c456915ce30a091c997c237861f26a903957a22c30151eb79f84ccf2150979df"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0012/seed_000/img_0.jpg",
+    "asset": "assets/f5fef0766bb3e900d9db.jpg",
+    "sha256": "f5fef0766bb3e900d9db32fd3c29d4d7d3c6a0ce982fbf85608f19c5f8af6457"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0012/seed_000/img_0.jpg",
+    "asset": "assets/9bf3a591d92148ce7a7a.jpg",
+    "sha256": "9bf3a591d92148ce7a7a7ff9c89a903bcac07d5592badc59c41a071c343bc072"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0012/seed_000/img_0.jpg",
+    "asset": "assets/d5f76ea90228a98fe037.jpg",
+    "sha256": "d5f76ea90228a98fe037f008e59ace0803d9fbe4ac4882924b7e6f1b702d2e5c"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0012/seed_000/img_0.jpg",
+    "asset": "assets/81a3b78589dfb463aafe.jpg",
+    "sha256": "81a3b78589dfb463aafeed5c36098f83f42b1cd901653ad12b30fe9f1f3e95e8"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0013/source.png",
+    "asset": "assets/f4b464d3b648c4220b6d.png",
+    "sha256": "f4b464d3b648c4220b6d715b669cd0680696660debf97e6c29aef503fb57d8e9"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0013/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0013_auto_control_mask.png",
+    "source_sha256": "5a91fd7d92c63414ab8df95efe5588465908d9c962f8ac58e876cbd3a150203a",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0013.npy",
+    "asset": "assets/synth_0013_gt_control_mask.png",
+    "source_sha256": "179657d3d28e55fddff2c324bca9e84bd7296ca56cf1d28649080ff550e6a614",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0013/seed_000/img_0.jpg",
+    "asset": "assets/6958fa290bc30c820030.jpg",
+    "sha256": "6958fa290bc30c8200301a380669ef8f493fdae6d1480ca63c818519b9cfc357"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0013/seed_000/img_0.jpg",
+    "asset": "assets/92b3e5177619a87c4f50.jpg",
+    "sha256": "92b3e5177619a87c4f509e52dce3d0767e37ccf9d33e139b67a20866ffcc1fb2"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0013/seed_000/img_0.jpg",
+    "asset": "assets/786dcf766ca052bde50d.jpg",
+    "sha256": "786dcf766ca052bde50d27e31443efc445ad171138d27c3970ec056250714677"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0013/seed_000/img_0.jpg",
+    "asset": "assets/4c84599fb5aa9cb4c4f7.jpg",
+    "sha256": "4c84599fb5aa9cb4c4f7e8028e183c109c33ea3ef2aad4d28abb5ad732c3a485"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0013/seed_000/img_0.jpg",
+    "asset": "assets/f816c13f9f0dd00b842f.jpg",
+    "sha256": "f816c13f9f0dd00b842f6983484b8931f460fbab740665063b8694eb433751f5"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0013/seed_000/img_0.jpg",
+    "asset": "assets/2d507376d7714fe3bce2.jpg",
+    "sha256": "2d507376d7714fe3bce27042b60a5d19b2edb627d9341e98b70e72c887b9bc66"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0015/source.png",
+    "asset": "assets/d9b261fd0c97b210553c.png",
+    "sha256": "d9b261fd0c97b210553cb5951d9dcadeffb18b5f37e3d3a157b0f3f200de7743"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0015/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0015_auto_control_mask.png",
+    "source_sha256": "2ca487d52ef2041cee0ac3259b266334159586d7c4712a0cb19c611056393eb8",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0015.npy",
+    "asset": "assets/synth_0015_gt_control_mask.png",
+    "source_sha256": "6f3eea5f06c6577ff0ce66ead243d9224e13d910a5101bfa003b46c6377ca3e7",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0015/seed_000/img_0.jpg",
+    "asset": "assets/f477f0d6039e59ea6b54.jpg",
+    "sha256": "f477f0d6039e59ea6b5470ba9749e19a1d939d6c6d7746370c6c9576dd1bece4"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0015/seed_000/img_0.jpg",
+    "asset": "assets/2688579a67e90ade55be.jpg",
+    "sha256": "2688579a67e90ade55beceef40335846f6e242df3b6acfb7b607f08c3df0ca9e"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0015/seed_000/img_0.jpg",
+    "asset": "assets/e8459f6a71476a8518b1.jpg",
+    "sha256": "e8459f6a71476a8518b1ea1410a90cea846a6781b1a40f631ead92f30f46ef5b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0015/seed_000/img_0.jpg",
+    "asset": "assets/2de2ac43883048c73330.jpg",
+    "sha256": "2de2ac43883048c73330763e07340e832fcedc586630653fda15cfc780599b26"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0015/seed_000/img_0.jpg",
+    "asset": "assets/6942c41d9534a788d897.jpg",
+    "sha256": "6942c41d9534a788d897bc3ce4782975394d2b2556ee57b2fb3ad9749773904a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0015/seed_000/img_0.jpg",
+    "asset": "assets/530006ce0716620f3320.jpg",
+    "sha256": "530006ce0716620f332015f80ffe583e7cd8f528b864ab866384d2ca5935067c"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0016/source.png",
+    "asset": "assets/b1322f0354f51bb6edf5.png",
+    "sha256": "b1322f0354f51bb6edf58e6301d12133572c435e16a0378a0220f9ae05220bff"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0016/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0016_auto_control_mask.png",
+    "source_sha256": "20ebf4e711e1751fe046e989bb292d0de0879775f6f01c0a220ea6711f4b2d62",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0016.npy",
+    "asset": "assets/synth_0016_gt_control_mask.png",
+    "source_sha256": "23f4a704a60891b98ceb1e738660ba166689bf9020cccb08eca7ea54d0c45567",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0016/seed_000/img_0.jpg",
+    "asset": "assets/9630f10533f642a72279.jpg",
+    "sha256": "9630f10533f642a722799bb0a1769cf41b59f6473f14f69e1777470f2d6211bf"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0016/seed_000/img_0.jpg",
+    "asset": "assets/8d000ce08b20f700d551.jpg",
+    "sha256": "8d000ce08b20f700d55120d9e7ac38d1eade1afcb187a4a5d25685d1321aec7b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0016/seed_000/img_0.jpg",
+    "asset": "assets/7d3167100f7e64ae6078.jpg",
+    "sha256": "7d3167100f7e64ae6078af1150f877b0f8d126b85ac3da8cae708da2d9cce6ec"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0016/seed_000/img_0.jpg",
+    "asset": "assets/4df8e041a47a2aa1f3c2.jpg",
+    "sha256": "4df8e041a47a2aa1f3c208ee2c0c99fe8b849e6b18629d432bd2a7a75090e4a8"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0016/seed_000/img_0.jpg",
+    "asset": "assets/6603c0ee44413d7aed1f.jpg",
+    "sha256": "6603c0ee44413d7aed1f3c775f8a1ecb344bb4f88f23e64269c09f793b0c6106"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0016/seed_000/img_0.jpg",
+    "asset": "assets/452a6917213c9c056ceb.jpg",
+    "sha256": "452a6917213c9c056ceb0ee643de179fcbcd2661a39699413d013e95f15489e8"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0017/source.png",
+    "asset": "assets/245f1623447aded5cf75.png",
+    "sha256": "245f1623447aded5cf7584ff4d95c7e4e958fea968487a33c768dd23c4275c0a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0017/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0017_auto_control_mask.png",
+    "source_sha256": "7e2299076daff5866c1b57f28940cca7556f603ad646d101f6ecff04f5c34c9a",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0017.npy",
+    "asset": "assets/synth_0017_gt_control_mask.png",
+    "source_sha256": "c33fadd088cf0e1b9c393a1b5fbcb04679b73eeecd32de078429052627099d22",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0017/seed_000/img_0.jpg",
+    "asset": "assets/682051b2537e29ccabfb.jpg",
+    "sha256": "682051b2537e29ccabfb15f4fbc583576578952b363da02b3c459bded77717e2"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0017/seed_000/img_0.jpg",
+    "asset": "assets/6298840dacbabc5c0f1b.jpg",
+    "sha256": "6298840dacbabc5c0f1bf6ee45dc9ac57404e8bd2f32557d364c82558d6c3146"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0017/seed_000/img_0.jpg",
+    "asset": "assets/f789f9920faf24595ee1.jpg",
+    "sha256": "f789f9920faf24595ee1719c75b7a11023f4d6e58a261e0dc6ab34105f52c667"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0017/seed_000/img_0.jpg",
+    "asset": "assets/3b0b040e7c2fe7cacac6.jpg",
+    "sha256": "3b0b040e7c2fe7cacac6f9acd5abb1b67b7b38ee115913d81aae3dcc89b73baa"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0017/seed_000/img_0.jpg",
+    "asset": "assets/635d36844854e8663b45.jpg",
+    "sha256": "635d36844854e8663b4526295b53f814470b63c6b16eaa1bf8366ecb6d205a9b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0017/seed_000/img_0.jpg",
+    "asset": "assets/744d150b72b870de4559.jpg",
+    "sha256": "744d150b72b870de45598b259e28c57c410916c89d53bcbac34969dc625816de"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0018/source.png",
+    "asset": "assets/00107db62f4772225a0b.png",
+    "sha256": "00107db62f4772225a0bc7917415dfabe1ae71915dfaefd4179012a038f94625"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0018/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0018_auto_control_mask.png",
+    "source_sha256": "e4f1b23566f8552966a3565a2d36881cb65add346090a0acf666a25353e73f4b",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0018.npy",
+    "asset": "assets/synth_0018_gt_control_mask.png",
+    "source_sha256": "3d860c19b27af70aaf5d165961cc18b0a4c60c999e39fbe7fb30dd7bd4297ae6",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0018/seed_000/img_0.jpg",
+    "asset": "assets/2718b29a20585dda5a4d.jpg",
+    "sha256": "2718b29a20585dda5a4db99b367ebc6ad7ced48b26e4b867ffdd0728cf246821"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0018/seed_000/img_0.jpg",
+    "asset": "assets/35439c2eedbb6934b62b.jpg",
+    "sha256": "35439c2eedbb6934b62b141280b396252e54679fa50dc4fc539e74c0da2f4dd3"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0018/seed_000/img_0.jpg",
+    "asset": "assets/ba7d7caab05093535b34.jpg",
+    "sha256": "ba7d7caab05093535b34a8f403f4567a958c3d082562fa0c30db4a9dcb501872"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0018/seed_000/img_0.jpg",
+    "asset": "assets/42d254ecc1e4dd378715.jpg",
+    "sha256": "42d254ecc1e4dd3787157d50b8a86b7ec81562dacfa8f0eea259bfd3493447b8"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0018/seed_000/img_0.jpg",
+    "asset": "assets/0216d6a2c249c8f47a82.jpg",
+    "sha256": "0216d6a2c249c8f47a822cb2878316d95b5852a3b3b2a88991f5b623d41ac19a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0018/seed_000/img_0.jpg",
+    "asset": "assets/7fc72a73561bf721af91.jpg",
+    "sha256": "7fc72a73561bf721af9118b3b8602374669e3812bd97ca43b52d15e66454edcf"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0019/source.png",
+    "asset": "assets/a885da67a93ec72e2926.png",
+    "sha256": "a885da67a93ec72e2926e59398f72faa3915f0412792b99b879f9a3e2fbe07fb"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0019/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0019_auto_control_mask.png",
+    "source_sha256": "07d40eec28e2ea580b690d15c5421055825c85baf6e5ef948d2f8f07b34d821b",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0019.npy",
+    "asset": "assets/synth_0019_gt_control_mask.png",
+    "source_sha256": "4e066a6e6efd7f62a90b28bd3c7bafca80616b3df1a75f77448bda2b1ac409c8",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/3f75a180e8ed0e963e2e.jpg",
+    "sha256": "3f75a180e8ed0e963e2e6866378690d52bac1cdcb014fc41bd28cd4a64ec4e41"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/044b1dc9a1ced3806be0.jpg",
+    "sha256": "044b1dc9a1ced3806be08f736ca401c6b45d8bca0990d483323fce699287e240"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/51f36622f6d1a0d629d0.jpg",
+    "sha256": "51f36622f6d1a0d629d0c6464ea113fb57ffb7609c86cea5c4e368ddb8127854"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/67ad26cda7a8e3cb6f55.jpg",
+    "sha256": "67ad26cda7a8e3cb6f55ceee65fe0c3c0e24c62cfdeea7af0f8e0f0e5ccb970d"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/40851c64b00c12f25515.jpg",
+    "sha256": "40851c64b00c12f25515f7e1abe802efc546f6c18ca8fe9ede5a34bf6ac679b9"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/5c134e0229f2fa45ce1c.jpg",
+    "sha256": "5c134e0229f2fa45ce1c6c4f2d5d6e13dbe715bb96f1507e6bcaaa9726ec1b8c"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0020/source.png",
+    "asset": "assets/c74e49963c073745b1e2.png",
+    "sha256": "c74e49963c073745b1e2a8d821fee5379c66bb5acd2acebf62fbf697a7230478"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0020/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0020_auto_control_mask.png",
+    "source_sha256": "078b32453f9083ed4f4f6123dbfdbbdf95e83211a4ef8e40844af203ce850e5c",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0020.npy",
+    "asset": "assets/synth_0020_gt_control_mask.png",
+    "source_sha256": "cdb2beccc8165125e49668eda1dcecb8243ad26dbe64dde7cd4c5c9e62f81591",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0020/seed_000/img_0.jpg",
+    "asset": "assets/e57c6a2eaae10df1bcca.jpg",
+    "sha256": "e57c6a2eaae10df1bcca4cbc550c63834236895e57ba6092d4f4ea9f8964d04a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0020/seed_000/img_0.jpg",
+    "asset": "assets/d766b88a1726578336f8.jpg",
+    "sha256": "d766b88a1726578336f870b414e98f32c8022e0b0b8631e3d95ef1bc5d696cc7"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0020/seed_000/img_0.jpg",
+    "asset": "assets/73b382e7e256fb486a34.jpg",
+    "sha256": "73b382e7e256fb486a34c43e860f3356e74a8394b565ec6729649e1d28ec4e99"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0020/seed_000/img_0.jpg",
+    "asset": "assets/ca7e6d291fc123ecfcdf.jpg",
+    "sha256": "ca7e6d291fc123ecfcdfac7f680f02d153b090801a3db66b29325098645b157f"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0020/seed_000/img_0.jpg",
+    "asset": "assets/b7aa654b67304f1ae6f6.jpg",
+    "sha256": "b7aa654b67304f1ae6f63472757bf93aff9ae7046798eda58b4c0d230b6d8cbc"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0020/seed_000/img_0.jpg",
+    "asset": "assets/c97b7d21363289704060.jpg",
+    "sha256": "c97b7d21363289704060a0cb4c6dfc545500b80528b62f9f9f129fc80459bb9c"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0021/source.png",
+    "asset": "assets/b536d178f0c163600f77.png",
+    "sha256": "b536d178f0c163600f772adf122d1812fcac6389cdb8c9ac0206bc0537ec0ef1"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0021/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0021_auto_control_mask.png",
+    "source_sha256": "370bbbb78dd9b7e4d97551596ae082b5a88fb1af75fd9bc3b74b21aa21e5c761",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0021.npy",
+    "asset": "assets/synth_0021_gt_control_mask.png",
+    "source_sha256": "73684236c9177a2214800f3c5d2ef1846842fdf7e6e9606826a0a3a7c75d7ddf",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0021/seed_000/img_0.jpg",
+    "asset": "assets/78c086324aa1fe7b0a4a.jpg",
+    "sha256": "78c086324aa1fe7b0a4aa1921ec887d1f5d0eb0714bd0e4389fe60aea25cd338"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0021/seed_000/img_0.jpg",
+    "asset": "assets/75c204a730b4df8b248d.jpg",
+    "sha256": "75c204a730b4df8b248d3dc04b4d1f036d02cc0ce119a4b46ede2bc9b50c7d22"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0021/seed_000/img_0.jpg",
+    "asset": "assets/a0bf63222fb1c3c33b99.jpg",
+    "sha256": "a0bf63222fb1c3c33b99261d3f79901b20cea8ee1bc5ad3d160e7d06bb118304"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0021/seed_000/img_0.jpg",
+    "asset": "assets/b425c1ad9ce0c89f3964.jpg",
+    "sha256": "b425c1ad9ce0c89f3964d1e56305a85a0d72a6fd40c721a255891c18484c39dd"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0021/seed_000/img_0.jpg",
+    "asset": "assets/bbf51c83422dde7574fc.jpg",
+    "sha256": "bbf51c83422dde7574fcf981a72a298d4a67afe3898b19aa0ef73f835c1924b6"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0021/seed_000/img_0.jpg",
+    "asset": "assets/faecc23d52a2549a59b1.jpg",
+    "sha256": "faecc23d52a2549a59b1972f1a42e7e8537f692f06cc38ea0317d0d4a1c53c37"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0022/source.png",
+    "asset": "assets/532bf193aee67e561844.png",
+    "sha256": "532bf193aee67e561844331495a98645bdf113475d004dc59b46b6e6dfb19173"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0022/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0022_auto_control_mask.png",
+    "source_sha256": "945529a398e505496e1ad4acac2452ab4136322f02ea806fff9e34101a154e16",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0022.npy",
+    "asset": "assets/synth_0022_gt_control_mask.png",
+    "source_sha256": "c18df3283fc64e663ae886c9a2fa3d650ad8d2071ead68d81214fcd6d564b9af",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0022/seed_000/img_0.jpg",
+    "asset": "assets/3f975d89c6476c191443.jpg",
+    "sha256": "3f975d89c6476c1914435f22d285b7c6cf639efbe58e66ad3195ddedd22ff62c"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0022/seed_000/img_0.jpg",
+    "asset": "assets/7175f4f668c7ab1f9a4c.jpg",
+    "sha256": "7175f4f668c7ab1f9a4c4a747aaf17dc830e469659d0716659e819dc4cfd6542"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0022/seed_000/img_0.jpg",
+    "asset": "assets/fe4be7517310fbb9c30a.jpg",
+    "sha256": "fe4be7517310fbb9c30a3b3875cafcd4a4df0b5ea5b7c10de8360c63a45d4753"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0022/seed_000/img_0.jpg",
+    "asset": "assets/2518d7a0c63c6998b667.jpg",
+    "sha256": "2518d7a0c63c6998b667a07895be1cfe1667a75e895273da061fc36f5d125f0f"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0022/seed_000/img_0.jpg",
+    "asset": "assets/c515aadff6661953503c.jpg",
+    "sha256": "c515aadff6661953503cc5ceb9690f6d081ace3a6ce6d2eecda2c648a69252ff"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0022/seed_000/img_0.jpg",
+    "asset": "assets/944fd28759c75c2cd090.jpg",
+    "sha256": "944fd28759c75c2cd090d91808c2d1879b4255133f1d15458e0d76344fbbb4c5"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0023/source.png",
+    "asset": "assets/2eefa229af3c0f553c72.png",
+    "sha256": "2eefa229af3c0f553c7211f1d8e9ef2376cc4f18d5e67662ff9e48f2aa102a7b"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0023/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0023_auto_control_mask.png",
+    "source_sha256": "048ba9adc9fda11a4b3f0eba68dfdb43ff1c3e9aeed891be9f32101c566c6989",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0023.npy",
+    "asset": "assets/synth_0023_gt_control_mask.png",
+    "source_sha256": "58d9c2d86bed0216ff2ce1d07a9130af99c37a98d0749b9ec1daf70a38756980",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0023/seed_000/img_0.jpg",
+    "asset": "assets/d9dd3b675f4bfbf8efd7.jpg",
+    "sha256": "d9dd3b675f4bfbf8efd762c218bfc90c61b248d362443ebab169b8c679a52e30"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0023/seed_000/img_0.jpg",
+    "asset": "assets/369ad27a02a7a637f973.jpg",
+    "sha256": "369ad27a02a7a637f97347d375a49a2d20de98a79d71424c53b1f327d66b4803"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0023/seed_000/img_0.jpg",
+    "asset": "assets/a41e21511027d9dd5485.jpg",
+    "sha256": "a41e21511027d9dd548553ae3f6074401748c6245a1d109013688b5c45e3ffb2"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0023/seed_000/img_0.jpg",
+    "asset": "assets/541b5bcf59cfafdd863a.jpg",
+    "sha256": "541b5bcf59cfafdd863a49318993ebf453bd51549e33d520ecfae2407b68848e"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0023/seed_000/img_0.jpg",
+    "asset": "assets/ff2f2374c373d19f4b96.jpg",
+    "sha256": "ff2f2374c373d19f4b96c2984747fc6746de0a9b87e8d1d190285296b0a746f9"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0023/seed_000/img_0.jpg",
+    "asset": "assets/4c6002b892695a95eb8d.jpg",
+    "sha256": "4c6002b892695a95eb8d932c4015d96f499255d82fe1952e30d1cb5a711f4b64"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0024/source.png",
+    "asset": "assets/78197835ff6884766bce.png",
+    "sha256": "78197835ff6884766bce628a1a5e38573fcd4622711ea25f2ca313434f16bc52"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0024/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0024_auto_control_mask.png",
+    "source_sha256": "51fcd41ca96177de3bed453acff3487de063a78bcdaab620d7989ea561e1aa90",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0024.npy",
+    "asset": "assets/synth_0024_gt_control_mask.png",
+    "source_sha256": "f55ed07b08e84fca81be76c90d6c7bc7eab696bf33678f0fc67c7f43f321dfb3",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0024/seed_000/img_0.jpg",
+    "asset": "assets/002c031c82c112dde543.jpg",
+    "sha256": "002c031c82c112dde543cfd7d008c284437e70599b37cb0de13d6c408cc4081b"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0024/seed_000/img_0.jpg",
+    "asset": "assets/7e5813e9923586268372.jpg",
+    "sha256": "7e5813e9923586268372128c855277ca80d0b5ee06444028eea7e747d719c7ec"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0024/seed_000/img_0.jpg",
+    "asset": "assets/ae77a3f807d2e1deee34.jpg",
+    "sha256": "ae77a3f807d2e1deee34356f0a50b3879abd2549b8dfaa0d177893fc39db16f4"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0024/seed_000/img_0.jpg",
+    "asset": "assets/9d192821f9be1e344f73.jpg",
+    "sha256": "9d192821f9be1e344f73211a29c3f30cdcfd7ba44462e72cbccf7659c29d4043"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0024/seed_000/img_0.jpg",
+    "asset": "assets/7e614a99eb4f1296bcd5.jpg",
+    "sha256": "7e614a99eb4f1296bcd5e016a013957926dece6d9bf9a9a5208ff713f026aade"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0024/seed_000/img_0.jpg",
+    "asset": "assets/54dc661264e9a67e5a0e.jpg",
+    "sha256": "54dc661264e9a67e5a0eb59f8335433ebab749a1e359b38523f1dcb38279a493"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0025/source.png",
+    "asset": "assets/6be19916a6dc9c8d0526.png",
+    "sha256": "6be19916a6dc9c8d0526081d632e835d8312978956008c717137323a4cb1f81e"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0025/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0025_auto_control_mask.png",
+    "source_sha256": "9989fb60afd065f97d5ed89563f1a16621e619e5af0f5e289f9d69399e7efc15",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0025.npy",
+    "asset": "assets/synth_0025_gt_control_mask.png",
+    "source_sha256": "d6b54222e85d21a3d6fc43cd4dbc8d9b89328cd3e4394953fa88cdfa7e8e967d",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0025/seed_000/img_0.jpg",
+    "asset": "assets/64fc377e5ab0adc30352.jpg",
+    "sha256": "64fc377e5ab0adc30352a6e6039c78c58d9e2e4900735f260b8095af61828742"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0025/seed_000/img_0.jpg",
+    "asset": "assets/9e7bf5358aa9378681b9.jpg",
+    "sha256": "9e7bf5358aa9378681b9b23bee03abea66553b9a15affaf1a89035f634c3ccc7"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0025/seed_000/img_0.jpg",
+    "asset": "assets/dbf432c24cd606be529d.jpg",
+    "sha256": "dbf432c24cd606be529d009ef65ce5815445c53e48c1ba81dcdb15408541ee0b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0025/seed_000/img_0.jpg",
+    "asset": "assets/85971ec7d9602113bc22.jpg",
+    "sha256": "85971ec7d9602113bc22603bf44a481c16065b78a70812fbd72206583a35a707"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0025/seed_000/img_0.jpg",
+    "asset": "assets/c7ae0dbb6b57e2a59640.jpg",
+    "sha256": "c7ae0dbb6b57e2a5964021ee5c0a326b3a06fd556e59e109d0cfa7a5036e7795"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0025/seed_000/img_0.jpg",
+    "asset": "assets/f08362727683ea5f50a0.jpg",
+    "sha256": "f08362727683ea5f50a059554633419d0f71cb3625ba4fb70e0d6f6b8ed25f55"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0026/source.png",
+    "asset": "assets/a418e14d71a17e9c5fd9.png",
+    "sha256": "a418e14d71a17e9c5fd97456c4d53e49b8ba890d054a341ca0b03776d2c520e1"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0026/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0026_auto_control_mask.png",
+    "source_sha256": "b5dfa2a8c8c8e8414f51e433619501bd56ead5d5461c128a4bf1b42fe2bcb09c",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0026.npy",
+    "asset": "assets/synth_0026_gt_control_mask.png",
+    "source_sha256": "5c91fd6a0220848768d552e63530e2cf9499863a802b454ab48296b2ffc781ee",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0026/seed_000/img_0.jpg",
+    "asset": "assets/05efe80372b07745ae79.jpg",
+    "sha256": "05efe80372b07745ae794674ba2a50fa974dfa7705304ca8465d4690a1876c18"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0026/seed_000/img_0.jpg",
+    "asset": "assets/f1af3de5c19cd949d715.jpg",
+    "sha256": "f1af3de5c19cd949d715f7657f725f769219833b9abc39a698a808435d79a515"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0026/seed_000/img_0.jpg",
+    "asset": "assets/5c06ba1e323c6fce67be.jpg",
+    "sha256": "5c06ba1e323c6fce67be82337e3b198b87f709485025644f50348e9c9331e4f7"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0026/seed_000/img_0.jpg",
+    "asset": "assets/8018f90134e480293144.jpg",
+    "sha256": "8018f90134e4802931445c89316a0b64a0ead10143cb6fbba721c7b07a9e8bfe"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0026/seed_000/img_0.jpg",
+    "asset": "assets/db51e0a551b9a8978da1.jpg",
+    "sha256": "db51e0a551b9a8978da1b84c53f161244cd48ac392ea8d62762aa2545273482a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0026/seed_000/img_0.jpg",
+    "asset": "assets/5c88072254c90f8980fe.jpg",
+    "sha256": "5c88072254c90f8980feb9e2938412ecb7c60833773febcff19d94fe6567d4c0"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0027/source.png",
+    "asset": "assets/d42f9f48f9669efe0304.png",
+    "sha256": "d42f9f48f9669efe03040082655a988078eec3796d2b5af393df23a187b3127a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0027/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0027_auto_control_mask.png",
+    "source_sha256": "cbf72821290ebd7ab162084584e971a25d374153cf7a07bda9bcc721aa78ac61",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0027.npy",
+    "asset": "assets/synth_0027_gt_control_mask.png",
+    "source_sha256": "a2bfa58e69e8cf5af4519c9a7c27bcbf5b1529e4cd2a55772eefce834398919a",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0027/seed_000/img_0.jpg",
+    "asset": "assets/fbef9afbcab16a31ea7d.jpg",
+    "sha256": "fbef9afbcab16a31ea7db07ec86ff72167057156678932b1c3928b2d69b0e1fd"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0027/seed_000/img_0.jpg",
+    "asset": "assets/379fac52db743455c50e.jpg",
+    "sha256": "379fac52db743455c50e2d369a9cd5f180123cc31f21bf5b1cf43259a2f45fa5"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0027/seed_000/img_0.jpg",
+    "asset": "assets/066ff1de0e529896d1eb.jpg",
+    "sha256": "066ff1de0e529896d1eb491c91b8cd4de47ea114247259a6f344daf8bf22b57a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0027/seed_000/img_0.jpg",
+    "asset": "assets/b3fcbbb6599b66bd0fb5.jpg",
+    "sha256": "b3fcbbb6599b66bd0fb5f997c745685fb18b0636b1ac518d2f8703a1629fe010"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0027/seed_000/img_0.jpg",
+    "asset": "assets/f69a8bbfc8a6ead6934a.jpg",
+    "sha256": "f69a8bbfc8a6ead6934a1a0541d9ce8c95031c33842a0e250b6e744ebcdc2332"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0027/seed_000/img_0.jpg",
+    "asset": "assets/7a93849069c6ae977b41.jpg",
+    "sha256": "7a93849069c6ae977b4169ec86c8d18d3fda575732919caf4ae2809803babbd4"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0028/source.png",
+    "asset": "assets/f03ad80412830e796b16.png",
+    "sha256": "f03ad80412830e796b16d21c6301c331c6a4cd90b258424b2b34898444c795a7"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0028/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0028_auto_control_mask.png",
+    "source_sha256": "92d8b213543551bf53be771c4106d54545bbcff6acc80a585f3fa4e3220fffe9",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0028.npy",
+    "asset": "assets/synth_0028_gt_control_mask.png",
+    "source_sha256": "25c1325760f2fbdc4a43a43bc2f7d1a5f19200968e8933bda9e9e32bfc71391a",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0028/seed_000/img_0.jpg",
+    "asset": "assets/240d02991ef6196c5e72.jpg",
+    "sha256": "240d02991ef6196c5e72622bb5b4e921c153db54711235c745c0c674c556fbd7"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0028/seed_000/img_0.jpg",
+    "asset": "assets/c1b1764ea1f948674db2.jpg",
+    "sha256": "c1b1764ea1f948674db246ae4b4780167392aeb0a7e8584e95cb3307cf9831a4"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0028/seed_000/img_0.jpg",
+    "asset": "assets/4f6c581fe60ae348f170.jpg",
+    "sha256": "4f6c581fe60ae348f17007866570df04582fd4b867262003a75147974cd486aa"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0028/seed_000/img_0.jpg",
+    "asset": "assets/b8c95e82052fc3e9d35c.jpg",
+    "sha256": "b8c95e82052fc3e9d35c7cbd4830dd8b002d62f2a35e51a80bef8df8ff46f6a0"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0028/seed_000/img_0.jpg",
+    "asset": "assets/6c24bc5287dab452a628.jpg",
+    "sha256": "6c24bc5287dab452a6288579ae3a06dde35b3194c2a4c56a2990ca851720c049"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0028/seed_000/img_0.jpg",
+    "asset": "assets/149354082fbfeda17287.jpg",
+    "sha256": "149354082fbfeda1728724a22d89def4a07188d8bcff12b473b56b61c93da0c4"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0029/source.png",
+    "asset": "assets/2afbd90e6bc55f79c1d6.png",
+    "sha256": "2afbd90e6bc55f79c1d6c728ab851749bb2eea1648090dac31a33bb54408673d"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0029/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0029_auto_control_mask.png",
+    "source_sha256": "5e6e9fc28459e3caa5ec47d7b9407be446a9efca14f5cfb904ebb1b20e94fb6c",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0029.npy",
+    "asset": "assets/synth_0029_gt_control_mask.png",
+    "source_sha256": "9c8ce86c9afaa2600029d16c60f169fff402df5e55b8ce22a23e936980591100",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0029/seed_000/img_0.jpg",
+    "asset": "assets/9888ab9ccab6ffd74171.jpg",
+    "sha256": "9888ab9ccab6ffd741716f999665e9ecc45f4a9607337999173ec083c2bd063c"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0029/seed_000/img_0.jpg",
+    "asset": "assets/25011f7d449388bb7543.jpg",
+    "sha256": "25011f7d449388bb7543c2250d7c7b1ec9989e8391ebe7ab8740286427df6c87"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0029/seed_000/img_0.jpg",
+    "asset": "assets/5a3d20215ba3d703632f.jpg",
+    "sha256": "5a3d20215ba3d703632fd8dbdd7b5bbcb49cca23e1b0ac9c0eaf1a873dcc2c0b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0029/seed_000/img_0.jpg",
+    "asset": "assets/462a79e6fb00434f748a.jpg",
+    "sha256": "462a79e6fb00434f748abde86a7d3ad064d2ff4dcf536669eb2ca615e79ade49"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0029/seed_000/img_0.jpg",
+    "asset": "assets/ff6e41859dd958541496.jpg",
+    "sha256": "ff6e41859dd9585414969f571ac6d57dec214142d45f9705628a1e60136eda63"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0029/seed_000/img_0.jpg",
+    "asset": "assets/5f1e10596ce96ed2e128.jpg",
+    "sha256": "5f1e10596ce96ed2e1289951792d3537099ad4f85b841eb53b0e67c1376e8518"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0030/source.png",
+    "asset": "assets/6bb11c4ef06e71199ce0.png",
+    "sha256": "6bb11c4ef06e71199ce07c782abf477acca13e40bda6283f8e55451e401d4c3d"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0030/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0030_auto_control_mask.png",
+    "source_sha256": "2cf63716cd95392a03adfda84bd5d924fbd0145540d14fa65882fbb43c858eb3",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0030.npy",
+    "asset": "assets/synth_0030_gt_control_mask.png",
+    "source_sha256": "752ad4bf89a709f244940929aff605603bfb64c162390c93473f1f06970b400e",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0030/seed_000/img_0.jpg",
+    "asset": "assets/fdcc88464fdc7727bb87.jpg",
+    "sha256": "fdcc88464fdc7727bb87eb96bd774b09fa60307fcfc0bddac2466f43afd677ac"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0030/seed_000/img_0.jpg",
+    "asset": "assets/b6f6c8ea983450715f8e.jpg",
+    "sha256": "b6f6c8ea983450715f8eeeaab98d2ee2223d0ebfd8fd35ad765dacf78a12a0a6"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0030/seed_000/img_0.jpg",
+    "asset": "assets/57bdcf133ee2894cafb8.jpg",
+    "sha256": "57bdcf133ee2894cafb82286090f3641267a57421472c016c91c833fbac187b4"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0030/seed_000/img_0.jpg",
+    "asset": "assets/8912960e3eeb49755483.jpg",
+    "sha256": "8912960e3eeb4975548378320164ca2193ef467117ac6883d239252f4c002a7a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0030/seed_000/img_0.jpg",
+    "asset": "assets/698f7d4e8352b9328aa1.jpg",
+    "sha256": "698f7d4e8352b9328aa1ddeee51a7addf8c0e934f5fe74a0b4463f33ffbae094"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0030/seed_000/img_0.jpg",
+    "asset": "assets/c610440aea2852e78830.jpg",
+    "sha256": "c610440aea2852e78830ef7f292fc5780f311a6afb7c27c0cc81767ad119f9f6"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0031/source.png",
+    "asset": "assets/79bb0a97fc8b87de1aa9.png",
+    "sha256": "79bb0a97fc8b87de1aa98b5c89c659d2c54620aa87a6334c4cbdc90dd740688c"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0031/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0031_auto_control_mask.png",
+    "source_sha256": "5de2f568b4f0a12f9dcf6d0007478be5cdd3b3955537817e2ccbcea476b1e99d",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0031.npy",
+    "asset": "assets/synth_0031_gt_control_mask.png",
+    "source_sha256": "c0d98d59d4186dc1bc999637379c2361d991a4a394f9d96d44b2f80f9ef2f764",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0031/seed_000/img_0.jpg",
+    "asset": "assets/8db3e31382320ca68de8.jpg",
+    "sha256": "8db3e31382320ca68de874f5528508386335c601ea0af05b05ea04e2f5baa74f"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0031/seed_000/img_0.jpg",
+    "asset": "assets/0f105094eac83f0e768e.jpg",
+    "sha256": "0f105094eac83f0e768ed557e22e8650d0d64e7842dd5c03b6404c76f3b5c223"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0031/seed_000/img_0.jpg",
+    "asset": "assets/5184bee927e1e89c48ee.jpg",
+    "sha256": "5184bee927e1e89c48eeb7b3168dc4a4a590c532b097e83b76192b142d1fe5d3"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0031/seed_000/img_0.jpg",
+    "asset": "assets/87cdf2bec6205e53347f.jpg",
+    "sha256": "87cdf2bec6205e53347f1e19f588b1fd8c50e0ed482a7e5f8b98741fb74918e2"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0031/seed_000/img_0.jpg",
+    "asset": "assets/ff5b787137cde335b30b.jpg",
+    "sha256": "ff5b787137cde335b30befd7b950c4e643e03e140c5ba57d6bb53b4dbbfbe76a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0031/seed_000/img_0.jpg",
+    "asset": "assets/39446eaec433dc2473ac.jpg",
+    "sha256": "39446eaec433dc2473ace497ff37c77511019e6fe32309fbbe0e1e69d62bc495"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0032/source.png",
+    "asset": "assets/5e879b4944443b6f90e2.png",
+    "sha256": "5e879b4944443b6f90e261c438d2d6c7a270b5757f294954a55a0d06789ed344"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0032/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0032_auto_control_mask.png",
+    "source_sha256": "770a8e4fb9cb17368a4805d5688ffbd8f997374cc59185c184a936a2c9f6df89",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0032.npy",
+    "asset": "assets/synth_0032_gt_control_mask.png",
+    "source_sha256": "0296b6f1e169860b0fc6ff04970e43bbd04ca5ceb4a3bfe44758cfefeed9c153",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0032/seed_000/img_0.jpg",
+    "asset": "assets/9dc39099c07a2e91e915.jpg",
+    "sha256": "9dc39099c07a2e91e91503b4dc1772f4b8b022748f3956a8c5e276bfa95da4d9"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0032/seed_000/img_0.jpg",
+    "asset": "assets/d1ad2aa96989835982a4.jpg",
+    "sha256": "d1ad2aa96989835982a40fc7ec178d439f030d7d515a13f180635532f4496437"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0032/seed_000/img_0.jpg",
+    "asset": "assets/963d3fa6da3a2940c07d.jpg",
+    "sha256": "963d3fa6da3a2940c07df46581cbef15672874fe4ee866c3f762a2841173355f"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0032/seed_000/img_0.jpg",
+    "asset": "assets/11e9fb0017f20c673c31.jpg",
+    "sha256": "11e9fb0017f20c673c31ed5f318b439080bbd47168ead6bdd37927ccb05234d3"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0032/seed_000/img_0.jpg",
+    "asset": "assets/2bcd5a8484feb59ddb45.jpg",
+    "sha256": "2bcd5a8484feb59ddb45aab8fdee2dc933c0b67d3cc162cad5d38db58c89140c"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0032/seed_000/img_0.jpg",
+    "asset": "assets/800d32e7a2f565179556.jpg",
+    "sha256": "800d32e7a2f565179556994b8bf66334052a15979832a9fc249da60494a3646c"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0033/source.png",
+    "asset": "assets/8bdc74a36ac254d6ecfe.png",
+    "sha256": "8bdc74a36ac254d6ecfe3e3caaee125376bd4393abc38dabb8f2e37e45f1d4f0"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0033/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0033_auto_control_mask.png",
+    "source_sha256": "38014c935b061e8f4fb568b7f23151fe85c5fced7ac49be9b540671f4c00a74d",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0033.npy",
+    "asset": "assets/synth_0033_gt_control_mask.png",
+    "source_sha256": "771bd257701505708932f62a090ea4f59bbc88fa842e2605039eead604d7d989",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/b2bcaf98036c2ca1326a.jpg",
+    "sha256": "b2bcaf98036c2ca1326af58a0936f1a8c673bab9de43835362b127272a20b23a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/e7d5f7de6613ab27f55f.jpg",
+    "sha256": "e7d5f7de6613ab27f55f52ceaa7d872d6502222fe4cbbe265da94cdd97bba01b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/a4fc1dd9a75327d37461.jpg",
+    "sha256": "a4fc1dd9a75327d37461caa5bd6d0d1d906fc0bdd711cf84e691c3cac0e00f72"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/3a11580756824cb15fbb.jpg",
+    "sha256": "3a11580756824cb15fbb1b1c7781da986e47516832a3eae30851ecf9434730e2"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/497ed4868e70254a4eda.jpg",
+    "sha256": "497ed4868e70254a4edaa79cfa537e621a50bb13f53feaa0b7445d77a7434e56"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/d3baf78859f0df9439ef.jpg",
+    "sha256": "d3baf78859f0df9439ef426e99d912144af735ed20cd36285b646a1caaeb2a2a"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0034/source.png",
+    "asset": "assets/38588b85486a01cd4341.png",
+    "sha256": "38588b85486a01cd4341f15213ee3861da3f7304b91fdb8bbbbd87bfb0966bb7"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0034/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0034_auto_control_mask.png",
+    "source_sha256": "fe905978287e9618920df160a725037277390b1f489132b12dc72c1dd71280ea",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0034.npy",
+    "asset": "assets/synth_0034_gt_control_mask.png",
+    "source_sha256": "a03dbd4ae7a0947e0e3455ba39254f6d374c5c7c6578600743a0c8ec61f037f6",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0034/seed_000/img_0.jpg",
+    "asset": "assets/71ed3858eb60ddc7f54c.jpg",
+    "sha256": "71ed3858eb60ddc7f54ca58be93f3ce01c8785b531cd8e4fadb25fe044f8ea65"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0034/seed_000/img_0.jpg",
+    "asset": "assets/9828cefe9481f845fa9b.jpg",
+    "sha256": "9828cefe9481f845fa9b96603591b322d241eacf39d871179fd188e58ffcbb07"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0034/seed_000/img_0.jpg",
+    "asset": "assets/460e187cf9fe57619464.jpg",
+    "sha256": "460e187cf9fe57619464a294df9944b00c35db7071be38fe98dadb6d3444bf6b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0034/seed_000/img_0.jpg",
+    "asset": "assets/7788e7d84535019af8be.jpg",
+    "sha256": "7788e7d84535019af8bec35cca6f8433bf29eef88c3fa04a418b2cc3b500dec3"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0034/seed_000/img_0.jpg",
+    "asset": "assets/3c64ed88418f46653ec2.jpg",
+    "sha256": "3c64ed88418f46653ec281280f053fffd6d3a9a4806a05b32150be5861e22c2f"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0034/seed_000/img_0.jpg",
+    "asset": "assets/1d5d7a6da5220cb12def.jpg",
+    "sha256": "1d5d7a6da5220cb12defc3f1af23f0b5df8a73c45cf40fe7e66fec48fbc8fa56"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0035/source.png",
+    "asset": "assets/1e81c9d2670376c801ef.png",
+    "sha256": "1e81c9d2670376c801ef414d1a0a9b0c1a353ad4fdc76664dcf0812fedb0ccee"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0035/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0035_auto_control_mask.png",
+    "source_sha256": "09f13d8b94a2bdb7f81423d970fb8e7dcdcb1052232bc65394224a617fc430aa",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0035.npy",
+    "asset": "assets/synth_0035_gt_control_mask.png",
+    "source_sha256": "e4867bae2e453278f46f13d80fcb48457082be765f4774933965edb1f2ba7fdf",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0035/seed_000/img_0.jpg",
+    "asset": "assets/e3707d893f25b30a5d0f.jpg",
+    "sha256": "e3707d893f25b30a5d0f42d592a8de6ecb3413419008df500dbc165479056151"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0035/seed_000/img_0.jpg",
+    "asset": "assets/1bbce23108f4def97e19.jpg",
+    "sha256": "1bbce23108f4def97e1922df1cb8f6e073edc33297180d9f9df2554f0ae6a65f"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0035/seed_000/img_0.jpg",
+    "asset": "assets/f92b785fd4e36a7fe9a1.jpg",
+    "sha256": "f92b785fd4e36a7fe9a154c0a738ee7bfc05f337ace6ab3b1c0e0746df1f51ef"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0035/seed_000/img_0.jpg",
+    "asset": "assets/9138bf88c0b1233c4005.jpg",
+    "sha256": "9138bf88c0b1233c4005df843bbcab9129a8806b1ae6c9d157e051169eae4d87"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0035/seed_000/img_0.jpg",
+    "asset": "assets/54cf113c136ee4aec034.jpg",
+    "sha256": "54cf113c136ee4aec0346996bd196b3efd32dcb397e4f5611859023e32f8488c"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0035/seed_000/img_0.jpg",
+    "asset": "assets/acee1727ff4b558ef0b4.jpg",
+    "sha256": "acee1727ff4b558ef0b4c1abc32cfe3a1d35c82288b393db9b11ca98b90ef61b"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0036/source.png",
+    "asset": "assets/84cfd41d06ab1f79d1f7.png",
+    "sha256": "84cfd41d06ab1f79d1f784df42d6f7d58793478da3c82597585e006a82dc926c"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0036/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0036_auto_control_mask.png",
+    "source_sha256": "1b3145848938c9ab1503ea26c3b7e6ec68fa77f7a7ceb4d896b81c6dfe694e26",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0036.npy",
+    "asset": "assets/synth_0036_gt_control_mask.png",
+    "source_sha256": "43fd6538c07a789e70122e124ae14712b2e47b4d52f6304ceeb179aa7aa0879b",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0036/seed_000/img_0.jpg",
+    "asset": "assets/6e2c1d1496fe1e105425.jpg",
+    "sha256": "6e2c1d1496fe1e105425b22c48489beb4648611cbfb256e27bf42ce5f11f3426"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0036/seed_000/img_0.jpg",
+    "asset": "assets/c042230afcff88056867.jpg",
+    "sha256": "c042230afcff880568675f8b5eb9a72b63a8e46d53abbc3f5d01ff99a7fbbc70"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0036/seed_000/img_0.jpg",
+    "asset": "assets/f5e55a28da286b5e65b6.jpg",
+    "sha256": "f5e55a28da286b5e65b6bf8a9c180b6701a10f7fc10ea2b262c95db23b9a371c"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0036/seed_000/img_0.jpg",
+    "asset": "assets/7369ca3b2c5dde87a1c4.jpg",
+    "sha256": "7369ca3b2c5dde87a1c4ae5f1b9a5bc1e98c1d8d1658ad32a1293bff197fde4a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0036/seed_000/img_0.jpg",
+    "asset": "assets/b20fad5076e2dc72f7ad.jpg",
+    "sha256": "b20fad5076e2dc72f7ade624360e5e755e57a39ea1c756168e8b8608e39a5f53"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0036/seed_000/img_0.jpg",
+    "asset": "assets/b4d9dd8c117f02b8544c.jpg",
+    "sha256": "b4d9dd8c117f02b8544c5a1d776f890c2a1c3b1e972b5921af4d32bc6ca47ca0"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0037/source.png",
+    "asset": "assets/5a474704adb33121c37c.png",
+    "sha256": "5a474704adb33121c37c59047a868a01d81d6ee853283a4937ea779789ae4d19"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0037/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0037_auto_control_mask.png",
+    "source_sha256": "0ebbe5e7fd7b45868ae6e69959d4282bfc151a55af44ea7d2791e8193dd0ebb9",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0037.npy",
+    "asset": "assets/synth_0037_gt_control_mask.png",
+    "source_sha256": "501fd13926816b4f0547efa2d53f6bc5ba51b976385efaeed25913e8c7ccc9a4",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0037/seed_000/img_0.jpg",
+    "asset": "assets/18e4c738fc55d0ba5566.jpg",
+    "sha256": "18e4c738fc55d0ba55668a67e567a53e3df6cea605271dc53e2dcb77d6927274"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0037/seed_000/img_0.jpg",
+    "asset": "assets/26e4cc7679a7e55d18e3.jpg",
+    "sha256": "26e4cc7679a7e55d18e34526ad9bf08c1a471739e73b729668589336e4b32d75"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0037/seed_000/img_0.jpg",
+    "asset": "assets/4763602244900de37980.jpg",
+    "sha256": "4763602244900de37980041a55d2517e2341c666f9186b896c1107fe28204a6e"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0037/seed_000/img_0.jpg",
+    "asset": "assets/adacc66f1f38a8498a52.jpg",
+    "sha256": "adacc66f1f38a8498a52224379d57dc9b8bb377ad5388d56cd53deab798ecbcb"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0037/seed_000/img_0.jpg",
+    "asset": "assets/3102e845a99f1701d9b1.jpg",
+    "sha256": "3102e845a99f1701d9b1759562707a8bc24ea89d257a623d8a31e1ff41089409"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0037/seed_000/img_0.jpg",
+    "asset": "assets/76369484472bbf839d63.jpg",
+    "sha256": "76369484472bbf839d63c57c75c1b539d5bbbdddce68c4d75f5813ba937988d8"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0038/source.png",
+    "asset": "assets/e419c6b72ce0606df766.png",
+    "sha256": "e419c6b72ce0606df766b976a57a9e7319bf722712af193612a921a4d6450be1"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0038/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0038_auto_control_mask.png",
+    "source_sha256": "e4732aeb6b8c8008d4938086ea4160fb03c3f651d98ade1ebee69e8ba72e57cb",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0038.npy",
+    "asset": "assets/synth_0038_gt_control_mask.png",
+    "source_sha256": "3ae3b219f7089f6444f4d2a90deb99cfbaadf98cc03ace5f46ac5033663b7577",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/c3693eb7f8b9efedece2.jpg",
+    "sha256": "c3693eb7f8b9efedece25bfd0fd0a13ecd91417c1a52bc21855b93d3b29cff64"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/904b87710d0cf7f921d9.jpg",
+    "sha256": "904b87710d0cf7f921d9b884281ad2d44ceff8d285426526d86a1f7435e89d24"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/ae49daa7326965d2a7fc.jpg",
+    "sha256": "ae49daa7326965d2a7fc1d069958f7e11fa078a646a0b68c598d93f68faa90ba"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/b6c5ef78731f2899191d.jpg",
+    "sha256": "b6c5ef78731f2899191d203b1a763d383e0c1d8fa43c8655bea98d78648ebfd6"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/8c73904290ab21a425df.jpg",
+    "sha256": "8c73904290ab21a425dfe148316a0581e89a317b2db7a9cc0ef1d96efeded991"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/3dda1671b03999e049e4.jpg",
+    "sha256": "3dda1671b03999e049e42e266ef780e726c6d89b03c9e77df9cd91edede4a826"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0039/source.png",
+    "asset": "assets/c7ba2274dc2cdc72072b.png",
+    "sha256": "c7ba2274dc2cdc72072bead5a71aab76af5067bd54f0ab3041eea9a9af360921"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0039/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0039_auto_control_mask.png",
+    "source_sha256": "11308db4ab7dba4c3c466fb90317fc264a8cd2b1b2a7592c5cdcabf271513e6c",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0039.npy",
+    "asset": "assets/synth_0039_gt_control_mask.png",
+    "source_sha256": "cbbd8c4dda1d0d23e20337f8e612dafa5eba618049f22d59cd4ebd65d76694a9",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0039/seed_000/img_0.jpg",
+    "asset": "assets/10d9c6bfb8b584e630d3.jpg",
+    "sha256": "10d9c6bfb8b584e630d372c495be9d494c56de3deaa785e36ec11c63f42735a7"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0039/seed_000/img_0.jpg",
+    "asset": "assets/50e768d2d5d59408b052.jpg",
+    "sha256": "50e768d2d5d59408b05276bf304fb157516a0880c50accd4a7cec2f63f62d06f"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0039/seed_000/img_0.jpg",
+    "asset": "assets/64a93acd311ac04f851c.jpg",
+    "sha256": "64a93acd311ac04f851cfb168d48a80653c0a8745704a5f644a18f0f59a10f26"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0039/seed_000/img_0.jpg",
+    "asset": "assets/488fe1810fc2d692a311.jpg",
+    "sha256": "488fe1810fc2d692a31152bbda306008370f5d6355a162ecd84bdfc7ebb02a25"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0039/seed_000/img_0.jpg",
+    "asset": "assets/6a22659fd4e9d6ce7867.jpg",
+    "sha256": "6a22659fd4e9d6ce786781cd2c31818a183f276149137281c995bddd880f517e"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0039/seed_000/img_0.jpg",
+    "asset": "assets/aa24b77f5878946cf95e.jpg",
+    "sha256": "aa24b77f5878946cf95ea0233094a3a603ba93779a641bc7fb2105c4fada8020"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0040/source.png",
+    "asset": "assets/7e45e2bca6994441434e.png",
+    "sha256": "7e45e2bca6994441434e408e23c43fb866e1e1361f9877b760a7626f5af02cd6"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0040/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0040_auto_control_mask.png",
+    "source_sha256": "7b4559256d263ab543fa77702a6d94d94f9d156cf7cc5decab24054c277ed1e9",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0040.npy",
+    "asset": "assets/synth_0040_gt_control_mask.png",
+    "source_sha256": "5773b4cd555d3cc6c85168b76adba692573a581e71800d192399f643a20816eb",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0040/seed_000/img_0.jpg",
+    "asset": "assets/0bef0cb252bed1cb2e26.jpg",
+    "sha256": "0bef0cb252bed1cb2e26673f435bc403528d0e84347ade745dcb688c506f68a9"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0040/seed_000/img_0.jpg",
+    "asset": "assets/0a09ee94400962a19bfd.jpg",
+    "sha256": "0a09ee94400962a19bfdc245a59baf6fc8961c7bbed37bb24236d00c9fad2372"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0040/seed_000/img_0.jpg",
+    "asset": "assets/b14bad135e62fb0c2f5b.jpg",
+    "sha256": "b14bad135e62fb0c2f5bd39bcf46553d2e455772f30c9599a2d38dd241279783"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0040/seed_000/img_0.jpg",
+    "asset": "assets/5cbadadafa883ee66287.jpg",
+    "sha256": "5cbadadafa883ee662870295593a81bf837c92cfefb67d58f06c69473919c52f"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0040/seed_000/img_0.jpg",
+    "asset": "assets/ebcc8612f6874978d223.jpg",
+    "sha256": "ebcc8612f6874978d22365ecda037633be380b359c0febfe3f66a9813196a9d0"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0040/seed_000/img_0.jpg",
+    "asset": "assets/846a199f1e04afb7b61e.jpg",
+    "sha256": "846a199f1e04afb7b61e2fb5520c2d0990f5f2882779505ba6bbfb957d91eefe"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0041/source.png",
+    "asset": "assets/90b04250be827c4146cc.png",
+    "sha256": "90b04250be827c4146cc5e99ed8c7b67305e97a5b4649bedcf81511b71d40fcc"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0041/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0041_auto_control_mask.png",
+    "source_sha256": "0a44f5309e3a02c8f5a1bc7422415f491873f0f379e0f7bf02b6aa6c21ac4bf3",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0041.npy",
+    "asset": "assets/synth_0041_gt_control_mask.png",
+    "source_sha256": "866818e27125441e04c527aa3970a68f198d19783a4e2813af8e71fb5704ee3c",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0041/seed_000/img_0.jpg",
+    "asset": "assets/d461c6dac760eb91d000.jpg",
+    "sha256": "d461c6dac760eb91d000d787ff79e7c33aa22ace030b30369120a01c48c56e5b"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0041/seed_000/img_0.jpg",
+    "asset": "assets/55662122a7a4e9f150f8.jpg",
+    "sha256": "55662122a7a4e9f150f8d83fc4360f3bf803ce601e7416d5d96f9893f8992969"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0041/seed_000/img_0.jpg",
+    "asset": "assets/082fb33492ce60987196.jpg",
+    "sha256": "082fb33492ce609871960ec5e5c0a5435ecfdaed75161be0eb67161a606f6920"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0041/seed_000/img_0.jpg",
+    "asset": "assets/047e4b013384b0904c87.jpg",
+    "sha256": "047e4b013384b0904c877e5115a74b79aaf384d3f3623500a3d10b21158f07e5"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0041/seed_000/img_0.jpg",
+    "asset": "assets/7c4ada8e69271135c2e4.jpg",
+    "sha256": "7c4ada8e69271135c2e40ead568743f1607425deaf3ed6c97e3a313c9265f827"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0041/seed_000/img_0.jpg",
+    "asset": "assets/284dbf72a9f96f577eac.jpg",
+    "sha256": "284dbf72a9f96f577eac71c15d1716cd60ce45c5e1669f1acbcc91685cbf28a5"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0042/source.png",
+    "asset": "assets/c7e3adc078073f20907a.png",
+    "sha256": "c7e3adc078073f20907a2467f7071639a9a349c279c54ad338bfff64db429099"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0042/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0042_auto_control_mask.png",
+    "source_sha256": "84f2d0282815a7e2da69437b23c35686eb068baf6e0528deadaab121e2bfebed",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0042.npy",
+    "asset": "assets/synth_0042_gt_control_mask.png",
+    "source_sha256": "fb081627658e93a9ffd26b98c45b2af22b8c105d743ea7cf6c5f17d2ef158e3b",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0042/seed_000/img_0.jpg",
+    "asset": "assets/415ceff2b7921278df37.jpg",
+    "sha256": "415ceff2b7921278df373512f824e55abe216ac3dbd7ad2077adfa9b53ed3b1b"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0042/seed_000/img_0.jpg",
+    "asset": "assets/d71de821f607ec6ad210.jpg",
+    "sha256": "d71de821f607ec6ad210a07a63f0ac2b6dd62e0184907054af4bcb92d7a1b64c"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0042/seed_000/img_0.jpg",
+    "asset": "assets/828c3c3e6274bbba5228.jpg",
+    "sha256": "828c3c3e6274bbba5228374eedda7b778f86f55195dbda641a25b9820ceeb28a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0042/seed_000/img_0.jpg",
+    "asset": "assets/8190b83b7906494a72a6.jpg",
+    "sha256": "8190b83b7906494a72a6156604f206e41f8beb9d9f53735c4df94e986d516dc7"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0042/seed_000/img_0.jpg",
+    "asset": "assets/7ea017c63fbda9d560dd.jpg",
+    "sha256": "7ea017c63fbda9d560dd3cdfc84773025073993b4261e54be03d286baeb8f62c"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0042/seed_000/img_0.jpg",
+    "asset": "assets/00d1f57c5b7ac1a2f5e0.jpg",
+    "sha256": "00d1f57c5b7ac1a2f5e018f161bfc369fa11cf6f8597610ff5e129028f7de23b"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0043/source.png",
+    "asset": "assets/8d5c80c059b7d1323f90.png",
+    "sha256": "8d5c80c059b7d1323f902c1080f3ade0de917f5808de6734fde5814ee8a1f476"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0043/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0043_auto_control_mask.png",
+    "source_sha256": "69553c15af97c2e490994763719cb2df956ce16433d7467101f1c0bde1e09fa5",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0043.npy",
+    "asset": "assets/synth_0043_gt_control_mask.png",
+    "source_sha256": "15190c2d37493e649b4497e4e4eff77d3e3ca0112b50fae85f306d8204f42c94",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0043/seed_000/img_0.jpg",
+    "asset": "assets/ed6316e1238dd999b20d.jpg",
+    "sha256": "ed6316e1238dd999b20d653a6b6a40fbfbcdd8b8c683d161ee4d83317b395d68"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0043/seed_000/img_0.jpg",
+    "asset": "assets/dd6bae6c42c28dd8ac51.jpg",
+    "sha256": "dd6bae6c42c28dd8ac511c9eaedbab7d556106906395624043badbb908b8a787"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0043/seed_000/img_0.jpg",
+    "asset": "assets/a5c03bb835191dad6e42.jpg",
+    "sha256": "a5c03bb835191dad6e42ae0471dae8f6e26608516df4e15cfd49b49ceccf16be"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0043/seed_000/img_0.jpg",
+    "asset": "assets/03b01a7b5c24681bee3c.jpg",
+    "sha256": "03b01a7b5c24681bee3c4b729f3d223a452a23c8205dbc2836f4bc5cbdd3c3d4"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0043/seed_000/img_0.jpg",
+    "asset": "assets/3dda9f1a0fe8a4dd7fa0.jpg",
+    "sha256": "3dda9f1a0fe8a4dd7fa008c12f48c7599b78296befd524fd0f3e554ea34e9907"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0043/seed_000/img_0.jpg",
+    "asset": "assets/552a68735ac28f4aeee8.jpg",
+    "sha256": "552a68735ac28f4aeee8a58ae322cdd64d826a95d53549818d6f526f4eae1245"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0044/source.png",
+    "asset": "assets/8d09eb3014b83901a88f.png",
+    "sha256": "8d09eb3014b83901a88f88ef2ad23ad5137a793745bdb2c67588c6d8212c918a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0044/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0044_auto_control_mask.png",
+    "source_sha256": "2a9df03e0914a934cfe0f7402ae45c8b85b91bb2e69bb0ca8d4dc1d1e3497f1d",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0044.npy",
+    "asset": "assets/synth_0044_gt_control_mask.png",
+    "source_sha256": "5c5ede2fd1c8ecf08df764e74edf06e78d52f55bef801a0f4ace39485343c64c",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0044/seed_000/img_0.jpg",
+    "asset": "assets/1922087ddd1147b68583.jpg",
+    "sha256": "1922087ddd1147b68583faef697046dd5f2ae1e05fbd7862092c89d7010788f4"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0044/seed_000/img_0.jpg",
+    "asset": "assets/08484a3354f6d7fecca9.jpg",
+    "sha256": "08484a3354f6d7fecca9a5f359b9bfeb4e0220d76a11ed3adc089e1beae54819"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0044/seed_000/img_0.jpg",
+    "asset": "assets/6e769a5bcb335368fabc.jpg",
+    "sha256": "6e769a5bcb335368fabcd23c5efde52182ea6988117a716bf8d10cd5ef329b2d"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0044/seed_000/img_0.jpg",
+    "asset": "assets/a4429d7cd01dea4926f2.jpg",
+    "sha256": "a4429d7cd01dea4926f27e0cb2820d4244ad023c7b3155e6dac35430689606d7"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0044/seed_000/img_0.jpg",
+    "asset": "assets/5276f5708306ca21224c.jpg",
+    "sha256": "5276f5708306ca21224c64ff63fdd7e47837a8b0ebabd724c02d7fff543d1366"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0044/seed_000/img_0.jpg",
+    "asset": "assets/9f5cff316f09fa369ef8.jpg",
+    "sha256": "9f5cff316f09fa369ef8fa700b6983bd995d8a5a0b2ab42698370a86142c4a9b"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0045/source.png",
+    "asset": "assets/f7b6833a7d2672aea5de.png",
+    "sha256": "f7b6833a7d2672aea5deab3d6e569026cd84d72fe87fd730c1a34b578d555223"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0045/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0045_auto_control_mask.png",
+    "source_sha256": "4626f1cbcc50829d11f4e63f25adc1b930908b7c0cb1d63a3c1b19699e238d1e",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0045.npy",
+    "asset": "assets/synth_0045_gt_control_mask.png",
+    "source_sha256": "f3ab9706762d34684e0b33003f5553f8739dab7cdff7b4de4f4e1112f8dd1e97",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0045/seed_000/img_0.jpg",
+    "asset": "assets/471dfaece9998fa700d1.jpg",
+    "sha256": "471dfaece9998fa700d1d113e3bf18c56638a55638dd1cafb18f0fac5356da38"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0045/seed_000/img_0.jpg",
+    "asset": "assets/da5a6758d7c3ed767be9.jpg",
+    "sha256": "da5a6758d7c3ed767be9fc687c2320d606eb4144e82c1b7869a56c4e8ede54db"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0045/seed_000/img_0.jpg",
+    "asset": "assets/325744dd927fca229c40.jpg",
+    "sha256": "325744dd927fca229c407ded0ff8a0c887b7c2c3ec2f0db123f90d20d53292b6"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0045/seed_000/img_0.jpg",
+    "asset": "assets/4c559f7cae4723b489aa.jpg",
+    "sha256": "4c559f7cae4723b489aa4338bcc692458dee8429f0ef3c404b630dfc376a8c4a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0045/seed_000/img_0.jpg",
+    "asset": "assets/4ebcd4ebd02f83f1cd2e.jpg",
+    "sha256": "4ebcd4ebd02f83f1cd2ed432c75c231a7258864270f38cb530f881996d760e0a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0045/seed_000/img_0.jpg",
+    "asset": "assets/44859a70a1288c641e4c.jpg",
+    "sha256": "44859a70a1288c641e4ccca479828d0d63c7e4339c6bc37d3337cedc7241f136"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0046/source.png",
+    "asset": "assets/cce9d8228a58e18fd8d8.png",
+    "sha256": "cce9d8228a58e18fd8d8cec31ff5f0e991635f823da6b2bb61afe44c151d9b5d"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0046/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0046_auto_control_mask.png",
+    "source_sha256": "7dcb51b3f5b08ad70181a4701c45a601533541e5c4a79aea2f8ad750f7567cb6",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0046.npy",
+    "asset": "assets/synth_0046_gt_control_mask.png",
+    "source_sha256": "d0ec86a510fed30f23a4f54f441e5d029cda515bd5e08b8bb829420c766e1563",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0046/seed_000/img_0.jpg",
+    "asset": "assets/c8515ffdb63f025a050b.jpg",
+    "sha256": "c8515ffdb63f025a050bc005dada19294a9aa938062f7ae6fd27bd4e046e905c"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0046/seed_000/img_0.jpg",
+    "asset": "assets/0bb3c1e1232cbede7b0e.jpg",
+    "sha256": "0bb3c1e1232cbede7b0e561a15e5238e350c05c9531723e681060f9b56d4989a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0046/seed_000/img_0.jpg",
+    "asset": "assets/8170be0779e8001d7eaa.jpg",
+    "sha256": "8170be0779e8001d7eaa7e1ce139318d3bc1736ea680de34f85c7d0927cf5f44"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0046/seed_000/img_0.jpg",
+    "asset": "assets/2bea26f32454f1398032.jpg",
+    "sha256": "2bea26f32454f1398032445d26ec34fed836d495ad1f8b34b31429f97b0fbe51"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0046/seed_000/img_0.jpg",
+    "asset": "assets/afe9b00780d7e56bd2ca.jpg",
+    "sha256": "afe9b00780d7e56bd2ca7385c438a550baf198a94827bb04d8aa2e114d08d23b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0046/seed_000/img_0.jpg",
+    "asset": "assets/2a8bcf86a19c90ae1c19.jpg",
+    "sha256": "2a8bcf86a19c90ae1c19dc0035b0be7d82214d06cd80d63d4ad247aa8cb173c7"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0047/source.png",
+    "asset": "assets/d124ca8bebee817fcf00.png",
+    "sha256": "d124ca8bebee817fcf004bf61d3defd442612ed51d1d19b2c98289c2a32df98b"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0047/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0047_auto_control_mask.png",
+    "source_sha256": "9322d07a2dfb057c02045b4f5a0e34fea56cc6606dd74081749b450c05bb1da0",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0047.npy",
+    "asset": "assets/synth_0047_gt_control_mask.png",
+    "source_sha256": "02dc85dde09ff07b6d2010f96d424f930d70efd41a1252cadcdb10a8669c6b7d",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0047/seed_000/img_0.jpg",
+    "asset": "assets/9b0842bea0b2dad6b4f0.jpg",
+    "sha256": "9b0842bea0b2dad6b4f0d15d41967c7ff160d891c648b2bee7337f99d12db321"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0047/seed_000/img_0.jpg",
+    "asset": "assets/80859beadd8d1469ac77.jpg",
+    "sha256": "80859beadd8d1469ac7700f135af00715bde565e44a8c75e1b754e8d2ef6be70"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0047/seed_000/img_0.jpg",
+    "asset": "assets/255cd47170452fd49391.jpg",
+    "sha256": "255cd47170452fd49391ab2e775daba669f8b620ae62c580d34c864e1b290348"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0047/seed_000/img_0.jpg",
+    "asset": "assets/ff85278f376490e7a336.jpg",
+    "sha256": "ff85278f376490e7a3367e16f7318e37a77b4624b16799b9aaa93e07e4d827ca"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0047/seed_000/img_0.jpg",
+    "asset": "assets/26d75596651b28821b93.jpg",
+    "sha256": "26d75596651b28821b93e2381931d5cf39f54e300960add5606e3f0d89984bf9"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0047/seed_000/img_0.jpg",
+    "asset": "assets/e5f82aa004e4b9782bd6.jpg",
+    "sha256": "e5f82aa004e4b9782bd607525654f58d8b020109a3232b4ac4b88c8690050de1"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0048/source.png",
+    "asset": "assets/e388d185668f884a8d08.png",
+    "sha256": "e388d185668f884a8d08eccf29609cd138c508d8fa547c9dd5f6a57686d526f1"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0048/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0048_auto_control_mask.png",
+    "source_sha256": "ff4ad28176280ddd9d313a824f933762f83b95ab045dde48adf278200855d95e",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0048.npy",
+    "asset": "assets/synth_0048_gt_control_mask.png",
+    "source_sha256": "1a6d409a93ff2193fd550282fdab2e36fe6d4b59f9bfe4989d74be2b0f520a59",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0048/seed_000/img_0.jpg",
+    "asset": "assets/7b875ff81f3045c3893c.jpg",
+    "sha256": "7b875ff81f3045c3893c0565b930a6fcb5b6dad6b00d4a753e318bbaa2b0d217"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0048/seed_000/img_0.jpg",
+    "asset": "assets/48711e7a5b7d8c65a9e8.jpg",
+    "sha256": "48711e7a5b7d8c65a9e8b707105f1abf1373c99f66b110f5cd821a757a9d22c7"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0048/seed_000/img_0.jpg",
+    "asset": "assets/a93acaef50461288ae28.jpg",
+    "sha256": "a93acaef50461288ae28a60aa24dda03cad9a7a071ff209692b22938629a13e3"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0048/seed_000/img_0.jpg",
+    "asset": "assets/98951f8c34604e4925e8.jpg",
+    "sha256": "98951f8c34604e4925e8f107cc40d0b3035c1372644f7fa85e381db17c90bee4"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0048/seed_000/img_0.jpg",
+    "asset": "assets/44dcac39deeff6c4a72f.jpg",
+    "sha256": "44dcac39deeff6c4a72f825db815b5bdbc45f8647d6070f5e90611b1bba394fd"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0048/seed_000/img_0.jpg",
+    "asset": "assets/6215a9281e05de3a15ff.jpg",
+    "sha256": "6215a9281e05de3a15ff9c402151ae49e3cdf1bfc2e3d12775a6a5de2c94eba0"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0049/source.png",
+    "asset": "assets/44c002f36a55477261ee.png",
+    "sha256": "44c002f36a55477261ee81d374df42e97597db7c5211fffd78d601e84e504bd7"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0049/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0049_auto_control_mask.png",
+    "source_sha256": "db9f107bbdf40dc44da5768217a6f0dafa7b8bdcccaee210cc7f73716b12a3f3",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0049.npy",
+    "asset": "assets/synth_0049_gt_control_mask.png",
+    "source_sha256": "bd380afe0c0236b16a0adbbf0eb42aafb1e5414aef7d09afc2ac2e2bb447d539",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0049/seed_000/img_0.jpg",
+    "asset": "assets/cf30360a66abbc5f6997.jpg",
+    "sha256": "cf30360a66abbc5f6997832102b12dc64698e8c742b9fc8baa444239d1b4d341"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0049/seed_000/img_0.jpg",
+    "asset": "assets/83743c1040eeae7bb551.jpg",
+    "sha256": "83743c1040eeae7bb5511c93911f652ac944490b6a5a2d148df343583ebf55e0"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0049/seed_000/img_0.jpg",
+    "asset": "assets/64a786c39edd04d29cab.jpg",
+    "sha256": "64a786c39edd04d29caba781d65979a0e39d56567e1a370ef648fd2d59134ee9"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0049/seed_000/img_0.jpg",
+    "asset": "assets/5b0425dede203bfaa4be.jpg",
+    "sha256": "5b0425dede203bfaa4bedceaaa51eb2745fd35d4ec2c24f8007a61a0f3fd93ba"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0049/seed_000/img_0.jpg",
+    "asset": "assets/0742cb11de59bdcc2525.jpg",
+    "sha256": "0742cb11de59bdcc25251e39bb497df9b3bb0ed401913959387f9d41e8803b85"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0049/seed_000/img_0.jpg",
+    "asset": "assets/42e8960fd73b9b0025b2.jpg",
+    "sha256": "42e8960fd73b9b0025b2bce74c46aead56b9d4e76ee556fd94b8b5efcaef8dd2"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0050/source.png",
+    "asset": "assets/dbab9da94e3457531e2f.png",
+    "sha256": "dbab9da94e3457531e2f70df8abf0b95c2970c749ac4552b6edca160a903bbf5"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0050/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0050_auto_control_mask.png",
+    "source_sha256": "092252a119d5bf5ae5f844b5a2c32800b8e33f1e57f9060487c64c87ca19603a",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0050.npy",
+    "asset": "assets/synth_0050_gt_control_mask.png",
+    "source_sha256": "f32d9cda57cc3073cf1d32bb5418a3041b7202fb106224372585d81eb81a44e5",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0050/seed_000/img_0.jpg",
+    "asset": "assets/e878bc4e07a8759d64a7.jpg",
+    "sha256": "e878bc4e07a8759d64a78101783aa59fb25f51d5737f3c9c9a39b03f3b0348ec"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0050/seed_000/img_0.jpg",
+    "asset": "assets/a9aa878ada5dfefb79bf.jpg",
+    "sha256": "a9aa878ada5dfefb79bfdc49f511abda4c1119980fbbdcfa9768b67307d494d9"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0050/seed_000/img_0.jpg",
+    "asset": "assets/9e78ef1aceaa202d5326.jpg",
+    "sha256": "9e78ef1aceaa202d53267c6d5924ce30f1bfc7a6730e6e8751bb3f007c63d7a0"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0050/seed_000/img_0.jpg",
+    "asset": "assets/462744c9aad3b8f232ea.jpg",
+    "sha256": "462744c9aad3b8f232eabbbba57947e6785d401294e81832acbb8fdb28ba59a4"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0050/seed_000/img_0.jpg",
+    "asset": "assets/d885895c734b373a0669.jpg",
+    "sha256": "d885895c734b373a0669d228abe354f1cfe3d755eff0a23c29371ab661f002dd"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0050/seed_000/img_0.jpg",
+    "asset": "assets/4e1818b4317795ce4e73.jpg",
+    "sha256": "4e1818b4317795ce4e738e0af2e1988041cdadf510cf167f036175a6deea37b6"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0051/source.png",
+    "asset": "assets/9dd9e40c5761d69234cc.png",
+    "sha256": "9dd9e40c5761d69234cc3379f9403540e3f04b371987a24755ab61c1a85ed895"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0051/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0051_auto_control_mask.png",
+    "source_sha256": "dd8c1993c9a4e079aae4cb0db9f45aabbb59788aab385dfa2d69c809ad8f2d98",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0051.npy",
+    "asset": "assets/synth_0051_gt_control_mask.png",
+    "source_sha256": "119d4ebe28014464dcfcc5de000dd22733c0403f5dae697e7d3522862c6de286",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0051/seed_000/img_0.jpg",
+    "asset": "assets/a6cd061aca6828012f33.jpg",
+    "sha256": "a6cd061aca6828012f3309d9f5b7f7beacac92001af26e7a3a5abd991b42b5b1"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0051/seed_000/img_0.jpg",
+    "asset": "assets/8a5d9f386f87db25c3fb.jpg",
+    "sha256": "8a5d9f386f87db25c3fb2c3d18f287a34b23918178856e7c9513f837cef689ff"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0051/seed_000/img_0.jpg",
+    "asset": "assets/fa9d4b6f336e399704cd.jpg",
+    "sha256": "fa9d4b6f336e399704cdc8443284b6ee0cb267bc3a02babff81ebbea63f7be15"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0051/seed_000/img_0.jpg",
+    "asset": "assets/7f17c0119b12a1ffa733.jpg",
+    "sha256": "7f17c0119b12a1ffa7332ab05c67415394637ecb0f981382dd851bdb6d254080"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0051/seed_000/img_0.jpg",
+    "asset": "assets/a472dacb44ba3acd50b4.jpg",
+    "sha256": "a472dacb44ba3acd50b49ac0eb0da78625caf5d95c372a9c635713eef8824b92"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0051/seed_000/img_0.jpg",
+    "asset": "assets/72dbe13d917ee030a236.jpg",
+    "sha256": "72dbe13d917ee030a2360b3ce0bfe6ed6620a841ff018b79c9f7c4cb22222c09"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0052/source.png",
+    "asset": "assets/0a550d7200e6d5926581.png",
+    "sha256": "0a550d7200e6d59265816f917ceaea4f01f292db764bf7228cda6fd922c2ac74"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0052/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0052_auto_control_mask.png",
+    "source_sha256": "b8ac15d5d84a45a6cce9b8023de950986dec305e42e8db2a5585b3016b45afa5",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0052.npy",
+    "asset": "assets/synth_0052_gt_control_mask.png",
+    "source_sha256": "5c9d2c8d4404fd995306f3ddabb92f91439cbcf99309aeb5397967144e328616",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0052/seed_000/img_0.jpg",
+    "asset": "assets/2fb88a1be8481b434005.jpg",
+    "sha256": "2fb88a1be8481b4340054e04144538b2f1baa662d297322c34605839dfd7ff6d"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0052/seed_000/img_0.jpg",
+    "asset": "assets/3c61590f881cbdec517a.jpg",
+    "sha256": "3c61590f881cbdec517a58b4eccb8f9af6b32d4c617e55b4a2625721e5adc945"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0052/seed_000/img_0.jpg",
+    "asset": "assets/ebf1139aa970d637e8fb.jpg",
+    "sha256": "ebf1139aa970d637e8fb7b3e0929ed41d58fc87c1771aae6a8625ec3c13cad9e"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0052/seed_000/img_0.jpg",
+    "asset": "assets/82a55bf1590b2134ad93.jpg",
+    "sha256": "82a55bf1590b2134ad93668921c4dd9910bcd5573d129b3e41bf42fc915dc70e"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0052/seed_000/img_0.jpg",
+    "asset": "assets/6b5f1392f3ed26e7e3b8.jpg",
+    "sha256": "6b5f1392f3ed26e7e3b82a19452a6a8bcb81ef11d37e38b96b9571b83edc5d97"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0052/seed_000/img_0.jpg",
+    "asset": "assets/49a4ca00f3c7e61cf4dc.jpg",
+    "sha256": "49a4ca00f3c7e61cf4dc104cfd44df2c96a0aa77ab76c7d96590743c48e098d8"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0053/source.png",
+    "asset": "assets/fba9a260ae813330458d.png",
+    "sha256": "fba9a260ae813330458d8050b151a7279737429af2dc75c6814fee27e7d11576"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0053/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0053_auto_control_mask.png",
+    "source_sha256": "efec3aaf4287197ba2f7626596327cfb8332b57a03998fa21d927e0ff4841540",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0053.npy",
+    "asset": "assets/synth_0053_gt_control_mask.png",
+    "source_sha256": "91d79d6b79790d15e94707d6deb5713f2878e38332bceb9ab1f25eae356c1d89",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0053/seed_000/img_0.jpg",
+    "asset": "assets/ad1d51e8210427a4351f.jpg",
+    "sha256": "ad1d51e8210427a4351f105af327346b39f2bcbaa83c5717de4356afa8b8dc41"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0053/seed_000/img_0.jpg",
+    "asset": "assets/dacaeec996fa60841e21.jpg",
+    "sha256": "dacaeec996fa60841e214ed6920248f848540c8ab5e6b81cbd4faad0692c654b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0053/seed_000/img_0.jpg",
+    "asset": "assets/532656350bae74992754.jpg",
+    "sha256": "532656350bae7499275410554a0ce0dcb7746a04acc40320638b03bf762ef595"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0053/seed_000/img_0.jpg",
+    "asset": "assets/5924a356e65d33c0383c.jpg",
+    "sha256": "5924a356e65d33c0383c1bea77dbd072717ddf87ec280fb9bf7f6ad59b98b6e3"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0053/seed_000/img_0.jpg",
+    "asset": "assets/aaa6b9387222f5543f81.jpg",
+    "sha256": "aaa6b9387222f5543f8164bd0fccec84e4fb9c5fdb0e821589b8d93dccab0d20"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0053/seed_000/img_0.jpg",
+    "asset": "assets/4f5d7d5b8dc6ada7986c.jpg",
+    "sha256": "4f5d7d5b8dc6ada7986c8088746d799bbadbcc36376490356687cba8708a108b"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0054/source.png",
+    "asset": "assets/46405f16a651cd3e6a71.png",
+    "sha256": "46405f16a651cd3e6a71dd22c8eba36794dd81b8b97304ef8670d2027ee48b9a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0054/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0054_auto_control_mask.png",
+    "source_sha256": "bf30a4b92cb78b640c92486ff71c776921cdd3e82f960a1aaaf3f3389e21505b",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0054.npy",
+    "asset": "assets/synth_0054_gt_control_mask.png",
+    "source_sha256": "3dbc12c744d6766ec25ee84d17fcfc4f85499732359963f36348a64b3b999484",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0054/seed_000/img_0.jpg",
+    "asset": "assets/e3ff3af5989f539a509e.jpg",
+    "sha256": "e3ff3af5989f539a509e3f2faf050a35676ff15673c771d8f65196294e2fb02e"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0054/seed_000/img_0.jpg",
+    "asset": "assets/80b2ad9377f259ae47dd.jpg",
+    "sha256": "80b2ad9377f259ae47dd143f138560150416c0316e677d0bb5226ac2848ff547"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0054/seed_000/img_0.jpg",
+    "asset": "assets/5bd245094b4d6be5fcb5.jpg",
+    "sha256": "5bd245094b4d6be5fcb5486af551571b96b8e0376a29aa6a4dedea385eef168c"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0054/seed_000/img_0.jpg",
+    "asset": "assets/669aa642a7c64fd7b0a2.jpg",
+    "sha256": "669aa642a7c64fd7b0a26d554229b70092325537280dcf3e64c19868062feac7"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0054/seed_000/img_0.jpg",
+    "asset": "assets/ce2ed28d6b0b05ea8fcb.jpg",
+    "sha256": "ce2ed28d6b0b05ea8fcb2c76a8b46b77228311e3ad4188f33f679433907cbc9b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0054/seed_000/img_0.jpg",
+    "asset": "assets/57104603c78167ceb5f6.jpg",
+    "sha256": "57104603c78167ceb5f6707c0be1d3b9a77ad10af1e17033b64b40fd17c56461"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0055/source.png",
+    "asset": "assets/0bcae518d5ba9c717ade.png",
+    "sha256": "0bcae518d5ba9c717ade8bb88b6f59ed913068b3c2e6123739afce517dbb6567"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0055/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0055_auto_control_mask.png",
+    "source_sha256": "df05a191a9aece6008f730aea470112a56ed121e6a490f72d2f078b9c91bb29c",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0055.npy",
+    "asset": "assets/synth_0055_gt_control_mask.png",
+    "source_sha256": "623a989c88a375cd48797fc4fe673f6db3a14f90d5e7b52d215c2c3938a8b821",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0055/seed_000/img_0.jpg",
+    "asset": "assets/e51d5587b609a9a21922.jpg",
+    "sha256": "e51d5587b609a9a21922c7350556b9ea0ac55c5bdf48f3db239ee0a08ccca4a6"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0055/seed_000/img_0.jpg",
+    "asset": "assets/316d5477e2ab7023361c.jpg",
+    "sha256": "316d5477e2ab7023361c2f2b17816fe57289d6b1e487aa74fc5cea83f3606e04"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0055/seed_000/img_0.jpg",
+    "asset": "assets/844078f823cfe6f50384.jpg",
+    "sha256": "844078f823cfe6f5038495ed6cc714f7de292bdd5e990d7e3d0e6d5ff8db8f8d"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0055/seed_000/img_0.jpg",
+    "asset": "assets/5b5ee29361916ca81b0f.jpg",
+    "sha256": "5b5ee29361916ca81b0fe24983b23c4f9e1878a0cb011bd267fb84af9a01f18f"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0055/seed_000/img_0.jpg",
+    "asset": "assets/b48222f52e5706bb509f.jpg",
+    "sha256": "b48222f52e5706bb509f8bee1ec5713cbcd49e85624e1517471602971870e00b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0055/seed_000/img_0.jpg",
+    "asset": "assets/0b861e700f1703c386c5.jpg",
+    "sha256": "0b861e700f1703c386c5153f544ec9986cf45316759df5b1430725015dd2205f"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0056/source.png",
+    "asset": "assets/0255afe3f1b539a20b7f.png",
+    "sha256": "0255afe3f1b539a20b7f06de88cf9bb463636792e47f52bd6e14887649294a66"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0056/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0056_auto_control_mask.png",
+    "source_sha256": "f487c38f901a99b6fca76b973d8a3fa8e92b752a36d80a7a08c5e56744f8ea0f",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0056.npy",
+    "asset": "assets/synth_0056_gt_control_mask.png",
+    "source_sha256": "2cff5c91af4dbcb25c73cba11b29ac94390cfdaa6e73fa777777def7da840887",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0056/seed_000/img_0.jpg",
+    "asset": "assets/95af19b7385642b23e73.jpg",
+    "sha256": "95af19b7385642b23e733bc5f2f5355b6893a4d023851b50023380095595a808"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0056/seed_000/img_0.jpg",
+    "asset": "assets/53c8bcc6be46a3c3ff6b.jpg",
+    "sha256": "53c8bcc6be46a3c3ff6baba9755681c7ce74e03061c2700221e37d4a0707de76"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0056/seed_000/img_0.jpg",
+    "asset": "assets/b829891ee41c823d1e93.jpg",
+    "sha256": "b829891ee41c823d1e933c9912946ec8d905b795ef45483c723d045a01ed64e0"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0056/seed_000/img_0.jpg",
+    "asset": "assets/89c61402f2681f9a9a3a.jpg",
+    "sha256": "89c61402f2681f9a9a3abb8f15268cd241c71ac1a617316882738fc62f5b69c3"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0056/seed_000/img_0.jpg",
+    "asset": "assets/09dc0f915f338328a9bb.jpg",
+    "sha256": "09dc0f915f338328a9bb8584fc07db95f3dd42c3cc0c43ecbff326aebc3040a1"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0056/seed_000/img_0.jpg",
+    "asset": "assets/fc4b8e02aefbe4a9623f.jpg",
+    "sha256": "fc4b8e02aefbe4a9623fe2bd46ceaf0ec503405cd3e2da865426b80b3824fa2f"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0057/source.png",
+    "asset": "assets/0e379172a6f60bdc06a8.png",
+    "sha256": "0e379172a6f60bdc06a88b58028a323f4eb06d3c81d4be24783bed699ce50f5b"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0057/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0057_auto_control_mask.png",
+    "source_sha256": "4d3f97d2979466f287625ae530915669cbfa9bb55d034c79c6bc7de2a9a02015",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0057.npy",
+    "asset": "assets/synth_0057_gt_control_mask.png",
+    "source_sha256": "f833ca365b827a1afa2501d5229f1de41a40493de729691eba3136795588e41f",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0057/seed_000/img_0.jpg",
+    "asset": "assets/1193af4aaaf9842b0a5e.jpg",
+    "sha256": "1193af4aaaf9842b0a5e1fd65ab3121ede954c25d8dedab322171b1ee09c886a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0057/seed_000/img_0.jpg",
+    "asset": "assets/7488a7956ea003d899f3.jpg",
+    "sha256": "7488a7956ea003d899f39f9b9cf8abe17f74493e6eec8b7b04ec67c3b75318bb"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0057/seed_000/img_0.jpg",
+    "asset": "assets/2dcd39c7aeb1bd3da62a.jpg",
+    "sha256": "2dcd39c7aeb1bd3da62a656a167f4dc24d513eb00cf9162f9fa8736e8179506c"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0057/seed_000/img_0.jpg",
+    "asset": "assets/7501a32355a7b9bf020e.jpg",
+    "sha256": "7501a32355a7b9bf020e9d5e449d044e3971d1bf3d734898d9f01b8e2706f8e9"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0057/seed_000/img_0.jpg",
+    "asset": "assets/180c84384d0182647cfa.jpg",
+    "sha256": "180c84384d0182647cfad8f9076856ccadc58670ef476c1e1501aad7dbb4844d"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0057/seed_000/img_0.jpg",
+    "asset": "assets/11caad830ec26c478011.jpg",
+    "sha256": "11caad830ec26c4780110012c3be5b77064610dad9df05d5fe8a84197fd56730"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0058/source.png",
+    "asset": "assets/322e7164f614f82a5ff4.png",
+    "sha256": "322e7164f614f82a5ff4e784cb499475c8d27211c4dc3b057a8946e8c169e9ef"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0058/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0058_auto_control_mask.png",
+    "source_sha256": "c53b58f025669c3114666775b2cfebe6d19e70929ee92f41a04a60e1af62b778",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0058.npy",
+    "asset": "assets/synth_0058_gt_control_mask.png",
+    "source_sha256": "a7d7778dcb0717bbbe039cf7fb1868ed5a219949c244bfd868fe49dcd7ca667c",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0058/seed_000/img_0.jpg",
+    "asset": "assets/68060f3ee6ec7b16b017.jpg",
+    "sha256": "68060f3ee6ec7b16b0177ad53dd13665c432a58b8da77f7dc7dd3e5aaf083894"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0058/seed_000/img_0.jpg",
+    "asset": "assets/da4bdf865e2e433d143a.jpg",
+    "sha256": "da4bdf865e2e433d143a13978ee2e8e3dd0f603f8e5d6564362fe1e2916d677c"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0058/seed_000/img_0.jpg",
+    "asset": "assets/b3168dec538764ee95b7.jpg",
+    "sha256": "b3168dec538764ee95b70dab010185cb955e8976639eaa4c8871234e23237bd5"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0058/seed_000/img_0.jpg",
+    "asset": "assets/44075672cd1a87f6aca9.jpg",
+    "sha256": "44075672cd1a87f6aca915224b0dcd03583d9afa0bcc9a5d81023cc237c9bfbe"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0058/seed_000/img_0.jpg",
+    "asset": "assets/9114461abc6634d45217.jpg",
+    "sha256": "9114461abc6634d45217c974545ef726a1dd704e2f40645dbe2251e38d93eca8"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0058/seed_000/img_0.jpg",
+    "asset": "assets/01174fe8b7995666f8f6.jpg",
+    "sha256": "01174fe8b7995666f8f6da90f44d0ff83222beba9f101baff7cac9d34eece848"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0059/source.png",
+    "asset": "assets/045548f9199b33a12406.png",
+    "sha256": "045548f9199b33a12406940fd1f735b3d92b8614d726ecab6753ddf2bd7584dd"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0059/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0059_auto_control_mask.png",
+    "source_sha256": "2cff72f1d36d0a46dc3e47ad2e9d91bbc146c284e2cb905ff1b9eb563f927c19",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0059.npy",
+    "asset": "assets/synth_0059_gt_control_mask.png",
+    "source_sha256": "5327bc7983cfae9a37dc3534c1dae04dd5f8ab3c12296b071caf0cb86b59e29e",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0059/seed_000/img_0.jpg",
+    "asset": "assets/6c223a4652ebf8f66273.jpg",
+    "sha256": "6c223a4652ebf8f66273fb22bdbe589f369c8211d075625bc09afeaa3b27b29a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0059/seed_000/img_0.jpg",
+    "asset": "assets/e03ea3842bde0bf5c4b0.jpg",
+    "sha256": "e03ea3842bde0bf5c4b0259ceaecb86f684cd866b4c614725d78cfee72d0a31a"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0059/seed_000/img_0.jpg",
+    "asset": "assets/0477ad6bf646e52615e9.jpg",
+    "sha256": "0477ad6bf646e52615e9ba75272822cc5c2f4d0b158ef4db602c76c7d07dfe41"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0059/seed_000/img_0.jpg",
+    "asset": "assets/4c97a1b23d57ea52ae1c.jpg",
+    "sha256": "4c97a1b23d57ea52ae1cb89182dea939ac90a6c703d5fd2dbff80662dc8c8aee"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0059/seed_000/img_0.jpg",
+    "asset": "assets/c44081434bbca937b4ee.jpg",
+    "sha256": "c44081434bbca937b4ee3fe28d02f58f53c289b66ac758eca2ae335e23e156c7"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0059/seed_000/img_0.jpg",
+    "asset": "assets/abc9ca68da5a561cc5d3.jpg",
+    "sha256": "abc9ca68da5a561cc5d347c8a053d653a8296d614ed7164ac9a90f37f628947c"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0019/source.png",
+    "asset": "assets/a885da67a93ec72e2926.png",
+    "sha256": "a885da67a93ec72e2926e59398f72faa3915f0412792b99b879f9a3e2fbe07fb"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0019/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0019_auto_control_mask.png",
+    "source_sha256": "07d40eec28e2ea580b690d15c5421055825c85baf6e5ef948d2f8f07b34d821b",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0019.npy",
+    "asset": "assets/synth_0019_gt_control_mask.png",
+    "source_sha256": "4e066a6e6efd7f62a90b28bd3c7bafca80616b3df1a75f77448bda2b1ac409c8",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/3f75a180e8ed0e963e2e.jpg",
+    "sha256": "3f75a180e8ed0e963e2e6866378690d52bac1cdcb014fc41bd28cd4a64ec4e41"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/044b1dc9a1ced3806be0.jpg",
+    "sha256": "044b1dc9a1ced3806be08f736ca401c6b45d8bca0990d483323fce699287e240"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/51f36622f6d1a0d629d0.jpg",
+    "sha256": "51f36622f6d1a0d629d0c6464ea113fb57ffb7609c86cea5c4e368ddb8127854"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/67ad26cda7a8e3cb6f55.jpg",
+    "sha256": "67ad26cda7a8e3cb6f55ceee65fe0c3c0e24c62cfdeea7af0f8e0f0e5ccb970d"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/40851c64b00c12f25515.jpg",
+    "sha256": "40851c64b00c12f25515f7e1abe802efc546f6c18ca8fe9ede5a34bf6ac679b9"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0019/seed_000/img_0.jpg",
+    "asset": "assets/5c134e0229f2fa45ce1c.jpg",
+    "sha256": "5c134e0229f2fa45ce1c6c4f2d5d6e13dbe715bb96f1507e6bcaaa9726ec1b8c"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0033/source.png",
+    "asset": "assets/8bdc74a36ac254d6ecfe.png",
+    "sha256": "8bdc74a36ac254d6ecfe3e3caaee125376bd4393abc38dabb8f2e37e45f1d4f0"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0033/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0033_auto_control_mask.png",
+    "source_sha256": "38014c935b061e8f4fb568b7f23151fe85c5fced7ac49be9b540671f4c00a74d",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0033.npy",
+    "asset": "assets/synth_0033_gt_control_mask.png",
+    "source_sha256": "771bd257701505708932f62a090ea4f59bbc88fa842e2605039eead604d7d989",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/b2bcaf98036c2ca1326a.jpg",
+    "sha256": "b2bcaf98036c2ca1326af58a0936f1a8c673bab9de43835362b127272a20b23a"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/e7d5f7de6613ab27f55f.jpg",
+    "sha256": "e7d5f7de6613ab27f55f52ceaa7d872d6502222fe4cbbe265da94cdd97bba01b"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/a4fc1dd9a75327d37461.jpg",
+    "sha256": "a4fc1dd9a75327d37461caa5bd6d0d1d906fc0bdd711cf84e691c3cac0e00f72"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/3a11580756824cb15fbb.jpg",
+    "sha256": "3a11580756824cb15fbb1b1c7781da986e47516832a3eae30851ecf9434730e2"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/497ed4868e70254a4eda.jpg",
+    "sha256": "497ed4868e70254a4edaa79cfa537e621a50bb13f53feaa0b7445d77a7434e56"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0033/seed_000/img_0.jpg",
+    "asset": "assets/d3baf78859f0df9439ef.jpg",
+    "sha256": "d3baf78859f0df9439ef426e99d912144af735ed20cd36285b646a1caaeb2a2a"
+  },
+  {
+    "source": "core/data/partedit_subset/cases/synth_0038/source.png",
+    "asset": "assets/e419c6b72ce0606df766.png",
+    "sha256": "e419c6b72ce0606df766b976a57a9e7319bf722712af193612a921a4d6450be1"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/attention_mask_scout/synth_0038/seed_000/tdm/hybrid_binary_tdm_attention.npy",
+    "asset": "assets/synth_0038_auto_control_mask.png",
+    "source_sha256": "e4732aeb6b8c8008d4938086ea4160fb03c3f651d98ade1ebee69e8ba72e57cb",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/protocols/gt_mask_diagnostic_v2/gt_masks/synth_0038.npy",
+    "asset": "assets/synth_0038_gt_control_mask.png",
+    "source_sha256": "3ae3b219f7089f6444f4d2a90deb99cfbaadf98cc03ace5f46ac5033663b7577",
+    "transform": "binary token map, nearest resize to 512x512; white=editable"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/endpoint_projection/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/c3693eb7f8b9efedece2.jpg",
+    "sha256": "c3693eb7f8b9efedece25bfd0fd0a13ecd91417c1a52bc21855b93d3b29cff64"
+  },
+  {
+    "source": "core/results/heldout_control_comparison/residual_rk2/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/904b87710d0cf7f921d9.jpg",
+    "sha256": "904b87710d0cf7f921d9b884281ad2d44ceff8d285426526d86a1f7435e89d24"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/endpoint_gt/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/ae49daa7326965d2a7fc.jpg",
+    "sha256": "ae49daa7326965d2a7fc1d069958f7e11fa078a646a0b68c598d93f68faa90ba"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_gt/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/b6c5ef78731f2899191d.jpg",
+    "sha256": "b6c5ef78731f2899191d203b1a763d383e0c1d8fa43c8655bea98d78648ebfd6"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_auto/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/8c73904290ab21a425df.jpg",
+    "sha256": "8c73904290ab21a425dfe148316a0581e89a317b2db7a9cc0ef1d96efeded991"
+  },
+  {
+    "source": "core/results/gt_mask_diagnostic_v2/rk2_n15_gt/synth_0038/seed_000/img_0.jpg",
+    "asset": "assets/3dda1671b03999e049e4.jpg",
+    "sha256": "3dda1671b03999e049e42e266ef780e726c6d89b03c9e77df9cd91edede4a826"
+  }
+]

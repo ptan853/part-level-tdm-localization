@@ -1,0 +1,24 @@
+{
+  "reviewers": [
+    "reviewer_1"
+  ],
+  "cases": 59,
+  "ratings": 354,
+  "draws": 10000,
+  "seed": 20260908,
+  "size_counts": {
+    "small": 20,
+    "large": 20,
+    "medium": 19
+  },
+  "deviation": "User requested one reviewer after reviewer_1 ratings were supplied. Original protocol required two; no advisor approval of this change is asserted.",
+  "uncertainty": "Size-stratified paired case percentile intervals, conditional on reviewer_1. No reviewer-population inference or multiplicity correction.",
+  "exposure": "Anonymous side-by-side montages were supplied and inspected during the review period; order and influence on individual ratings cannot be reconstructed.",
+  "interrater_agreement": "Not estimable with one reviewer.",
+  "input_sha256": {
+    "core/results/gt_mask_diagnostic_v2/human_ratings/reviewer_1_scores.csv": "ce352cad9adb1a92a15ba3de94cf9afdb2d274fe571e65168d519fe5a933bc2e",
+    "core/results/gt_mask_diagnostic_v2/blinded_review/reviewer_1_private_mapping.csv": "3c89b3ec921289e9805358574ac025dc015b89378fdc5f61f5b2b5a52546ffaf",
+    "core/results/gt_mask_diagnostic_v2/evaluation/automatic_metrics.csv": "9e4e74ce8d31782b7da9a17ed50c809580b95077965cebb1dbe38d655f4623a2",
+    "core/scripts/analyze_gt_diagnostic_single_reviewer.py": "194e67e8553ba64f2b0353106056cc5bddb88c06741baeb3f6138f9f91ecc2d1"
+  }
+}

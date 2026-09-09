@@ -1,0 +1,10 @@
+{
+  "reviewer_id": "reviewer_1",
+  "review_uid": "item_c29e3b99411e",
+  "field": "local_edit_success_0_2",
+  "original_value": null,
+  "corrected_value": 2,
+  "basis": "Explicit user response in conversation after the missing score was identified.",
+  "original_export": "reviewer_1_original.csv",
+  "completed_scores": "reviewer_1_scores.csv"
+}
