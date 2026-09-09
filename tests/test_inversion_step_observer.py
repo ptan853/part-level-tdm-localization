@@ -113,7 +113,12 @@ def install_optional_dependency_stubs():
     sys.modules.setdefault("scipy.signal", signal)
     sys.modules.setdefault("scipy.ndimage", ndimage)
     sys.modules.setdefault("tqdm", tqdm_mod)
-    sys.modules["transformers"] = transformers
+    # torch 2.1 may import transformers.configuration_utils through Dynamo.
+    # Keep an installed real library rather than replacing it with a partial stub.
+    if importlib.util.find_spec("transformers") is not None:
+        importlib.import_module("transformers")
+    else:
+        sys.modules["transformers"] = transformers
 
 
 class FakeModel:
