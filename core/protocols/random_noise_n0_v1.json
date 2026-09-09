@@ -1,0 +1,48 @@
+{
+  "protocol": "random_noise_n0_v1",
+  "initialization": "random_noise",
+  "inversion": false,
+  "control_duration": 0,
+  "num_steps": 15,
+  "guidance": 2.0,
+  "seed": 0,
+  "width": 1024,
+  "height": 1024,
+  "model_name": "flux-dev",
+  "noise": "CPU float32 standard normal seeded 0, cast to bfloat16; identical saved tensor reused for all six prompts",
+  "image_kv": "none",
+  "attention_control": "none",
+  "controlnet": "none",
+  "mask": null,
+  "solver": "existing flux.sampling.denoise explicit midpoint RK2",
+  "comparison_commit": "6d3fb43775a6f888b1130ce6d4720392c0d9953b",
+  "interpretation": "Generative composition diagnostic; random initialization does not preserve source layout or establish local editing success",
+  "cases": [
+    {
+      "case_uid": "synth_0028",
+      "target_prompt": "A cow with dragon head at a restaurant"
+    },
+    {
+      "case_uid": "synth_0032",
+      "target_prompt": "A cat with dragon head at a desert"
+    },
+    {
+      "case_uid": "synth_0033",
+      "target_prompt": "A dog with cat head at a restaurant"
+    },
+    {
+      "case_uid": "synth_0038",
+      "target_prompt": "A horse with dragon head at a zoo"
+    },
+    {
+      "case_uid": "synth_0043",
+      "target_prompt": "A bear with dragon head at a jungle"
+    },
+    {
+      "case_uid": "synth_0036",
+      "target_prompt": "A bear with lion head at a zoo"
+    }
+  ],
+  "server_tests": "3 passed on torch 2.1.2+cu118; same-initial-latent equivalence to existing N0 checked with nonlinear toy field",
+  "control_audit": "30 updating target calls per image, all inverse=false and inject=false; no TDM diagnostic extra calls required for generation"
+}
