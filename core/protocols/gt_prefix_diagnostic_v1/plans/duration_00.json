@@ -1,0 +1,11 @@
+{
+  "name": "residual_rk2_prefix_00",
+  "num_steps": 15,
+  "front": 2,
+  "inject": 4,
+  "tail_pad": 1,
+  "mask_source": "oracle",
+  "stages": [],
+  "image_kv_layers": [],
+  "it_gate_layers": []
+}

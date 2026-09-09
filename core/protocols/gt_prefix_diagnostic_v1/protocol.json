@@ -1,0 +1,38 @@
+{
+  "protocol": "gt_prefix_diagnostic_v1",
+  "base_commit": "3f8581894eabacf7a30ee08168923bef1a89d7ba",
+  "fys_commit": "b096e8f7736b0f44d820933d5046fe252059a5eb",
+  "manifest_sha256": "8e69fd42969286ce028c00c285a5a12600a5a4127e18a2c1f03d5ccbc3283147",
+  "selection_scores_sha256": "8dc19983f4fd0e7ac23d713eb841191b8b19fa5e6b780f9e6e25aba0ffad6362",
+  "cases": [
+    "synth_0028",
+    "synth_0032",
+    "synth_0033",
+    "synth_0038",
+    "synth_0043",
+    "synth_0036"
+  ],
+  "durations": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "runs": 84,
+  "seed": 0,
+  "guidance": 2.0,
+  "inversion_guidance": 1.0,
+  "num_steps": 15,
+  "selection": "Observed old failures; no new GT diagnostic scores used",
+  "inference": "Exploratory selected-case diagnostic; not a frozen-comparison replacement or FLUX impossibility test"
+}
