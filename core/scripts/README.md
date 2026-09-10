@@ -2,6 +2,15 @@
 
 This directory contains runner and evaluation scripts for the PartEdit pilot.
 
+## Read-Only Attention Routing Diagnostic
+
+`run_attention_routing_diagnostic.py` compares uncontrolled and GT-mask RK2 N=7
+generation on five fixed cases. Its dedicated worker records compact midpoint
+IT/II statistics without editing the original FYS source or attention outputs.
+`analyze_attention_routing.py` validates the records, checks observer on/off
+latent equality and renders paired token heatmaps and region-mass curves.
+See [the diagnostic configuration and launch guide](../configs/attention_routing_diagnostic/README.md).
+
 ## Held-Out Automatic-Mask Comparison
 
 `run_heldout_control_comparison.py` prepares the frozen comparison without
