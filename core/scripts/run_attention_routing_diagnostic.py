@@ -15,6 +15,7 @@ from run_fys_pilot import find_repo_root, load_manifest
 
 
 CASES = ("synth_0032", "synth_0028", "synth_0033", "synth_0036", "synth_0023")
+RICH_CASES = ("synth_0006", "synth_0003", "synth_0033", "synth_0032", "synth_0036")
 CONDITIONS = {"uncontrolled": 0, "rk2_gt_n07": 7}
 
 
@@ -39,15 +40,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--case-uid", action="append", dest="cases")
     parser.add_argument("--condition", action="append", choices=tuple(CONDITIONS))
     parser.add_argument("--recording", choices=("on", "off"), default="on")
-    parser.add_argument("--output-root", type=Path, default=repo / "core/results/attention_routing_diagnostic")
+    parser.add_argument("--mode", choices=("compact", "rich"), default="compact")
+    parser.add_argument("--output-root", type=Path)
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--prepare", action="store_true")
     parser.add_argument("--execute", action="store_true")
     # Keep invalid selection errors programmatically distinguishable from argparse syntax errors.
     args = parser.parse_args(argv)
-    selected = args.cases or list(CASES)
-    if set(selected) - set(CASES):
-        raise ValueError(f"Case selection must be drawn from {CASES}")
+    case_pool = RICH_CASES if args.mode == "rich" else CASES
+    selected = args.cases or list(case_pool)
+    if set(selected) - set(case_pool):
+        raise ValueError(f"Case selection must be drawn from {case_pool}")
     if len(selected) != len(set(selected)):
         raise ValueError("Duplicate case selection")
     conditions = args.condition or list(CONDITIONS)
@@ -55,7 +58,9 @@ def main(argv: list[str] | None = None) -> int:
         raise ValueError("Duplicate condition selection")
     manifest = repo / "core/data/partedit_subset/synth_60_frozen_manifest.json"
     records = {r["case_uid"]: r for r in load_manifest(manifest)}
-    root = args.output_root.resolve()
+    root = (args.output_root or repo / "core/results" / (
+        "attention_routing_rich" if args.mode == "rich" else "attention_routing_diagnostic"
+    )).resolve()
     commands = []
     for condition in conditions:
         plan = make_plan(CONDITIONS[condition])
@@ -83,6 +88,8 @@ def main(argv: list[str] | None = None) -> int:
             worker_args = [args.python, str(worker), "--observation-mask", str(mask),
                            "--routing-recording", args.recording,
                            "--routing-subject", records[case]["subject"], *command.args[2:]]
+            if args.mode == "rich":
+                worker_args[2:2] = ["--routing-mode", "rich"]
             config = {
                 **command.run_config, "routing_recording": args.recording,
                 "observation_mask_sha256": hashlib.sha256(mask.read_bytes()).hexdigest(),
@@ -90,6 +97,10 @@ def main(argv: list[str] | None = None) -> int:
                 "record_layers": {"double": [0, 9, 18], "single": [0, 18, 37]},
                 "record_evaluation": "actual_forward_midpoint", "query_chunk_size": 16,
             }
+            if args.mode == "rich":
+                config.update(routing_mode="rich", record_layers="all_double_and_single",
+                              record_evaluation=["start", "midpoint"], query_chunk_size=32,
+                              text_storage="all_valid_positions_plus_padding_mass", storage_dtype="float32")
             commands.append(replace(command, args=worker_args, run_config=config))
     for command in commands:
         if args.execute and command.output_dir.exists() and any(command.output_dir.iterdir()):

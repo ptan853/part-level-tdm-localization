@@ -30,7 +30,7 @@ def fingerprint(tensor) -> dict:
 
 
 @contextmanager
-def observe_edit(edit_module, args, mask, *, recording: bool, subject: str):
+def observe_edit(edit_module, args, mask, *, recording: bool, subject: str, mode: str = "compact"):
     original_prepare = edit_module.prepare
     original_denoise = edit_module.denoise_with_TDM
     token_metadata = {}
@@ -71,7 +71,18 @@ def observe_edit(edit_module, args, mask, *, recording: bool, subject: str):
         if recording:
             if not token_metadata:
                 raise ValueError("Target token metadata was not captured")
-            recorder = RoutingRecorder(model, kwargs["info"], mask, kwargs["txt"].shape[1])
+            if mode == "rich":
+                from attention_routing_rich import RichRoutingRecorder
+                recorder = RichRoutingRecorder(model, kwargs["info"], mask, kwargs["txt"].shape[1],
+                                                directory=directory, tokens=token_metadata)
+                for field in ("source_latents", "source_midpoints"):
+                    values = kwargs["info"].get(field, {})
+                    if values:
+                        np.savez_compressed(directory / f"{field}.npz",
+                                            **{str(k): v.detach().float().cpu().numpy()
+                                               for k, v in values.items()})
+            else:
+                recorder = RoutingRecorder(model, kwargs["info"], mask, kwargs["txt"].shape[1])
             with recorder:
                 result, info = original_denoise(model, **kwargs)
             recorder.save(directory, num_steps=len(kwargs["timesteps"]) - 1, tokens=token_metadata)
@@ -79,7 +90,7 @@ def observe_edit(edit_module, args, mask, *, recording: bool, subject: str):
             result, info = original_denoise(model, **kwargs)
         np.save(directory / "final_latent.npy", result.detach().float().cpu().numpy())
         (directory / "latent_record.json").write_text(json.dumps({
-            "initial": initial, "final": fingerprint(result), "recording": recording,
+            "initial": initial, "final": fingerprint(result), "recording": recording, "mode": mode,
             "schedule": [float(t) for t in kwargs["timesteps"]],
             "forward_seconds": time.perf_counter() - start,
         }, indent=2) + "\n")
@@ -98,6 +109,7 @@ def runtime_record(mask_path: Path) -> dict:
     def git(*args):
         return subprocess.check_output(["git", *args], cwd=ROOT, text=True).strip()
     files = [Path(__file__), Path(__file__).with_name("attention_routing.py"),
+             Path(__file__).with_name("attention_routing_rich.py"),
              FYS_SRC / "edit.py", FYS_SRC / "flux/sampling.py",
              FYS_SRC / "flux/latent_control.py", FYS_SRC / "flux/math.py",
              FYS_SRC / "flux/model.py", FYS_SRC / "flux/modules/layers.py"]
@@ -117,6 +129,7 @@ def main(argv=None):
     parser.add_argument("--observation-mask", type=Path, required=True)
     parser.add_argument("--routing-recording", choices=("on", "off"), default="on")
     parser.add_argument("--routing-subject", required=True)
+    parser.add_argument("--routing-mode", choices=("compact", "rich"), default="compact")
     routing, remaining = parser.parse_known_args(argv)
     import edit
     from flux.control_schedule import load_control_plan
@@ -140,7 +153,8 @@ def main(argv=None):
         raise FileExistsError(f"Refusing to overwrite diagnostic results: {output}")
     output.mkdir(parents=True, exist_ok=True)
     (output / "routing_runtime.json").write_text(json.dumps(runtime_record(routing.observation_mask), indent=2) + "\n")
-    with observe_edit(edit, args, mask, recording=routing.routing_recording == "on", subject=routing.routing_subject):
+    with observe_edit(edit, args, mask, recording=routing.routing_recording == "on",
+                      subject=routing.routing_subject, mode=routing.routing_mode):
         edit.main(args)
     available = (output / "img_0.jpg").is_file()
     (output / "generation_status.json").write_text(json.dumps({
