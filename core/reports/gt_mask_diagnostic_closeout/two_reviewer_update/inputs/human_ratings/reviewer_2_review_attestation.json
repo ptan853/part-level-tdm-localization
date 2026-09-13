@@ -1,0 +1,14 @@
+{
+  "reviewer_id": "reviewer_2",
+  "confirmed_by": "User in chat",
+  "confirmation_date": "2026-09-13",
+  "independent_scoring": true,
+  "exposure_before_or_during_review": {
+    "method_names": false,
+    "comparative_montages": false,
+    "reports": false,
+    "reviewer_1_scores": false
+  },
+  "independently_verified": false,
+  "scope": "User attestation for reviewer 2 only; does not change reviewer 1 exposure history or the earlier single-reviewer reporting deviation."
+}

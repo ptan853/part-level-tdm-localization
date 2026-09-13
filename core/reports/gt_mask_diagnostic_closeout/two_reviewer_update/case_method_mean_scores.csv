@@ -1,0 +1,355 @@
+case_uid,method,part_size,part,footprint_change,local_edit_success_0_2,non_target_preservation_0_2,overall_prompt_adherence_0_2,visual_quality_0_2,joint_success,strict_joint_success
+synth_0000,endpoint_auto,small,head,comparable,2.0,0.0,1.5,2.0,0.0,0.0
+synth_0000,endpoint_gt,small,head,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0000,rk2_auto,small,head,comparable,2.0,0.5,2.0,2.0,0.5,0.0
+synth_0000,rk2_gt,small,head,comparable,1.5,1.0,2.0,2.0,1.0,0.0
+synth_0000,rk2_n15_auto,small,head,comparable,2.0,0.0,2.0,2.0,0.0,0.0
+synth_0000,rk2_n15_gt,small,head,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0001,endpoint_auto,medium,head,comparable,2.0,0.5,1.5,2.0,0.5,0.0
+synth_0001,endpoint_gt,medium,head,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0001,rk2_auto,medium,head,comparable,2.0,1.0,2.0,1.5,1.0,0.0
+synth_0001,rk2_gt,medium,head,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0001,rk2_n15_auto,medium,head,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0001,rk2_n15_gt,medium,head,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0002,endpoint_auto,large,head,comparable,1.0,0.0,2.0,2.0,0.0,0.0
+synth_0002,endpoint_gt,large,head,comparable,1.5,2.0,2.0,2.0,1.0,0.5
+synth_0002,rk2_auto,large,head,comparable,1.0,0.0,1.5,2.0,0.0,0.0
+synth_0002,rk2_gt,large,head,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0002,rk2_n15_auto,large,head,comparable,0.0,0.0,0.5,1.5,0.0,0.0
+synth_0002,rk2_n15_gt,large,head,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0003,endpoint_auto,large,head,comparable,2.0,0.0,1.5,2.0,0.0,0.0
+synth_0003,endpoint_gt,large,head,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0003,rk2_auto,large,head,comparable,2.0,0.5,2.0,2.0,0.5,0.0
+synth_0003,rk2_gt,large,head,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0003,rk2_n15_auto,large,head,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0003,rk2_n15_gt,large,head,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0004,endpoint_auto,medium,head,comparable,0.5,0.5,1.0,2.0,0.5,0.0
+synth_0004,endpoint_gt,medium,head,comparable,1.0,1.0,1.0,2.0,0.5,0.0
+synth_0004,rk2_auto,medium,head,comparable,0.5,1.0,1.0,2.0,0.5,0.0
+synth_0004,rk2_gt,medium,head,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0004,rk2_n15_auto,medium,head,comparable,0.5,2.0,1.5,2.0,0.5,0.0
+synth_0004,rk2_n15_gt,medium,head,comparable,1.0,2.0,1.5,2.0,1.0,0.0
+synth_0005,endpoint_auto,medium,head,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0005,endpoint_gt,medium,head,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0005,rk2_auto,medium,head,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0005,rk2_gt,medium,head,comparable,1.0,1.0,2.0,2.0,0.5,0.0
+synth_0005,rk2_n15_auto,medium,head,comparable,1.0,2.0,1.5,2.0,1.0,0.0
+synth_0005,rk2_n15_gt,medium,head,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0006,endpoint_auto,small,head,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0006,endpoint_gt,small,head,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0006,rk2_auto,small,head,comparable,0.0,1.0,0.5,2.0,0.0,0.0
+synth_0006,rk2_gt,small,head,comparable,0.0,0.5,1.0,2.0,0.0,0.0
+synth_0006,rk2_n15_auto,small,head,comparable,0.0,1.5,1.0,2.0,0.0,0.0
+synth_0006,rk2_n15_gt,small,head,comparable,0.0,2.0,1.5,2.0,0.0,0.0
+synth_0007,endpoint_auto,medium,head,comparable,0.5,0.5,1.0,2.0,0.5,0.0
+synth_0007,endpoint_gt,medium,head,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0007,rk2_auto,medium,head,comparable,0.5,0.5,1.0,2.0,0.5,0.0
+synth_0007,rk2_gt,medium,head,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0007,rk2_n15_auto,medium,head,comparable,0.0,1.0,1.5,2.0,0.0,0.0
+synth_0007,rk2_n15_gt,medium,head,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0008,endpoint_auto,small,head,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0008,endpoint_gt,small,head,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0008,rk2_auto,small,head,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0008,rk2_gt,small,head,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0008,rk2_n15_auto,small,head,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0008,rk2_n15_gt,small,head,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0009,endpoint_auto,large,head,comparable,0.0,1.0,1.5,2.0,0.0,0.0
+synth_0009,endpoint_gt,large,head,comparable,0.0,1.0,1.5,2.0,0.0,0.0
+synth_0009,rk2_auto,large,head,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0009,rk2_gt,large,head,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0009,rk2_n15_auto,large,head,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0009,rk2_n15_gt,large,head,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0010,endpoint_auto,medium,torso,comparable,2.0,0.0,2.0,2.0,0.0,0.0
+synth_0010,endpoint_gt,medium,torso,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0010,rk2_auto,medium,torso,comparable,2.0,0.5,2.0,2.0,0.5,0.0
+synth_0010,rk2_gt,medium,torso,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0010,rk2_n15_auto,medium,torso,comparable,2.0,0.5,2.0,2.0,0.5,0.0
+synth_0010,rk2_n15_gt,medium,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0011,endpoint_auto,small,torso,comparable,1.5,1.0,2.0,2.0,1.0,0.0
+synth_0011,endpoint_gt,small,torso,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0011,rk2_auto,small,torso,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0011,rk2_gt,small,torso,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0011,rk2_n15_auto,small,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0011,rk2_n15_gt,small,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0012,endpoint_auto,large,torso,comparable,2.0,0.0,1.5,2.0,0.0,0.0
+synth_0012,endpoint_gt,large,torso,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0012,rk2_auto,large,torso,comparable,1.5,0.0,1.0,2.0,0.0,0.0
+synth_0012,rk2_gt,large,torso,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0012,rk2_n15_auto,large,torso,comparable,2.0,0.0,1.5,2.0,0.0,0.0
+synth_0012,rk2_n15_gt,large,torso,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0013,endpoint_auto,small,torso,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0013,endpoint_gt,small,torso,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0013,rk2_auto,small,torso,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0013,rk2_gt,small,torso,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0013,rk2_n15_auto,small,torso,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0013,rk2_n15_gt,small,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0015,endpoint_auto,large,torso,comparable,1.5,0.5,1.0,2.0,0.5,0.0
+synth_0015,endpoint_gt,large,torso,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0015,rk2_auto,large,torso,comparable,2.0,0.5,1.0,2.0,0.5,0.0
+synth_0015,rk2_gt,large,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0015,rk2_n15_auto,large,torso,comparable,1.5,0.0,2.0,2.0,0.0,0.0
+synth_0015,rk2_n15_gt,large,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0016,endpoint_auto,large,torso,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0016,endpoint_gt,large,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0016,rk2_auto,large,torso,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0016,rk2_gt,large,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0016,rk2_n15_auto,large,torso,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0016,rk2_n15_gt,large,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0017,endpoint_auto,large,torso,comparable,1.5,1.0,1.5,2.0,1.0,0.0
+synth_0017,endpoint_gt,large,torso,comparable,2.0,0.5,1.5,2.0,0.5,0.0
+synth_0017,rk2_auto,large,torso,comparable,1.5,0.5,2.0,2.0,0.5,0.0
+synth_0017,rk2_gt,large,torso,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0017,rk2_n15_auto,large,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0017,rk2_n15_gt,large,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0018,endpoint_auto,medium,torso,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0018,endpoint_gt,medium,torso,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0018,rk2_auto,medium,torso,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0018,rk2_gt,medium,torso,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0018,rk2_n15_auto,medium,torso,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0018,rk2_n15_gt,medium,torso,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0019,endpoint_auto,medium,hair,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0019,endpoint_gt,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0019,rk2_auto,medium,hair,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0019,rk2_gt,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0019,rk2_n15_auto,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0019,rk2_n15_gt,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0020,endpoint_auto,large,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0020,endpoint_gt,large,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0020,rk2_auto,large,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0020,rk2_gt,large,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0020,rk2_n15_auto,large,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0020,rk2_n15_gt,large,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0021,endpoint_auto,large,hair,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0021,endpoint_gt,large,hair,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0021,rk2_auto,large,hair,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0021,rk2_gt,large,hair,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0021,rk2_n15_auto,large,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0021,rk2_n15_gt,large,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0022,endpoint_auto,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0022,endpoint_gt,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0022,rk2_auto,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0022,rk2_gt,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0022,rk2_n15_auto,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0022,rk2_n15_gt,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0023,endpoint_auto,small,hair,comparable,2.0,1.5,1.5,2.0,1.0,0.5
+synth_0023,endpoint_gt,small,hair,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0023,rk2_auto,small,hair,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0023,rk2_gt,small,hair,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0023,rk2_n15_auto,small,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0023,rk2_n15_gt,small,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0024,endpoint_auto,large,hair,expansion,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0024,endpoint_gt,large,hair,expansion,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0024,rk2_auto,large,hair,expansion,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0024,rk2_gt,large,hair,expansion,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0024,rk2_n15_auto,large,hair,expansion,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0024,rk2_n15_gt,large,hair,expansion,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0025,endpoint_auto,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0025,endpoint_gt,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0025,rk2_auto,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0025,rk2_gt,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0025,rk2_n15_auto,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0025,rk2_n15_gt,medium,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0026,endpoint_auto,small,hair,expansion,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0026,endpoint_gt,small,hair,expansion,1.5,1.0,1.5,2.0,1.0,0.0
+synth_0026,rk2_auto,small,hair,expansion,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0026,rk2_gt,small,hair,expansion,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0026,rk2_n15_auto,small,hair,expansion,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0026,rk2_n15_gt,small,hair,expansion,1.0,2.0,1.5,2.0,0.5,0.5
+synth_0027,endpoint_auto,large,hair,comparable,2.0,1.5,1.5,2.0,1.0,0.5
+synth_0027,endpoint_gt,large,hair,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0027,rk2_auto,large,hair,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0027,rk2_gt,large,hair,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0027,rk2_n15_auto,large,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0027,rk2_n15_gt,large,hair,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0028,endpoint_auto,small,head,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0028,endpoint_gt,small,head,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0028,rk2_auto,small,head,comparable,0.0,1.0,1.5,2.0,0.0,0.0
+synth_0028,rk2_gt,small,head,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0028,rk2_n15_auto,small,head,comparable,0.0,2.0,1.5,2.0,0.0,0.0
+synth_0028,rk2_n15_gt,small,head,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0029,endpoint_auto,small,head,expansion,1.0,1.0,1.0,2.0,1.0,0.0
+synth_0029,endpoint_gt,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0029,rk2_auto,small,head,expansion,1.0,1.0,1.0,2.0,1.0,0.0
+synth_0029,rk2_gt,small,head,expansion,0.0,1.5,1.0,2.0,0.0,0.0
+synth_0029,rk2_n15_auto,small,head,expansion,0.5,1.0,1.0,2.0,0.5,0.0
+synth_0029,rk2_n15_gt,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0030,endpoint_auto,small,head,contraction,0.0,1.5,1.0,2.0,0.0,0.0
+synth_0030,endpoint_gt,small,head,contraction,0.5,1.5,1.0,2.0,0.5,0.0
+synth_0030,rk2_auto,small,head,contraction,1.0,1.5,1.0,2.0,0.5,0.5
+synth_0030,rk2_gt,small,head,contraction,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0030,rk2_n15_auto,small,head,contraction,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0030,rk2_n15_gt,small,head,contraction,0.5,2.0,1.5,2.0,0.5,0.0
+synth_0031,endpoint_auto,medium,head,expansion,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0031,endpoint_gt,medium,head,expansion,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0031,rk2_auto,medium,head,expansion,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0031,rk2_gt,medium,head,expansion,0.0,1.5,1.5,2.0,0.0,0.0
+synth_0031,rk2_n15_auto,medium,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0031,rk2_n15_gt,medium,head,expansion,1.0,2.0,1.0,2.0,0.5,0.5
+synth_0032,endpoint_auto,small,head,expansion,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0032,endpoint_gt,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0032,rk2_auto,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0032,rk2_gt,small,head,expansion,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0032,rk2_n15_auto,small,head,expansion,0.5,2.0,1.5,2.0,0.5,0.0
+synth_0032,rk2_n15_gt,small,head,expansion,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0033,endpoint_auto,medium,head,comparable,0.0,0.5,1.0,2.0,0.0,0.0
+synth_0033,endpoint_gt,medium,head,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0033,rk2_auto,medium,head,comparable,0.0,0.5,1.0,2.0,0.0,0.0
+synth_0033,rk2_gt,medium,head,comparable,0.0,1.5,1.0,2.0,0.0,0.0
+synth_0033,rk2_n15_auto,medium,head,comparable,0.0,0.5,1.0,2.0,0.0,0.0
+synth_0033,rk2_n15_gt,medium,head,comparable,0.0,1.5,1.5,2.0,0.0,0.0
+synth_0034,endpoint_auto,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0034,endpoint_gt,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0034,rk2_auto,small,head,expansion,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0034,rk2_gt,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0034,rk2_n15_auto,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0034,rk2_n15_gt,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0035,endpoint_auto,small,head,expansion,1.5,1.5,1.5,2.0,1.0,0.5
+synth_0035,endpoint_gt,small,head,expansion,1.0,1.5,1.0,2.0,1.0,0.0
+synth_0035,rk2_auto,small,head,expansion,1.0,1.0,1.0,2.0,1.0,0.0
+synth_0035,rk2_gt,small,head,expansion,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0035,rk2_n15_auto,small,head,expansion,1.5,2.0,1.5,2.0,1.0,0.5
+synth_0035,rk2_n15_gt,small,head,expansion,0.0,2.0,0.5,2.0,0.0,0.0
+synth_0036,endpoint_auto,medium,head,comparable,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0036,endpoint_gt,medium,head,comparable,1.5,2.0,1.5,2.0,1.0,0.5
+synth_0036,rk2_auto,medium,head,comparable,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0036,rk2_gt,medium,head,comparable,1.5,2.0,1.5,2.0,1.0,0.5
+synth_0036,rk2_n15_auto,medium,head,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0036,rk2_n15_gt,medium,head,comparable,1.0,2.0,1.5,2.0,0.5,0.5
+synth_0037,endpoint_auto,small,head,expansion,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0037,endpoint_gt,small,head,expansion,0.0,2.0,1.5,2.0,0.0,0.0
+synth_0037,rk2_auto,small,head,expansion,0.0,2.0,1.5,2.0,0.0,0.0
+synth_0037,rk2_gt,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0037,rk2_n15_auto,small,head,expansion,0.0,2.0,1.5,2.0,0.0,0.0
+synth_0037,rk2_n15_gt,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0038,endpoint_auto,large,head,expansion,0.0,1.5,1.5,2.0,0.0,0.0
+synth_0038,endpoint_gt,large,head,expansion,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0038,rk2_auto,large,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0038,rk2_gt,large,head,expansion,0.5,2.0,1.5,2.0,0.5,0.0
+synth_0038,rk2_n15_auto,large,head,expansion,0.0,1.5,1.0,2.0,0.0,0.0
+synth_0038,rk2_n15_gt,large,head,expansion,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0039,endpoint_auto,small,head,expansion,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0039,endpoint_gt,small,head,expansion,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0039,rk2_auto,small,head,expansion,1.5,1.0,2.0,2.0,1.0,0.0
+synth_0039,rk2_gt,small,head,expansion,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0039,rk2_n15_auto,small,head,expansion,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0039,rk2_n15_gt,small,head,expansion,0.0,2.0,1.5,2.0,0.0,0.0
+synth_0040,endpoint_auto,small,head,comparable,1.0,1.0,1.0,2.0,1.0,0.0
+synth_0040,endpoint_gt,small,head,comparable,1.5,1.5,1.5,2.0,1.0,0.0
+synth_0040,rk2_auto,small,head,comparable,1.0,1.0,1.5,2.0,1.0,0.0
+synth_0040,rk2_gt,small,head,comparable,1.0,1.0,1.0,2.0,1.0,0.0
+synth_0040,rk2_n15_auto,small,head,comparable,1.0,2.0,1.5,2.0,1.0,0.0
+synth_0040,rk2_n15_gt,small,head,comparable,1.0,2.0,1.5,2.0,1.0,0.0
+synth_0041,endpoint_auto,medium,head,expansion,1.0,2.0,1.5,2.0,1.0,0.0
+synth_0041,endpoint_gt,medium,head,expansion,1.0,2.0,1.0,2.0,1.0,0.0
+synth_0041,rk2_auto,medium,head,expansion,1.0,2.0,1.0,2.0,1.0,0.0
+synth_0041,rk2_gt,medium,head,expansion,1.0,2.0,1.5,2.0,1.0,0.0
+synth_0041,rk2_n15_auto,medium,head,expansion,1.0,2.0,1.5,2.0,1.0,0.0
+synth_0041,rk2_n15_gt,medium,head,expansion,1.0,2.0,1.0,2.0,1.0,0.0
+synth_0042,endpoint_auto,medium,head,comparable,0.0,0.5,0.5,2.0,0.0,0.0
+synth_0042,endpoint_gt,medium,head,comparable,0.0,1.5,1.0,2.0,0.0,0.0
+synth_0042,rk2_auto,medium,head,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0042,rk2_gt,medium,head,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0042,rk2_n15_auto,medium,head,comparable,0.0,1.0,0.5,2.0,0.0,0.0
+synth_0042,rk2_n15_gt,medium,head,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0043,endpoint_auto,small,head,expansion,0.0,1.5,1.0,2.0,0.0,0.0
+synth_0043,endpoint_gt,small,head,expansion,0.0,1.5,1.0,2.0,0.0,0.0
+synth_0043,rk2_auto,small,head,expansion,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0043,rk2_gt,small,head,expansion,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0043,rk2_n15_auto,small,head,expansion,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0043,rk2_n15_gt,small,head,expansion,0.0,2.0,1.5,2.0,0.0,0.0
+synth_0044,endpoint_auto,large,head,comparable,0.5,1.5,1.0,2.0,0.5,0.0
+synth_0044,endpoint_gt,large,head,comparable,1.0,2.0,1.5,2.0,1.0,0.0
+synth_0044,rk2_auto,large,head,comparable,0.0,1.0,1.5,2.0,0.0,0.0
+synth_0044,rk2_gt,large,head,comparable,0.5,1.5,1.0,2.0,0.5,0.0
+synth_0044,rk2_n15_auto,large,head,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0044,rk2_n15_gt,large,head,comparable,0.5,2.0,1.5,2.0,0.5,0.0
+synth_0045,endpoint_auto,medium,head,expansion,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0045,endpoint_gt,medium,head,expansion,1.0,2.0,1.0,2.0,1.0,0.0
+synth_0045,rk2_auto,medium,head,expansion,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0045,rk2_gt,medium,head,expansion,1.0,2.0,1.5,2.0,1.0,0.0
+synth_0045,rk2_n15_auto,medium,head,expansion,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0045,rk2_n15_gt,medium,head,expansion,1.0,2.0,1.5,2.0,1.0,0.0
+synth_0046,endpoint_auto,large,car body,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0046,endpoint_gt,large,car body,comparable,0.0,1.5,1.0,2.0,0.0,0.0
+synth_0046,rk2_auto,large,car body,comparable,0.5,1.0,1.0,2.0,0.5,0.0
+synth_0046,rk2_gt,large,car body,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0046,rk2_n15_auto,large,car body,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0046,rk2_n15_gt,large,car body,comparable,0.0,1.5,0.5,2.0,0.0,0.0
+synth_0047,endpoint_auto,large,car body,comparable,2.0,0.5,1.5,2.0,0.5,0.0
+synth_0047,endpoint_gt,large,car body,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0047,rk2_auto,large,car body,comparable,2.0,0.5,1.5,2.0,0.5,0.0
+synth_0047,rk2_gt,large,car body,comparable,2.0,1.5,1.5,2.0,1.0,0.5
+synth_0047,rk2_n15_auto,large,car body,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0047,rk2_n15_gt,large,car body,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0048,endpoint_auto,large,car body,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0048,endpoint_gt,large,car body,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0048,rk2_auto,large,car body,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0048,rk2_gt,large,car body,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0048,rk2_n15_auto,large,car body,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0048,rk2_n15_gt,large,car body,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0049,endpoint_auto,large,car body,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0049,endpoint_gt,large,car body,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0049,rk2_auto,large,car body,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0049,rk2_gt,large,car body,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0049,rk2_n15_auto,large,car body,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0049,rk2_n15_gt,large,car body,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0050,endpoint_auto,small,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0050,endpoint_gt,small,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0050,rk2_auto,small,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0050,rk2_gt,small,car hood,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0050,rk2_n15_auto,small,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0050,rk2_n15_gt,small,car hood,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0051,endpoint_auto,small,car hood,comparable,2.0,0.5,2.0,2.0,0.5,0.0
+synth_0051,endpoint_gt,small,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0051,rk2_auto,small,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0051,rk2_gt,small,car hood,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0051,rk2_n15_auto,small,car hood,comparable,1.5,0.5,2.0,2.0,0.5,0.0
+synth_0051,rk2_n15_gt,small,car hood,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0052,endpoint_auto,medium,car hood,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0052,endpoint_gt,medium,car hood,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0052,rk2_auto,medium,car hood,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0052,rk2_gt,medium,car hood,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0052,rk2_n15_auto,medium,car hood,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0052,rk2_n15_gt,medium,car hood,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0053,endpoint_auto,large,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0053,endpoint_gt,large,car hood,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0053,rk2_auto,large,car hood,comparable,0.0,1.0,1.0,2.0,0.0,0.0
+synth_0053,rk2_gt,large,car hood,comparable,1.5,1.0,2.0,2.0,1.0,0.0
+synth_0053,rk2_n15_auto,large,car hood,comparable,0.5,2.0,1.5,2.0,0.5,0.0
+synth_0053,rk2_n15_gt,large,car hood,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0054,endpoint_auto,small,car hood,comparable,0.5,1.0,1.0,2.0,0.5,0.0
+synth_0054,endpoint_gt,small,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0054,rk2_auto,small,car hood,comparable,0.5,1.0,1.5,2.0,0.5,0.0
+synth_0054,rk2_gt,small,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0054,rk2_n15_auto,small,car hood,comparable,0.5,1.0,1.0,2.0,0.5,0.0
+synth_0054,rk2_n15_gt,small,car hood,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0055,endpoint_auto,large,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0055,endpoint_gt,large,car hood,comparable,2.0,1.0,1.5,2.0,1.0,0.0
+synth_0055,rk2_auto,large,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0055,rk2_gt,large,car hood,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0055,rk2_n15_auto,large,car hood,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0055,rk2_n15_gt,large,car hood,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0056,endpoint_auto,medium,seat,comparable,1.5,2.0,2.0,2.0,1.0,0.5
+synth_0056,endpoint_gt,medium,seat,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0056,rk2_auto,medium,seat,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0056,rk2_gt,medium,seat,comparable,2.0,1.5,2.0,2.0,1.0,0.5
+synth_0056,rk2_n15_auto,medium,seat,comparable,0.5,2.0,1.5,2.0,0.5,0.0
+synth_0056,rk2_n15_gt,medium,seat,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0057,endpoint_auto,large,seat,comparable,1.5,1.5,1.5,2.0,1.0,0.0
+synth_0057,endpoint_gt,large,seat,comparable,1.0,1.0,1.0,2.0,1.0,0.0
+synth_0057,rk2_auto,large,seat,comparable,2.0,1.0,2.0,2.0,1.0,0.0
+synth_0057,rk2_gt,large,seat,comparable,1.0,1.0,1.5,2.0,1.0,0.0
+synth_0057,rk2_n15_auto,large,seat,comparable,1.5,1.0,1.5,2.0,1.0,0.0
+synth_0057,rk2_n15_gt,large,seat,comparable,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0058,endpoint_auto,medium,seat,comparable,1.5,2.0,1.5,2.0,1.0,0.5
+synth_0058,endpoint_gt,medium,seat,comparable,2.0,2.0,2.0,2.0,1.0,1.0
+synth_0058,rk2_auto,medium,seat,comparable,1.5,2.0,2.0,2.0,1.0,0.5
+synth_0058,rk2_gt,medium,seat,comparable,1.5,2.0,1.5,2.0,1.0,0.5
+synth_0058,rk2_n15_auto,medium,seat,comparable,1.0,2.0,2.0,2.0,1.0,0.0
+synth_0058,rk2_n15_gt,medium,seat,comparable,0.5,2.0,2.0,2.0,0.5,0.0
+synth_0059,endpoint_auto,medium,seat,comparable,0.0,2.0,1.5,2.0,0.0,0.0
+synth_0059,endpoint_gt,medium,seat,comparable,0.0,2.0,1.5,2.0,0.0,0.0
+synth_0059,rk2_auto,medium,seat,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0059,rk2_gt,medium,seat,comparable,0.5,2.0,1.0,2.0,0.5,0.0
+synth_0059,rk2_n15_auto,medium,seat,comparable,0.0,2.0,1.0,2.0,0.0,0.0
+synth_0059,rk2_n15_gt,medium,seat,comparable,0.0,2.0,1.5,2.0,0.0,0.0

@@ -1,0 +1,5 @@
+criterion,linear_weighted_kappa,exact_agreement,pairs
+local_edit_success_0_2,0.7883519729900823,0.827683615819209,354
+non_target_preservation_0_2,0.6875713840722666,0.807909604519774,354
+overall_prompt_adherence_0_2,0.5035767182428388,0.7570621468926554,354
+visual_quality_0_2,0.0,0.9943502824858758,354

@@ -1,0 +1,100 @@
+{
+  "source_file": "reviewer_2_original.csv",
+  "corrections": [
+    {
+      "review_uid": "item_36ec3fa4ca23",
+      "review_position": 55,
+      "field": "overall_prompt_adherence_0_2",
+      "original_value": "",
+      "corrected_value": 1,
+      "source": "Explicit user reply in chat after viewing source and candidate images",
+      "reviewer_identity_user_confirmed": true
+    },
+    {
+      "review_uid": "item_c483e13f92d2",
+      "review_position": 60,
+      "field": "local_edit_success_0_2",
+      "original_value": "",
+      "corrected_value": 0,
+      "source": "Explicit user reply in chat after viewing source and candidate images",
+      "reviewer_identity_user_confirmed": true
+    },
+    {
+      "review_uid": "item_e6cdccfe14b5",
+      "review_position": 62,
+      "field": "local_edit_success_0_2",
+      "original_value": "",
+      "corrected_value": 1,
+      "source": "Explicit user reply in chat after viewing source and candidate images",
+      "reviewer_identity_user_confirmed": true
+    },
+    {
+      "review_uid": "item_bb8e3f89fe9a",
+      "review_position": 131,
+      "field": "local_edit_success_0_2",
+      "original_value": "",
+      "corrected_value": 0,
+      "source": "Explicit user reply in chat after viewing source and candidate images",
+      "reviewer_identity_user_confirmed": true
+    },
+    {
+      "review_uid": "item_1ae8815cb188",
+      "review_position": 135,
+      "field": "non_target_preservation_0_2",
+      "original_value": "",
+      "corrected_value": 1,
+      "source": "Explicit user reply in chat after viewing source and candidate images",
+      "reviewer_identity_user_confirmed": true
+    },
+    {
+      "review_uid": "item_9520f590fac3",
+      "review_position": 168,
+      "field": "local_edit_success_0_2",
+      "original_value": "",
+      "corrected_value": 0,
+      "source": "Explicit user reply in chat after viewing source and candidate images",
+      "reviewer_identity_user_confirmed": true
+    },
+    {
+      "review_uid": "item_9520f590fac3",
+      "review_position": 168,
+      "field": "non_target_preservation_0_2",
+      "original_value": "",
+      "corrected_value": 1,
+      "source": "Explicit user reply in chat after viewing source and candidate images",
+      "reviewer_identity_user_confirmed": true
+    },
+    {
+      "review_uid": "item_9520f590fac3",
+      "review_position": 168,
+      "field": "overall_prompt_adherence_0_2",
+      "original_value": "",
+      "corrected_value": 1,
+      "source": "Explicit user reply in chat after viewing source and candidate images",
+      "reviewer_identity_user_confirmed": true
+    },
+    {
+      "review_uid": "item_9520f590fac3",
+      "review_position": 168,
+      "field": "visual_quality_0_2",
+      "original_value": "",
+      "corrected_value": 2,
+      "source": "Explicit user reply in chat after viewing source and candidate images",
+      "reviewer_identity_user_confirmed": true
+    },
+    {
+      "review_uid": "item_717cd7cb3160",
+      "review_position": 201,
+      "field": "local_edit_success_0_2",
+      "original_value": "",
+      "corrected_value": 0,
+      "source": "Explicit user reply in chat after viewing source and candidate images",
+      "reviewer_identity_user_confirmed": true
+    }
+  ],
+  "reviewer_confirmation": {
+    "confirmed_by": "User in chat",
+    "statement": "All ten supplemental ratings were supplied by the original second reviewer",
+    "independently_verified": false
+  }
+}

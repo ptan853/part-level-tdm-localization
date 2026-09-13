@@ -1,5 +1,7 @@
 # GT-mask diagnostic: controller and duration comparison
 
+> Two-reviewer follow-up: [updated results, agreement and paired intervals](two_reviewer_update/README.md). The single-reviewer analysis below is retained as the historical record, not the latest combined analysis.
+
 ## Scope and deviation
 
 This is an exploratory analysis of 59 paired cases, six conditions and one reviewer (354 ratings). The original protocol, old ratings and generation outputs are unchanged.
