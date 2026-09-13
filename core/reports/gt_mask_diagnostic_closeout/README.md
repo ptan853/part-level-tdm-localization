@@ -1,6 +1,6 @@
 # GT-mask diagnostic: controller and duration comparison
 
-> Two-reviewer follow-up: [updated results, agreement and paired intervals](two_reviewer_update/README.md). The single-reviewer analysis below is retained as the historical record, not the latest combined analysis.
+> Two-reviewer follow-up: [updated results, agreement and paired intervals](two_reviewer_update/two_reviewer_report.md). The single-reviewer analysis below is retained as the historical record, not the latest combined analysis.
 
 ## Scope and deviation
 

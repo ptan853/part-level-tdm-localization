@@ -186,7 +186,7 @@ def main():
               '## Reproduce', '', 'From the repository root, in a Python environment with numpy, pandas and matplotlib:', '', '```bash', 'python core/scripts/analyze_gt_diagnostic_two_reviewers.py --archived-inputs', '```', '',
               'The input archive supports statistical reproduction without GPU models or generated images. Archived mode checks image-role identifiers rather than machine-specific absolute paths; the original local analysis checked full path matches. To rerun against the original local review package, omit --archived-inputs. Source data and rating amendments are retained under inputs/.', '',
               'Input hashes and confusion matrices: [analysis_record.json](analysis_record.json). Original report: [single-reviewer closeout](../README.md).', '']
-    (REPORT/'README.md').write_text('\n'.join(lines))
+    (REPORT/'two_reviewer_report.md').write_text('\n'.join(lines))
     print(summary.to_string())
     print(intervals[intervals.metric.isin([RUBRIC[0], RUBRIC[1], 'joint_success'])].to_string(index=False))
     print(agreements.to_string(index=False))
